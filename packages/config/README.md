@@ -4,6 +4,7 @@
 
 [![View changelog](https://img.shields.io/badge/changelogs.xyz-Explore%20Changelog-brightgreen)](https://changelogs.xyz/@changesets/config)
 
+A full schema is available in [schema.json](./schema.json).
 
 ```tsx
 import { parse, read, ValidationError } from "@changesets/config";

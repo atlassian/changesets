@@ -1826,6 +1826,68 @@ describe("apply release plan", () => {
   });
 });
 
+class FakeReleasePlanCustomCommand {
+  changesets: NewChangeset[];
+  releases: ComprehensiveRelease[];
+  config: Config;
+
+  constructor(
+    changesets: NewChangeset[] = [],
+    releases: ComprehensiveRelease[] = []
+  ) {
+    const baseChangeset: NewChangeset = {
+      id: "quick-tigers-run",
+      summary: "Hey, let's have fun with testing!",
+      releases: [{ name: "pkg-a", type: "minor" }]
+    };
+    const baseRelease: ComprehensiveRelease = {
+      name: "pkg-a",
+      type: "minor",
+      oldVersion: "1.0.0",
+      newVersion: "1.1.0",
+      changesets: ["quick-tigers-run"]
+    };
+    this.config = {
+      changelog: false,
+      commit: false,
+      linked: [],
+      access: "restricted",
+      baseBranch: "master",
+      packageLifecycleCommands: {
+        "pkg-a": { version: "cargo release" }
+      }
+    };
+
+    this.changesets = [baseChangeset, ...changesets];
+    this.releases = [baseRelease, ...releases];
+  }
+
+  getReleasePlan(): ReleasePlan {
+    return {
+      changesets: this.changesets,
+      releases: this.releases,
+      preState: undefined
+    };
+  }
+}
+
+describe("apply release plan considering custom command", () => {
+  it("will return a null packageJson", async () => {
+    const releasePlan = new FakeReleasePlanCustomCommand();
+    let { changedFiles } = await testSetup(
+      "simple-project-custom-command",
+      releasePlan.getReleasePlan(),
+      releasePlan.config
+    );
+
+    let readmePath = changedFiles.find(a =>
+      a.endsWith(`pkg-a${path.sep}CHANGELOG.md`)
+    );
+
+    if (!readmePath) throw new Error(`could not find an updated changelog`);
+  });
+});
+
 // MAKE SURE BOTH OF THESE ARE COVERED
 
 // it("should git add the expected files (without changelog) when commit: true", async () => {

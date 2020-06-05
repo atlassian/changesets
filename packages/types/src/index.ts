@@ -61,6 +61,7 @@ export type Config = {
   linked: Linked;
   access: AccessType;
   baseBranch: string;
+  packageLifecycleCommands?: Record<string, PackageLifecycleCommands>;
   /** The minimum bump type to trigger automatic update of internal dependencies that are part of the same release */
   updateInternalDependencies: "patch" | "minor";
 };
@@ -71,6 +72,7 @@ export type WrittenConfig = {
   linked?: Linked;
   access?: AccessType;
   baseBranch?: string;
+  packageLifecycleCommands?: Record<string, PackageLifecycleCommands>;
   /** The minimum bump type to trigger automatic update of internal dependencies that are part of the same release */
   updateInternalDependencies?: "patch" | "minor";
 };
@@ -106,4 +108,8 @@ export type PreState = {
     [pkgName: string]: string;
   };
   changesets: string[];
+};
+
+export type PackageLifecycleCommands = {
+  version?: string;
 };

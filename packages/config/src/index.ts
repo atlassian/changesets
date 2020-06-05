@@ -175,7 +175,10 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
       json.baseBranch === undefined
         ? defaultWrittenConfig.baseBranch
         : json.baseBranch,
-
+    packageLifecycleCommands:
+      json.packageLifecycleCommands === undefined
+        ? defaultWrittenConfig.packageLifecycleCommands
+        : json.packageLifecycleCommands,
     updateInternalDependencies:
       json.updateInternalDependencies === undefined
         ? defaultWrittenConfig.updateInternalDependencies

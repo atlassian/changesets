@@ -147,6 +147,8 @@ We recommend making sure changes made from this commmand are merged back into ma
 
 This command will read then delete changesets on disk, ensuring that they are only used once.
 
+The config options also accept a package config to have custom scripts run during this lifecycle.
+
 ### publish
 
 ```
