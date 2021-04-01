@@ -80,8 +80,10 @@ export async function run(
       empty,
       ignore,
       snapshot,
+      releasePlan,
       tag
     }: CliOptions = flags;
+
     const deadFlags = ["updateChangelog", "isPublic", "skipCI", "commit"];
 
     deadFlags.forEach(flag => {
@@ -160,7 +162,12 @@ export async function run(
           throw new ExitError(1);
         }
 
-        await version(cwd, { snapshot }, config);
+        const result = await version(cwd, { snapshot, releasePlan }, config);
+
+        if (releasePlan) {
+          console.log(JSON.stringify(result, null, 2));
+        }
+
         return;
       }
       case "publish": {

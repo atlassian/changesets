@@ -13,6 +13,7 @@ import { getPackages } from "@manypkg/get-packages";
 import pre from "../pre";
 import version from "./index";
 import humanId from "human-id";
+import { isExportDeclaration } from "typescript";
 
 const f = fixtures(__dirname);
 
@@ -206,6 +207,14 @@ describe("running version in a simple project", () => {
 
     expect(spy).not.toHaveBeenCalled();
   });
+
+  it("should output a release plan", async () => {
+    await writeChangesets([simpleChangeset2], cwd);
+
+    const releasePlan = await versionCommand(cwd, { ...defaultOptions, releasePlan: true, }, modifiedDefaultConfig);
+    expect(releasePlan.releases.length).toEqual(2)
+  });
+
 
   it("should commit the result if commit config is set", async () => {
     await writeChangesets([simpleChangeset2], cwd);

@@ -23,9 +23,11 @@ export default async function version(
   cwd: string,
   options: {
     snapshot?: string | boolean;
+    releasePlan?: string | boolean;
   },
   config: Config
 ) {
+
   const releaseConfig = {
     ...config,
     // Disable committing when in snapshot mode
@@ -70,6 +72,10 @@ export default async function version(
     preState,
     options.snapshot
   );
+
+  if (options.releasePlan) {
+    return releasePlan;
+  }
 
   await applyReleasePlan(
     releasePlan,

@@ -12,6 +12,7 @@ export type CliOptions = {
   since?: string;
   ignore?: string | string[];
   snapshot?: string | boolean;
+  releasePlan?: string | boolean;
   tag?: string;
 };
 

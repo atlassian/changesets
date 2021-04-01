@@ -42,6 +42,9 @@ const { input, flags } = meow(
         type: "string",
         isMultiple: true
       },
+      releasePlan: {
+        type: "boolean"
+      },
       tag: {
         type: "string"
       }
