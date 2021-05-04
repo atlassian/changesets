@@ -366,7 +366,7 @@ describe("workspace range", () => {
       },
       {
         name: "pkg-c",
-        version: "1.0.0"
+        version: "1.0.0-alpha.1"
       }
     ]);
   });
@@ -1232,6 +1232,39 @@ describe("pre", () => {
       {
         name: "pkg-b",
         version: "2.0.0-next.0"
+      }
+    ]);
+  });
+  it("should bump dependant of prerelease package when bumping a `workspace:~` dependency", async () => {
+    const cwd = f.copy("workspace-alias-range-dep");
+    await pre(cwd, { command: "enter", tag: "alpha" });
+
+    await writeChangeset(
+      {
+        releases: [{ name: "pkg-c", type: "patch" }],
+        summary: "a very useful summary for the change"
+      },
+      cwd
+    );
+    await versionCommand(cwd, defaultOptions, modifiedDefaultConfig);
+
+    let packages = await getPackages(cwd);
+    expect(packages.packages.map(x => x.packageJson)).toEqual([
+      {
+        name: "pkg-a",
+        version: "1.0.1-alpha.0",
+        dependencies: {
+          "pkg-b": "workspace:^",
+          "pkg-c": "workspace:~"
+        }
+      },
+      {
+        name: "pkg-b",
+        version: "1.0.0"
+      },
+      {
+        name: "pkg-c",
+        version: "1.0.0-alpha.2"
       }
     ]);
   });
