@@ -120,6 +120,34 @@ describe("assemble-release-plan", () => {
     expect(releases[1].newVersion).toEqual("1.0.1");
     expect(releases[1].changesets).toEqual([]);
   });
+  it("should assemble the release plan with workspace:^ and workspace:~ dependents", () => {
+    setup.updateDependency("pkg-b", "pkg-a", "workspace:~");
+    setup.updateDependency("pkg-c", "pkg-a", "workspace:^");
+    setup.addChangeset({
+      id: "big-cats-delight",
+      releases: [{ name: "pkg-a", type: "major" }]
+    });
+
+    let { releases } = assembleReleasePlan(
+      setup.changesets,
+      setup.packages,
+      {
+        ...defaultConfig,
+        bumpVersionsWithWorkspaceProtocolOnly: true
+      },
+      undefined
+    );
+
+    expect(releases.length).toEqual(3);
+    expect(releases[0].name).toEqual("pkg-a");
+    expect(releases[0].newVersion).toEqual("2.0.0");
+    expect(releases[1].name).toEqual("pkg-b");
+    expect(releases[1].newVersion).toEqual("1.0.1");
+    expect(releases[1].changesets).toEqual([]);
+    expect(releases[2].name).toEqual("pkg-c");
+    expect(releases[2].newVersion).toEqual("1.0.1");
+    expect(releases[2].changesets).toEqual([]);
+  });
   it("should assemble release plan without dependent through dev dependency", () => {
     setup.updateDevDependency("pkg-b", "pkg-a", "^1.0.0");
     setup.addChangeset({
