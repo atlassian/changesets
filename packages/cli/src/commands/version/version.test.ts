@@ -337,6 +337,39 @@ describe("workspace range", () => {
       }
     ]);
   });
+
+  it("should bump dependant package when bumping a `workspace:^` dependency", async () => {
+    const cwd = f.copy("workspace-alias-range-dep");
+
+    await writeChangeset(
+      {
+        releases: [{ name: "pkg-b", type: "patch" }],
+        summary: "a very useful summary for the change"
+      },
+      cwd
+    );
+    await versionCommand(cwd, defaultOptions, modifiedDefaultConfig);
+
+    let packages = await getPackages(cwd);
+    expect(packages.packages.map(x => x.packageJson)).toEqual([
+      {
+        name: "pkg-a",
+        version: "1.0.1",
+        dependencies: {
+          "pkg-b": "workspace:^",
+          "pkg-c": "workspace:~"
+        }
+      },
+      {
+        name: "pkg-b",
+        version: "1.0.1"
+      },
+      {
+        name: "pkg-c",
+        version: "1.0.0"
+      }
+    ]);
+  });
 });
 
 describe("same package in different dependency types", () => {

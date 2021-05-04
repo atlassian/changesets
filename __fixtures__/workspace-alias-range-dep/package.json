@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "workspace-alias-range-dep",
+  "description": "3 projects, one depending on the rest with `workspace:^` and `workspace:~` ranges",
+  "version": "1.0.0",
+  "bolt": {
+    "workspaces": [
+      "packages/*"
+    ]
+  }
+}
