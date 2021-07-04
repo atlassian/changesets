@@ -126,9 +126,7 @@ async function getCommitsThatAddFiles(
       ],
       { cwd }
     );
-    if (logResult.code !== 0) {
-      throw new Error(logResult.stderr.toString());
-    }
+
     const [commitSha, parentSha] = logResult.stdout.toString().split(":");
     return { path: gitPath, commitSha, parentSha };
   }
