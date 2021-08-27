@@ -91,9 +91,9 @@ describe("read changesets from disc", () => {
       outdent`could not parse changeset - invalid frontmatter: ---
 
       "cool-package": minor
-      
+
       --
-      
+
       Everything is wrong`
     );
   });
@@ -109,15 +109,15 @@ describe("read changesets from disc", () => {
       }
     ]);
   });
-  it("should read an old changeset", async () => {
-    const changesetPath = f.find("old-changeset");
+  it("should filter out ignored changesets", async () => {
+    const changesetPath = f.find("ignored-changeset");
 
     const changesets = await read(changesetPath);
     expect(changesets).toEqual([
       {
-        releases: [{ name: "cool-package", type: "minor" }],
-        summary: "Nice simple summary\n",
-        id: "basic-changeset"
+        releases: [{ name: "pkg-a", type: "minor" }],
+        summary: "Nice simple summary, much wow",
+        id: "changesets-are-beautiful"
       }
     ]);
   });

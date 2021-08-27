@@ -242,6 +242,31 @@ describe("running version in a simple project", () => {
     `);
   });
 
+  it("should skip over ignored changesets", async () => {
+    const cwd = await f.copy("ignored-changeset");
+
+    await versionCommand(cwd, defaultOptions, modifiedDefaultConfig);
+
+    let packages = await getPackages(cwd);
+    expect(packages.packages.map(x => x.packageJson)).toEqual([
+      {
+        name: "pkg-a",
+        version: "1.1.0",
+        dependencies: {
+          "pkg-b": "1.0.0"
+        }
+      },
+      {
+        name: "pkg-b",
+        version: "1.0.0"
+      }
+    ]);
+
+    const changesetDir = await fs.readdir(path.join(cwd, ".changeset"));
+    // should still contain the ignored changeset
+    expect(changesetDir).toContain(".ignored-temporarily.md");
+  });
+
   describe("when there are multiple changeset commits", () => {
     it("should bump releasedPackages", async () => {
       await writeChangesets([simpleChangeset, simpleChangeset2], cwd);

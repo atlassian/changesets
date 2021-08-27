@@ -45,7 +45,8 @@ export default async function getChangesets(
   let oldChangesetsPromise = getOldChangesetsAndWarn(changesetBase, contents);
 
   let changesets = contents.filter(
-    file => file.endsWith(".md") && file !== "README.md"
+    file =>
+      !file.startsWith(".") && file.endsWith(".md") && file !== "README.md"
   );
 
   const changesetContents = changesets.map(async file => {
