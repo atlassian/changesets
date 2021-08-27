@@ -1,6 +1,6 @@
 {
   "name": "@changesets/config",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Utilities for reading and parsing Changeset's config",
   "main": "dist/config.cjs.js",
   "module": "dist/config.esm.js",
@@ -12,9 +12,9 @@
   ],
   "dependencies": {
     "@changesets/errors": "^0.1.4",
-    "@changesets/get-dependents-graph": "^1.2.1",
+    "@changesets/get-dependents-graph": "^1.2.2",
     "@changesets/logger": "^0.0.5",
-    "@changesets/types": "^4.0.0",
+    "@changesets/types": "^4.0.1",
     "@manypkg/get-packages": "^1.0.1",
     "fs-extra": "^7.0.1",
     "micromatch": "^4.0.2"

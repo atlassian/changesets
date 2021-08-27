@@ -1,13 +1,13 @@
 {
   "name": "@changesets/parse",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Parse a changeset file's contents into a usable json object",
   "main": "dist/parse.cjs.js",
   "module": "dist/parse.esm.js",
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/parse",
   "dependencies": {
-    "@changesets/types": "^4.0.0",
+    "@changesets/types": "^4.0.1",
     "js-yaml": "^3.13.1"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@changesets/types",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Common types shared between changeset packages",
   "main": "dist/types.cjs.js",
   "module": "dist/types.esm.js",

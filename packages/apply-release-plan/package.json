@@ -1,6 +1,6 @@
 {
   "name": "@changesets/apply-release-plan",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Takes a release plan and applies it to packages",
   "main": "dist/apply-release-plan.cjs.js",
   "module": "dist/apply-release-plan.esm.js",
@@ -8,10 +8,10 @@
   "repository": "https://github.com/changesets/changesets/tree/main/packages/apply-release-plan",
   "dependencies": {
     "@babel/runtime": "^7.10.4",
-    "@changesets/config": "^1.6.0",
+    "@changesets/config": "^1.6.1",
     "@changesets/get-version-range-type": "^0.3.2",
-    "@changesets/git": "^1.1.1",
-    "@changesets/types": "^4.0.0",
+    "@changesets/git": "^1.1.2",
+    "@changesets/types": "^4.0.1",
     "@manypkg/get-packages": "^1.0.1",
     "detect-indent": "^6.0.0",
     "fs-extra": "^7.0.1",

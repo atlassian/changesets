@@ -1,5 +1,23 @@
 # @changesets/cli
 
+## 2.16.1
+
+### Patch Changes
+
+- [#582](https://github.com/atlassian/changesets/pull/582) [`e89e28a`](https://github.com/atlassian/changesets/commit/e89e28a05f5fa43307db73812a6bcd269b62ddee) Thanks [@Andarist](https://github.com/Andarist)! - Add support for publishConfig.registry
+
+- Updated dependencies [[`e89e28a`](https://github.com/atlassian/changesets/commit/e89e28a05f5fa43307db73812a6bcd269b62ddee)]:
+  - @changesets/types@4.0.1
+  - @changesets/apply-release-plan@5.0.1
+  - @changesets/assemble-release-plan@5.0.1
+  - @changesets/config@1.6.1
+  - @changesets/get-dependents-graph@1.2.2
+  - @changesets/get-release-plan@3.0.1
+  - @changesets/git@1.1.2
+  - @changesets/pre@1.0.7
+  - @changesets/read@0.4.8
+  - @changesets/write@0.1.5
+
 ## 2.16.0
 
 ### Minor Changes

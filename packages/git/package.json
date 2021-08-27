@@ -1,6 +1,6 @@
 {
   "name": "@changesets/git",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Some git helpers that changesets use to get information",
   "main": "dist/git.cjs.js",
   "module": "dist/git.esm.js",
@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/runtime": "^7.10.4",
     "@changesets/errors": "^0.1.4",
-    "@changesets/types": "^4.0.0",
+    "@changesets/types": "^4.0.1",
     "@manypkg/get-packages": "^1.0.1",
     "is-subdir": "^1.1.1",
     "spawndamnit": "^2.0.0"

@@ -1,11 +1,11 @@
 {
   "name": "@changesets/release-utils",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "dist/release-utils.cjs.js",
   "dependencies": {
-    "@changesets/pre": "^1.0.6",
-    "@changesets/read": "^0.4.7",
-    "@changesets/types": "^4.0.0",
+    "@changesets/pre": "^1.0.7",
+    "@changesets/read": "^0.4.8",
+    "@changesets/types": "^4.0.1",
     "@manypkg/get-packages": "^1.0.1",
     "fs-extra": "^7.0.1",
     "mdast-util-to-string": "^1.0.6",
