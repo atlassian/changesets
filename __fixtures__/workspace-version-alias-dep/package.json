@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "simple-project",
+  "description": "Four projects with workspace version aliases",
+  "version": "1.0.0",
+  "bolt": {
+    "workspaces": [
+      "packages/*"
+    ]
+  }
+}
