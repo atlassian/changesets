@@ -1,5 +1,14 @@
 # @changesets/release-utils
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`e89e28a`](https://github.com/atlassian/changesets/commit/e89e28a05f5fa43307db73812a6bcd269b62ddee)]:
+  - @changesets/types@4.0.1
+  - @changesets/pre@1.0.7
+  - @changesets/read@0.4.8
+
 ## 0.1.1
 
 ### Patch Changes

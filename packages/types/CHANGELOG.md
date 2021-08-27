@@ -1,5 +1,11 @@
 # @changesets/types
 
+## 4.0.1
+
+### Patch Changes
+
+- [#582](https://github.com/atlassian/changesets/pull/582) [`e89e28a`](https://github.com/atlassian/changesets/commit/e89e28a05f5fa43307db73812a6bcd269b62ddee) Thanks [@Andarist](https://github.com/Andarist)! - Add support for publishConfig.registry
+
 ## 4.0.0
 
 ### Major Changes
