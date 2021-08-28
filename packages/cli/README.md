@@ -173,7 +173,7 @@ git push --follow-tags
 status [--verbose] [--output={filePath}] [--since={gitTag}]
 ```
 
-The status command provides information about the changesets that currently exist. If there are no changesets present, it exits with an error status code.
+The status command provides information about the changesets that currently exist. If there are changes to packages but no changesets are present, it exits with error status code `1`.
 
 - `--verbose` - use if you want to know the new versions, and get a link to the relevant changeset summary.
 
