@@ -4,20 +4,36 @@ import micromatch from "micromatch";
 import { ValidationError } from "@changesets/errors";
 import { warn } from "@changesets/logger";
 import { Packages } from "@manypkg/get-packages";
-import { Config, WrittenConfig, Linked } from "@changesets/types";
+import { Config, WrittenConfig } from "@changesets/types";
 import packageJson from "../package.json";
 import { getDependentsGraph } from "@changesets/get-dependents-graph";
 
-export let defaultWrittenConfig = {
+type MakeSureThatSchemaDescribesAllProperties<
+  T extends WrittenConfig,
+  Schema = typeof import("../schema.json")["properties"]
+> = {
+  [K in keyof T]: K extends keyof Schema
+    ? T[K]
+    : "This property is missing a definition in the schema";
+};
+
+type DefaultWrittenConfig = MakeSureThatSchemaDescribesAllProperties<
+  Required<
+    Omit<WrittenConfig, "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH">
+  >
+> & { $schema: string };
+
+export let defaultWrittenConfig: DefaultWrittenConfig = {
   $schema: `https://unpkg.com/@changesets/config@${packageJson.version}/schema.json`,
   changelog: "@changesets/cli/changelog",
   commit: false,
-  linked: [] as Linked,
+  linked: [],
   access: "restricted",
   baseBranch: "master",
   updateInternalDependencies: "patch",
-  ignore: [] as ReadonlyArray<string>
-} as const;
+  bumpVersionsWithWorkspaceProtocolOnly: false,
+  ignore: []
+};
 
 function getNormalisedChangelogOption(
   thing: false | readonly [string, any] | string

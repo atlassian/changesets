@@ -117,3 +117,7 @@ As well as the default one, you can use `@changesets/changelog-git`, which adds 
 You would specify our github changelog generator with: `"changelog": "@changesets/changelog-github"`
 
 For more details on these functions and information on how to write your own see [changelog-functions](./modifying-changelog-format.md)
+
+## `bumpVersionsWithWorkspaceProtocolOnly`
+
+When it is enabled then only dependencies using workspace protocol (e.g. `"foo": "workspace:^1.0.0" are considered to be part of the monorepo and only those are being updated when versioning.
