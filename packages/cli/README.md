@@ -110,7 +110,7 @@ changeset add [--empty] [--open]
 
 This command will ask you a series of questions, first about what packages you want to release, then what semver bump type for each package, then it will ask for a summary of the entire changeset. At the final step it will show the changeset it will generate, and confirm that you want to add it.
 
-Once confirmed, the changeset will be write a Markdown file that contains the summary and YAML front matter which stores the packages that will be released and the semver bump types for them.
+Once confirmed, the changeset will write a Markdown file that contains the summary and YAML front matter which stores the packages that will be released and the semver bump types for them.
 
 A changeset that major bumps `@changesets/cli` would look like this:
 
@@ -147,7 +147,7 @@ Updates the versions for all packages described in changesets since last release
 
 Will also create/append to a CHANGELOG file for each package using the summaries from the changesets.
 
-We recommend making sure changes made from this commmand are merged back into the base branch before you run `publish`.
+We recommend making sure changes made from this command are merged back into the base branch before you run `publish`.
 
 This command will read then delete changesets on disk, ensuring that they are only used once.
 
