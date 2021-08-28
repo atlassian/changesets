@@ -51,13 +51,13 @@ These restrictions exist to ensure your repository or published code do not end 
 
 > NOTE: you can also provide glob expressions to match the packages, according to the [micromatch](https://www.npmjs.com/package/micromatch) format.
 
-## `linked` (array of package names)
+## `linked` (array of arrays of package names)
 
 This option can be used to declare that packages should 'share' a version, instead of being versioned completely independently. As an example, if you have a `@changesets/button` component and a `@changesets/theme` component and you want to make sure that when one gets bumped to `2.0.0`, the other is also bumped to `2.0.0`. To achieve this you would have the config:
 
 ```json
 {
-  "linked": ["@changesets/button", "@changesets/theme"]
+  "linked": [["@changesets/button", "@changesets/theme"]]
 }
 ```
 
