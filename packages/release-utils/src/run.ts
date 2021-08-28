@@ -105,7 +105,7 @@ type VersionOptions = {
 export async function runVersion({
   script,
   cwd = process.cwd(),
-  commitMessage = "Version Packages"
+  commitMessage = "Version packages"
 }: VersionOptions) {
   let branch = await gitUtils.getCurrentBranch(cwd);
   let versionBranch = `changeset-release/${branch}`;
