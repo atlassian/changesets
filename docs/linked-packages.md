@@ -2,7 +2,7 @@
 
 Linked packages allow you to specify a group or groups of packages that should be versioned together. There are some complex cases, so some examples are shown below to demonstrate various cases.
 
-- Linked packages will still only bumped when there is a changeset for them (this can mean because you explicitly choose to add a changeset for it or because it's a dependant of something being released)
+- Linked packages will still only be bumped when there is a changeset for them (this can mean you explicitly choose to add a changeset for it or because it's a dependant of something being released)
 - Packages that have changesets and are in a set of linked packages will **always** be versioned to the highest current version in the set of linked packages + the highest bump type from changesets in the set of linked packages
 
 ## Examples

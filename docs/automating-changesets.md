@@ -46,7 +46,7 @@ We have a [github action](https://github.com/changesets/action) that
 If you don't want to use this action, the manual workflow we recommend for running the `version` and `publish` commands is:
 
 - A release coordinator (RC) calls to stop any merging to the base branch
-- The RC pull down the base branch, runs `changeset version`, then make a new PR with the versioning changes
+- The RC pulls down the base branch, runs `changeset version`, then makes a new PR with the versioning changes
 - The versioning changes are merged back into the base branch
 - The RC pulls the base branch again and runs `changeset publish`
 - The RC runs `git push --follow-tags` to push the release tags back

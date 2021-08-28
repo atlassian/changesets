@@ -34,7 +34,7 @@ If you want a package from being published to npm at all, set `private: true` in
 
 The branch to which changesets will make comparisons. A number of internal changesets features use git to compare present changesets against another branch. This defaults what branch will be used for these comparisons. This should generally set to the major branch you merge changes into. Commands that use this information accept a `--since` option which can be used to override this.
 
-> We recommend changing the name of your `master` branch to help make coding a more inclusive experience
+> We recommend changing the name of your `master` branch (e.g. `main`) to help make coding a more inclusive experience
 
 ## `ignore` (array of packages)
 
@@ -103,7 +103,7 @@ Changesets will always update the dependency if it would leave the old semver ra
 
 ## `changelog` (false or a path)
 
-This option is for setting how the changelog for packages should be generated. If it is `false`, no changelogs will be generated. Setting it to a string specifies a path from where we will load the changelog generation functions. It expects to be a file that exports the following:
+This option is for setting how the changelog for packages should be generated. If it is `false`, no changelogs will be generated. Setting it to a string specifies a path from where we will load the changelog generation functions. It expects a file that exports the following:
 
 ```
 {

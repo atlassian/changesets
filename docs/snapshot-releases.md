@@ -1,6 +1,6 @@
 # Snapshot Releases
 
-Snapshot releases are a way to release your changes for testing without updating the versions. It involves both a modified `version` and a modified `publish` command are used to do this. After this, you will have a published version of packages in changesets with a version of `0.0.0-{tag}-DATETIMESTAMP`.
+Snapshot releases are a way to release your changes for testing without updating the versions. It involves both a modified `version` and a modified `publish` command to do this. After this, you will have a published version of packages in changesets with a version of `0.0.0-{tag}-DATETIMESTAMP`.
 
 ## Starting Off
 
@@ -24,7 +24,7 @@ This will instead update versions to `0.0.0-bulbasaur-THE_TIME_YOU_DID_THIS`
 
 ## Publishing your packages
 
-After running version, you can use the `changeset publish --tag bulbasaur` command to releases the packages. By using the `--tag` flag, you will not add it to the `latest` flag on npm. This is REALLY IMPORTANT because if you do not include a tag, people installing your package using `yarn add your-package-name` will install the snapshot version.
+After running version, you can use the `changeset publish --tag bulbasaur` command to release the packages. By using the `--tag` flag, you will not add it to the `latest` flag on npm. This is REALLY IMPORTANT because if you do not include a tag, people installing your package using `yarn add your-package-name` will install the snapshot version.
 
 ## Using a snapshot version
 

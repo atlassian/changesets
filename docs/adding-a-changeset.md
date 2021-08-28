@@ -37,7 +37,7 @@ While not every changeset is going to need a huge amount of detail, a good idea 
 ## I am in a single-package repository
 
 1. Run the command line script `npx changeset` or `yarn changeset`.
-2. Select an appropriate bump type for the changes made. See [here](https://semver.org/) for information on semver versioning
+2. Select an appropriate bump type for the changes made. See [here](https://semver.org/) for information on semver versioning.
 3. Your final prompt will be to provide a message to go alongside the changeset. This will be written into the changelog when the next release occurs.
 
 After this, a new changeset will be added which is a markdown file with YAML front matter.
@@ -68,4 +68,4 @@ Changesets are designed to stack, so there's no problem with adding multiple. Yo
 
 ## I want to know more about changesets
 
-[here is a more in-depth explanation](https://github.com/atlassian/changesets/blob/main/docs/detailed-explanation.md)
+[here is a more in-depth explanation](./detailed-explanation.md)

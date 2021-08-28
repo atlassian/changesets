@@ -18,7 +18,7 @@ When `changeset version` or equivalent command is run, all the changeset folders
 
 The two parts of the file are for different purposes. You should feel free to edit both parts as much as you want.
 
-- The markdown text is a summary of the changes you've will be prepended to your changelog when you next run your version command.
+- The markdown text is a summary of the changes that will be prepended to your changelog when you next run your version command
 - The YAML front matter describes what should be versioned by the version command
 
 ## I want to edit the summary or package bump types - is it safe to do that?

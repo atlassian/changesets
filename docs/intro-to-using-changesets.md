@@ -1,8 +1,8 @@
 # Using Changesets
 
-Changesets are designed to make your workflows easier, by allowing the person making contributions to make key decisisons when they are making their contribution. They hold two key bits of information, a version type (following [semver](https://semver.org/)), and change information to be added to a changelog.
+Changesets are designed to make your workflows easier, by allowing the person making contributions to make key decisions when they are making their contribution. They hold two key bits of information, a version type (following [semver](https://semver.org/)), and change information to be added to a changelog.
 
-In addition, changesets were original designed for implementation in [bolt monorepos](https://github.com/boltpkg/bolt). As such, in a mono-repo context, changesets will handle bumping dependencies of changed packages if that is required.
+In addition, changesets were originally designed for implementation in [bolt monorepos](https://github.com/boltpkg/bolt). As such, in a mono-repo context, changesets will handle bumping dependencies of changed packages if that is required.
 
 This guide is aimed at package maintainers adding changesets as a tool. For the information relevant to contributors, see [adding a changeset](./adding-a-changeset.md).
 
