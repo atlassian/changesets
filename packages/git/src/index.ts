@@ -162,7 +162,11 @@ async function getCommitsThatAddFiles(
   }
 
   async function deepenCloneBy(by: number) {
-    await spawn("git", ["fetch", `--deepen=${by}`], { cwd });
+    const cmd = await spawn("git", ["fetch", `--deepen=${by}`], { cwd });
+
+    if (cmd.code !== 0) {
+      throw new Error(`Failed to fetch deepen commits from shallow repository`);
+    }
   }
 }
 
