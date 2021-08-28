@@ -41,7 +41,11 @@ jest.mock(
   }
 );
 
-const getChangeset = (content: string, commit: string | undefined) => {
+const getChangeset = (
+  content: string,
+  commit: string | undefined,
+  showUsers?: boolean
+) => {
   return [
     {
       ...parse(
@@ -57,7 +61,7 @@ const getChangeset = (content: string, commit: string | undefined) => {
       commit
     },
     "minor",
-    { repo: data.repo }
+    { repo: data.repo, ...(showUsers === false && { showUsers }) }
   ] as const;
 };
 
@@ -130,6 +134,16 @@ it("with multiple authors", async () => {
     "
 
     - [#1613](https://github.com/emotion-js/emotion/pull/1613) [\`a085003\`](https://github.com/emotion-js/emotion/commit/a085003) Thanks [@Andarist](https://github.com/Andarist), [@mitchellhamilton](https://github.com/mitchellhamilton)! - something
+    "
+  `);
+});
+
+it("without authors", async () => {
+  expect(await getReleaseLine(...getChangeset("", data.commit, false)))
+    .toMatchInlineSnapshot(`
+    "
+
+    - [#1613](https://github.com/emotion-js/emotion/pull/1613) [\`a085003\`](https://github.com/emotion-js/emotion/commit/a085003) - something
     "
   `);
 });

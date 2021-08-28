@@ -46,6 +46,9 @@ const changelogFunctions: ChangelogFunctions = {
         'Please provide a repo to this changelog generator like this:\n"changelog": ["@changesets/changelog-github", { "repo": "org/repo" }]'
       );
     }
+    if (options.showUsers !== false) {
+      options.showUsers = true;
+    }
 
     let prFromSummary: number | undefined;
     let commitFromSummary: string | undefined;
@@ -112,7 +115,7 @@ const changelogFunctions: ChangelogFunctions = {
     const prefix = [
       links.pull === null ? "" : ` ${links.pull}`,
       links.commit === null ? "" : ` ${links.commit}`,
-      users === null ? "" : ` Thanks ${users}!`
+      users === null || options.showUsers === false ? "" : ` Thanks ${users}!`
     ].join("");
 
     return `\n\n-${prefix ? `${prefix} -` : ""} ${firstLine}\n${futureLines
