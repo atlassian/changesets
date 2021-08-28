@@ -29,7 +29,7 @@ In some cases, you may want to make CI fail if not changeset is present, to ensu
 In your CI process add a step that runs:
 
 ```bash
-changeset status --sinceMaster
+changeset status --since=master
 ```
 
 This will exit with the exit code 1 if there have been no new changesets since master.
