@@ -33,7 +33,9 @@ function getSnapshotSuffix(snapshot?: string | boolean): string | undefined {
     now.getUTCHours(),
     now.getUTCMinutes(),
     now.getUTCSeconds()
-  ].join("");
+  ]
+    .map(number => number.toString().padStart(2, "0"))
+    .join("");
 
   let tag = "";
   if (typeof snapshot === "string") tag = `-${snapshot}`;
