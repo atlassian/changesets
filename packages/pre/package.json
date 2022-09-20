@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/pre",
   "dependencies": {
-    "@babel/runtime": "^7.10.4",
+    "@babel/runtime": "^7.19.0",
     "@changesets/errors": "^0.1.4",
     "@changesets/types": "^5.1.0",
     "@manypkg/get-packages": "^1.1.3",

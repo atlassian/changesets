@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/read",
   "dependencies": {
-    "@babel/runtime": "^7.10.4",
+    "@babel/runtime": "^7.19.0",
     "@changesets/git": "^1.4.1",
     "@changesets/logger": "^0.0.5",
     "@changesets/parse": "^0.3.14",

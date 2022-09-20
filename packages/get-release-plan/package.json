@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/get-release-plan",
   "dependencies": {
-    "@babel/runtime": "^7.10.4",
+    "@babel/runtime": "^7.19.0",
     "@changesets/assemble-release-plan": "^5.2.1",
     "@changesets/config": "^2.1.1",
     "@changesets/pre": "^1.0.12",

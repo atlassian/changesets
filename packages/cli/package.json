@@ -30,7 +30,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.10.4",
+    "@babel/runtime": "^7.19.0",
     "@changesets/apply-release-plan": "^6.1.0",
     "@changesets/assemble-release-plan": "^5.2.1",
     "@changesets/changelog-git": "^0.1.12",

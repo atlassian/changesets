@@ -7,5 +7,14 @@ module.exports = {
       },
     ],
   ],
+  plugins: [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        regenerator: false,
+        version: require("@babel/runtime/package.json").version,
+      },
+    ],
+  ],
   overrides: [{ test: "**/*.ts", presets: ["@babel/preset-typescript"] }],
 };
