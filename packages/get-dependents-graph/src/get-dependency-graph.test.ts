@@ -1,4 +1,5 @@
 import { temporarilySilenceLogs } from "@changesets/test-utils";
+import { PnpmTool } from "@manypkg/tools";
 import getDependencyGraph from "./get-dependency-graph";
 
 const consoleError = console.error;
@@ -14,13 +15,15 @@ afterEach(() => {
 describe("getting the dependency graph", function () {
   it("should skip dependencies specified through the link protocol", function () {
     const { graph, valid } = getDependencyGraph({
-      root: {
-        dir: ".",
+      rootPackage: {
+        dir: "/monorepo",
+        relativeDir: ".",
         packageJson: { name: "root", version: "1.0.0" },
       },
       packages: [
         {
-          dir: "foo",
+          dir: "/monorepo/foo",
+          relativeDir: "foo",
           packageJson: {
             name: "foo",
             version: "1.0.0",
@@ -30,14 +33,16 @@ describe("getting the dependency graph", function () {
           },
         },
         {
-          dir: "bar",
+          dir: "/monorepo/bar",
+          relativeDir: "bar",
           packageJson: {
             name: "bar",
             version: "1.0.0",
           },
         },
       ],
-      tool: "pnpm",
+      rootDir: "/monorepo",
+      tool: PnpmTool,
     });
     expect(graph.get("foo")!.dependencies).toStrictEqual([]);
     expect(valid).toBeTruthy();
@@ -46,13 +51,15 @@ describe("getting the dependency graph", function () {
 
   it("should skip dependencies specified using a tag", function () {
     const { graph, valid } = getDependencyGraph({
-      root: {
-        dir: ".",
+      rootPackage: {
+        dir: "/monorepo",
+        relativeDir: ".",
         packageJson: { name: "root", version: "1.0.0" },
       },
       packages: [
         {
-          dir: "examples/foo",
+          dir: "/monorepo/foo",
+          relativeDir: "foo",
           packageJson: {
             name: "foo-example",
             version: "1.0.0",
@@ -62,14 +69,16 @@ describe("getting the dependency graph", function () {
           },
         },
         {
-          dir: "packages/bar",
+          dir: "/monorepo/bar",
+          relativeDir: "bar",
           packageJson: {
             name: "bar",
             version: "1.0.0",
           },
         },
       ],
-      tool: "pnpm",
+      rootDir: "/monorepo",
+      tool: PnpmTool,
     });
     expect(graph.get("foo-example")!.dependencies).toStrictEqual([]);
     expect(valid).toBeTruthy();
@@ -80,13 +89,15 @@ describe("getting the dependency graph", function () {
     "should set valid to false if the link protocol is used in a non-dev dep",
     temporarilySilenceLogs(() => {
       const { valid } = getDependencyGraph({
-        root: {
-          dir: ".",
+        rootPackage: {
+          dir: "/monorepo",
+          relativeDir: ".",
           packageJson: { name: "root", version: "1.0.0" },
         },
         packages: [
           {
-            dir: "foo",
+            dir: "/monorepo/foo",
+            relativeDir: "foo",
             packageJson: {
               name: "foo",
               version: "1.0.0",
@@ -96,14 +107,16 @@ describe("getting the dependency graph", function () {
             },
           },
           {
-            dir: "bar",
+            dir: "/monorepo/bar",
+            relativeDir: "bar",
             packageJson: {
               name: "bar",
               version: "1.0.0",
             },
           },
         ],
-        tool: "pnpm",
+        rootDir: "/monorepo",
+        tool: PnpmTool,
       });
       expect(valid).toBeFalsy();
       expect((console.error as any).mock.calls).toMatchInlineSnapshot(`

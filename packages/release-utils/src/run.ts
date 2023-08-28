@@ -44,7 +44,7 @@ export async function runPublish({
   let { packages, tool } = await getPackages(cwd);
   let releasedPackages: Package[] = [];
 
-  if (tool !== "root") {
+  if (tool.type !== "root") {
     let newTagRegex = /New tag:\s+(@[^/]+\/[^@]+|[^/]+)@([^\s]+)/;
     let packagesByName = new Map(packages.map((x) => [x.packageJson.name, x]));
 

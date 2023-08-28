@@ -5,6 +5,7 @@ import * as git from "@changesets/git";
 import { readPreState } from "@changesets/pre";
 import { Config, PreState } from "@changesets/types";
 import { getPackages } from "@manypkg/get-packages";
+import { Tool } from "@manypkg/tools";
 import chalk from "chalk";
 import { getUntaggedPrivatePackages } from "./getUntaggedPrivatePackages";
 
@@ -117,11 +118,11 @@ export default async function run(
 }
 
 async function tagPublish(
-  tool: string,
+  tool: Tool,
   packageReleases: PublishedResult[],
   cwd: string
 ) {
-  if (tool !== "root") {
+  if (tool.type !== "root") {
     for (const pkg of packageReleases) {
       const tag = `${pkg.name}@${pkg.newVersion}`;
       log("New tag: ", tag);

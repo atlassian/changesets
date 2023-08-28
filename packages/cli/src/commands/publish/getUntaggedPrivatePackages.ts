@@ -10,7 +10,7 @@ export async function getUntaggedPrivatePackages(
   const packageWithTags = await Promise.all(
     privatePackages.map(async (privatePkg) => {
       const tagName =
-        tool === "root"
+        tool.type === "root"
           ? `v${privatePkg.packageJson.version}`
           : `${privatePkg.packageJson.name}@${privatePkg.packageJson.version}`;
       const isMissingTag = !(

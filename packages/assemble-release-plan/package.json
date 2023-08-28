@@ -23,7 +23,8 @@
     "@changesets/errors": "^0.1.4",
     "@changesets/get-dependents-graph": "^1.3.6",
     "@changesets/types": "^5.2.1",
-    "@manypkg/get-packages": "^1.1.3",
+    "@manypkg/get-packages": "^2.0.0",
+    "@manypkg/tools": "^1.0.0",
     "semver": "^7.5.3"
   },
   "devDependencies": {

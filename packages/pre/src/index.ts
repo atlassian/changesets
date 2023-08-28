@@ -46,8 +46,8 @@ export async function exitPre(cwd: string) {
 
 export async function enterPre(cwd: string, tag: string) {
   let packages = await getPackages(cwd);
-  let preStatePath = path.resolve(packages.root.dir, ".changeset", "pre.json");
-  let preState: PreState | undefined = await readPreState(packages.root.dir);
+  let preStatePath = path.resolve(packages.rootDir, ".changeset", "pre.json");
+  let preState: PreState | undefined = await readPreState(packages.rootDir);
   // can't reenter if pre mode still exists, but we should allow exited pre mode to be reentered
   if (preState?.mode === "pre") {
     throw new PreEnterButInPreModeError();

@@ -1,5 +1,6 @@
 import { NewChangeset, Release, VersionType } from "@changesets/types";
 import { Package, Packages } from "@manypkg/get-packages";
+import { YarnTool } from "@manypkg/tools";
 
 function getPackage({
   name,
@@ -13,7 +14,8 @@ function getPackage({
       name,
       version,
     },
-    dir: "this-shouldn't-matter",
+    dir: "/monorepo/this-shouldn't-matter",
+    relativeDir: "this-shouldn't-matter",
   };
 }
 
@@ -46,15 +48,17 @@ function getRelease({
 
 let getSimpleSetup = () => ({
   packages: {
-    root: {
+    rootDir: "/monorepo",
+    rootPackage: {
       packageJson: {
         name: "root",
         version: "0.0.0",
       },
-      dir: "/",
+      dir: "/monorepo",
+      relativeDir: ".",
     },
     packages: [getPackage({ name: "pkg-a", version: "1.0.0" })],
-    tool: "yarn" as const,
+    tool: YarnTool,
   },
   changesets: [
     getChangeset({ releases: [getRelease({ name: "pkg-a", type: "patch" })] }),

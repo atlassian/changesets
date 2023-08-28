@@ -185,6 +185,58 @@ describe("running version in a simple project", () => {
     });
   });
 
+  describe("when there is a changeset commit in a Rush monorepo", () => {
+    it("should bump releasedPackages", async () => {
+      const cwd = await testdir({
+        "rush.json": JSON.stringify({
+          projects: [
+            {
+              projectFolder: "packages/pkg-a",
+              packageName: "pkg-a",
+            },
+            {
+              projectFolder: "packages/pkg-b",
+              packageName: "pkg-b",
+            },
+          ],
+        }),
+        "packages/pkg-a/package.json": JSON.stringify({
+          name: "pkg-a",
+          version: "1.0.0",
+          dependencies: {
+            "pkg-b": "1.0.0",
+          },
+        }),
+        "packages/pkg-b/package.json": JSON.stringify({
+          name: "pkg-b",
+          version: "1.0.0",
+        }),
+      });
+      await writeChangesets(
+        [
+          {
+            summary: "This is a summary too",
+            releases: [
+              { name: "pkg-a", type: "minor" },
+              { name: "pkg-b", type: "patch" },
+            ],
+          },
+        ],
+        cwd
+      );
+      const spy = jest.spyOn(fs, "writeFile");
+
+      await version(cwd, defaultOptions, modifiedDefaultConfig);
+
+      expect(getPkgJSON("pkg-a", spy.mock.calls)).toEqual(
+        expect.objectContaining({ name: "pkg-a", version: "1.1.0" })
+      );
+      expect(getPkgJSON("pkg-b", spy.mock.calls)).toEqual(
+        expect.objectContaining({ name: "pkg-b", version: "1.0.1" })
+      );
+    });
+  });
+
   it("should not touch package.json of an ignored package when it is not a dependent of any releasedPackages ", async () => {
     const cwd = await testdir({
       "package.json": JSON.stringify({

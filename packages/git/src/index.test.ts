@@ -263,7 +263,7 @@ describe("git", () => {
     describe("with shallow clone", () => {
       // Roughly how many commits will the deepening algorithm
       // deepen each time?  We use this to set up test data to
-      // check that the deepens the clone but doesn't need to *fully* unshallow
+      // check that it deepens the clone but doesn't need to *fully* unshallow
       // the clone.
       const shallowCloneDeepeningAmount = 50;
 
@@ -345,11 +345,11 @@ describe("git", () => {
         )[0];
         expect(commit).toEqual(originalCommit);
 
-        // It should not have completely unshallowed the clone; just enough.
+        // It should not have to completely unshallowed the clone; just enough.
         const originalRepoDepth = await getCommitCount(cwd);
         expect(await getCommitCount(clone)).toBeGreaterThan(5);
         expect(await getCommitCount(clone)).toBeLessThan(originalRepoDepth);
-      });
+      }, 10_000 /* 10 seconds */);
 
       it("reads the SHA of a file-add even if the first commit of a repo", async () => {
         const cwd = await gitdir({

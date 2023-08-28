@@ -9,7 +9,7 @@ export default async function run(cwd: string) {
 
   for (const pkg of packages) {
     const tag =
-      tool !== "root"
+      tool.type !== "root"
         ? `${pkg.packageJson.name}@${pkg.packageJson.version}`
         : `v${pkg.packageJson.version}`;
 

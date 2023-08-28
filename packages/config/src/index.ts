@@ -4,6 +4,7 @@ import micromatch from "micromatch";
 import { ValidationError } from "@changesets/errors";
 import { warn } from "@changesets/logger";
 import { Packages } from "@manypkg/get-packages";
+import { RootTool } from "@manypkg/tools";
 import {
   Config,
   WrittenConfig,
@@ -505,6 +506,7 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
 
 let fakePackage = {
   dir: "",
+  relativeDir: "",
   packageJson: {
     name: "",
     version: "",
@@ -512,7 +514,8 @@ let fakePackage = {
 };
 
 export let defaultConfig = parse(defaultWrittenConfig, {
-  root: fakePackage,
-  tool: "root",
+  rootPackage: fakePackage,
+  rootDir: "",
+  tool: RootTool,
   packages: [fakePackage],
 });

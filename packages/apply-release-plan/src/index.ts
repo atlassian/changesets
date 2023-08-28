@@ -73,7 +73,7 @@ export default async function applyReleasePlan(
   config: Config = defaultConfig,
   snapshot?: string | boolean
 ) {
-  let cwd = packages.root.dir;
+  let cwd = packages.rootDir;
 
   let touchedFiles = [];
 

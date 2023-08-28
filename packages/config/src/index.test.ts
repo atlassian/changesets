@@ -3,6 +3,7 @@ import jestInCase from "jest-in-case";
 import * as logger from "@changesets/logger";
 import { Config, WrittenConfig } from "@changesets/types";
 import { Packages } from "@manypkg/get-packages";
+import { YarnTool } from "@manypkg/tools";
 import { testdir } from "@changesets/test-utils";
 
 jest.mock("@changesets/logger");
@@ -14,19 +15,22 @@ type CorrectCase = {
 };
 
 let defaultPackages: Packages = {
-  root: {
+  rootPackage: {
     packageJson: { name: "", version: "" },
-    dir: "/",
+    dir: "/monorepo",
+    relativeDir: ".",
   },
   packages: [],
-  tool: "yarn",
+  rootDir: "/monorepo",
+  tool: YarnTool,
 };
 
-const withPackages = (pkgNames: string[]) => ({
+const withPackages = (pkgNames: string[]): Packages => ({
   ...defaultPackages,
   packages: pkgNames.map((pkgName) => ({
     packageJson: { name: pkgName, version: "" },
-    dir: "dir",
+    relativeDir: "dir",
+    dir: "/monorepo/dir",
   })),
 });
 

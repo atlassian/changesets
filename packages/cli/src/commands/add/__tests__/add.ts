@@ -367,4 +367,57 @@ describe("Changesets", () => {
     const { choices } = askCheckboxPlus.mock.calls[0][1][0];
     expect(choices).toEqual(["pkg-a", "pkg-c"]);
   });
+
+  describe("in a rush monorepo", () => {
+    it("generates a changeset", async () => {
+      const cwd = await testdir({
+        "rush.json": JSON.stringify({
+          projects: [
+            {
+              projectFolder: "libraries/a",
+              packageName: "@example/a",
+            },
+          ],
+        }),
+        "libraries/a/package.json": JSON.stringify({
+          name: "@example/a",
+          version: "1.0.0",
+        }),
+      });
+
+      const summary = "summary message mock";
+
+      // @ts-ignore
+      askList.mockReturnValueOnce(Promise.resolve("minor"));
+
+      let confirmAnswers = {
+        "Is this your desired changeset?": true,
+      };
+      // @ts-ignore
+      askQuestion.mockReturnValueOnce("");
+      // @ts-ignore
+      askQuestionWithEditor.mockReturnValueOnce(summary);
+      // @ts-ignore
+      askConfirm.mockImplementation((question) => {
+        question = stripAnsi(question);
+        // @ts-ignore
+        if (confirmAnswers[question]) {
+          // @ts-ignore
+          return confirmAnswers[question];
+        }
+        throw new Error(`An answer could not be found for ${question}`);
+      });
+
+      await addChangeset(cwd, { empty: false }, defaultConfig);
+
+      expect(writeChangeset).toHaveBeenCalledWith(
+        expect.objectContaining({
+          summary: "summary message mock",
+          releases: [{ name: "@example/a", type: "minor" }],
+        }),
+        expect.any(String)
+      );
+      expect(writeChangeset).toHaveBeenCalledTimes(1);
+    });
+  });
 });

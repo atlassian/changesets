@@ -27,7 +27,8 @@
     "@changesets/get-dependents-graph": "^1.3.6",
     "@changesets/logger": "^0.0.5",
     "@changesets/types": "^5.2.1",
-    "@manypkg/get-packages": "^1.1.3",
+    "@manypkg/get-packages": "^2.0.0",
+    "@manypkg/tools": "^1.0.0",
     "fs-extra": "^7.0.1",
     "micromatch": "^4.0.2"
   },
