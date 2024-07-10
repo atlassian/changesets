@@ -247,19 +247,21 @@ function assembleReleasePlan(
 
   return {
     changesets: relevantChangesets,
-    releases: [...releases.values()].map((incompleteRelease) => {
-      return {
-        ...incompleteRelease,
-        newVersion: snapshotSuffix
-          ? getSnapshotVersion(
-              incompleteRelease,
-              preInfo,
-              refinedConfig.snapshot.useCalculatedVersion,
-              snapshotSuffix
-            )
-          : getNewVersion(incompleteRelease, preInfo),
-      };
-    }),
+    releases: Array.from(releases.values())
+      .filter((r) => r.type !== "none")
+      .map((incompleteRelease) => {
+        return {
+          ...incompleteRelease,
+          newVersion: snapshotSuffix
+            ? getSnapshotVersion(
+                incompleteRelease,
+                preInfo,
+                refinedConfig.snapshot.useCalculatedVersion,
+                snapshotSuffix
+              )
+            : getNewVersion(incompleteRelease, preInfo),
+        };
+      }),
     preState: preInfo?.state,
   };
 }
