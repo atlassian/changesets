@@ -51,7 +51,8 @@ export default async function add(
 
     newChangeset = await createChangeset(
       changedPackagesNames,
-      versionablePackages
+      versionablePackages,
+      config
     );
     printConfirmationMessage(newChangeset, versionablePackages.length > 1);
 

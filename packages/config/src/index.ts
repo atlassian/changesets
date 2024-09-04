@@ -18,6 +18,7 @@ export let defaultWrittenConfig = {
   $schema: `https://unpkg.com/@changesets/config@${packageJson.version}/schema.json`,
   changelog: "@changesets/cli/changelog",
   commit: false,
+  prompt: false,
   fixed: [] as Fixed,
   linked: [] as Linked,
   access: "restricted",
@@ -25,6 +26,18 @@ export let defaultWrittenConfig = {
   updateInternalDependencies: "patch",
   ignore: [] as ReadonlyArray<string>,
 } as const;
+
+const getNormalizedPromptOption = (
+  thing: false | readonly [string, any] | string
+): Config["prompt"] => {
+  if (thing === false) {
+    return false;
+  }
+  if (typeof thing === "string") {
+    return [thing, null];
+  }
+  return thing;
+};
 
 function flatten<T>(arr: Array<T[]>): T[] {
   return ([] as T[]).concat(...arr);
@@ -430,6 +443,9 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
         : normalizedAccess,
     commit: getNormalizedCommitOption(
       json.commit === undefined ? defaultWrittenConfig.commit : json.commit
+    ),
+    prompt: getNormalizedPromptOption(
+      json.prompt === undefined ? defaultWrittenConfig.prompt : json.prompt
     ),
     fixed,
     linked,

@@ -69,6 +69,7 @@ export interface PrivatePackages {
 export type Config = {
   changelog: false | readonly [string, any];
   commit: false | readonly [string, any];
+  prompt?: false | readonly [string, any];
   fixed: Fixed;
   linked: Linked;
   access: AccessType;
@@ -94,6 +95,7 @@ export type Config = {
 export type WrittenConfig = {
   changelog?: false | readonly [string, any] | string;
   commit?: boolean | readonly [string, any] | string;
+  prompt?: false | readonly [string, any] | string;
   fixed?: Fixed;
   linked?: Linked;
   access?: AccessType;
@@ -129,6 +131,12 @@ export type NewChangesetWithCommit = NewChangeset & { commit?: string };
 export type ModCompWithPackage = ComprehensiveRelease & {
   packageJson: PackageJSON;
   dir: string;
+};
+
+export type GetSummaryLine = (options: any) => Promise<string>;
+
+export type PromptFunctions = {
+  getSummaryLine?: GetSummaryLine;
 };
 
 export type GetReleaseLine = (

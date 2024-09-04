@@ -44,6 +44,7 @@ test("read reads the config", async () => {
     linked: [],
     changelog: false,
     commit: ["@changesets/cli/commit", { skipCI: "version" }],
+    prompt: false,
     access: "restricted",
     baseBranch: "master",
     changedFilePatterns: ["**"],
@@ -102,6 +103,7 @@ let defaults: Config = {
   linked: [],
   changelog: ["@changesets/cli/changelog", null],
   commit: false,
+  prompt: false,
   access: "restricted",
   baseBranch: "master",
   changedFilePatterns: ["**"],
@@ -376,6 +378,33 @@ let correctCases: Record<string, CorrectCase> = {
         useCalculatedVersion: true,
         prereleaseTemplate: null,
       },
+    },
+  },
+  "prompt custom disable": {
+    input: {
+      prompt: false,
+    },
+    output: {
+      ...defaults,
+      prompt: false,
+    },
+  },
+  "prompt custom": {
+    input: {
+      prompt: "./some-module",
+    },
+    output: {
+      ...defaults,
+      prompt: ["./some-module", null],
+    },
+  },
+  "prompt custom with options": {
+    input: {
+      prompt: ["./some-module", { customOption: true }],
+    },
+    output: {
+      ...defaults,
+      prompt: ["./some-module", { customOption: true }],
     },
   },
 };

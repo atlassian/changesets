@@ -4,9 +4,10 @@ import semverLt from "semver/functions/lt";
 
 import * as cli from "../../utils/cli-utilities";
 import { error, log } from "@changesets/logger";
-import { Release, PackageJSON } from "@changesets/types";
+import { Release, PackageJSON, Config } from "@changesets/types";
 import { Package } from "@manypkg/get-packages";
 import { ExitError } from "@changesets/errors";
+import { getPromptFunctions } from "./getPromptFunctions";
 
 const { green, yellow, red, bold, blue, cyan } = chalk;
 
@@ -106,7 +107,8 @@ function formatPkgNameAndVersion(pkgName: string, version: string) {
 
 export default async function createChangeset(
   changedPackages: Array<string>,
-  allPackages: Package[]
+  allPackages: Package[],
+  config: Config
 ): Promise<{ confirmed: boolean; summary: string; releases: Array<Release> }> {
   const releases: Array<Release> = [];
 
@@ -233,12 +235,23 @@ export default async function createChangeset(
     releases.push({ name: pkg.packageJson.name, type });
   }
 
-  log(
-    "Please enter a summary for this change (this will be in the changelogs)."
-  );
-  log(chalk.gray("  (submit empty line to open external editor)"));
+  let summary = "";
 
-  let summary = await cli.askQuestion("Summary");
+  const [{ getSummaryLine }, promptOpts] = await getPromptFunctions(
+    config.prompt
+  );
+
+  if (getSummaryLine) {
+    summary = await getSummaryLine(promptOpts);
+  } else {
+    log(
+      "Please enter a summary for this change (this will be in the changelogs)."
+    );
+    log(chalk.gray("  (submit empty line to open external editor)"));
+
+    summary = await cli.askQuestion("Summary");
+  }
+
   if (summary.length === 0) {
     try {
       summary = cli.askQuestionWithEditor(
