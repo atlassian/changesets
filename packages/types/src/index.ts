@@ -53,6 +53,7 @@ export type PackageJSON = {
     access?: AccessType;
     directory?: string;
     registry?: string;
+    [registry: `${string}:registry`]: string;
   };
 };
 
