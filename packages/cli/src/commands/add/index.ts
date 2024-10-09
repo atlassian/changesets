@@ -36,6 +36,11 @@ export default async function add(
         allowPrivatePackages: config.privatePackages.version,
       })
   );
+  if (listablePackages.length === 0) {
+    throw new Error(
+      `No publishable packages found. Maybe the "version" field is missing in package.json?`
+    );
+  }
   const changesetBase = path.resolve(cwd, ".changeset");
 
   let newChangeset: Awaited<ReturnType<typeof createChangeset>>;

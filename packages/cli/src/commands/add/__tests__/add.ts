@@ -367,4 +367,18 @@ describe("Add command", () => {
     const { choices } = askCheckboxPlus.mock.calls[0][1][0];
     expect(choices).toEqual(["pkg-a", "pkg-c"]);
   });
+
+  it("should report an error if no package has a version field", async () => {
+    const cwd = await testdir({
+      "package.json": JSON.stringify({
+        name: "root",
+      }),
+    });
+
+    await expect(async () =>
+      addChangeset(cwd, { empty: false }, defaultConfig)
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `"No publishable packages found. Maybe the "version" field is missing in package.json?"`
+    );
+  });
 });
