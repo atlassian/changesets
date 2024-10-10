@@ -6,8 +6,8 @@ import fileUrl from "file-url";
 import fs from "node:fs/promises";
 import path from "path";
 import spawn from "spawndamnit";
-import { getCurrentBranch } from "./gitUtils";
-import { runPublish, runVersion } from "./run";
+import { getCurrentBranch } from "./gitUtils.ts";
+import { runPublish, runVersion } from "./run.ts";
 
 const linkNodeModules = async (cwd: string) => {
   await fs.symlink(

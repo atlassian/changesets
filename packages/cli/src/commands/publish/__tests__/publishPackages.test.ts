@@ -1,5 +1,5 @@
-import publishPackages from "../publishPackages";
-import * as npmUtils from "../npm-utils";
+import publishPackages from "../publishPackages.ts";
+import * as npmUtils from "../npm-utils.ts";
 import { getPackages } from "@manypkg/get-packages";
 import { silenceLogsInBlock, testdir } from "@changesets/test-utils";
 

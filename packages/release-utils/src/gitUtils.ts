@@ -1,4 +1,4 @@
-import { execWithOutput } from "./utils";
+import { execWithOutput } from "./utils.ts";
 
 export const getCurrentBranch = async (cwd: string) => {
   const { stdout } = await execWithOutput(

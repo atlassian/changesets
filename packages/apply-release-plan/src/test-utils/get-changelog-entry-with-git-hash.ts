@@ -3,7 +3,7 @@ import startCase from "lodash.startcase";
 import { getCommitsThatAddFiles } from "@changesets/git";
 import { ComprehensiveRelease, NewChangeset } from "@changesets/types";
 
-import { RelevantChangesets } from "../types";
+import { RelevantChangesets } from "../types.ts";
 
 async function getReleaseLine(changeset: NewChangeset, cwd: string) {
   const [firstLine, ...futureLines] = changeset.summary

@@ -9,8 +9,8 @@ import humanId from "human-id";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
-import pre from "../pre";
-import version from "./index";
+import pre from "../pre/index.ts";
+import version from "./index.ts";
 
 function mockGlobalDate<
   Args extends any[],

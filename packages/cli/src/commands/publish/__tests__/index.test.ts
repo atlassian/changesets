@@ -1,4 +1,4 @@
-import publishCommand from "../index";
+import publishCommand from "../index.ts";
 import { defaultConfig } from "@changesets/config";
 import * as path from "path";
 import { Config } from "@changesets/types";

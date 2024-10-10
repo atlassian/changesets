@@ -14,8 +14,8 @@ import fs from "node:fs/promises";
 import path from "path";
 import prettier from "prettier";
 import resolveFrom from "resolve-from";
-import getChangelogEntry from "./get-changelog-entry";
-import versionPackage from "./version-package";
+import getChangelogEntry from "./get-changelog-entry.ts";
+import versionPackage from "./version-package.ts";
 
 function getPrettierInstance(cwd: string): typeof prettier {
   try {

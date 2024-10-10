@@ -1,7 +1,7 @@
 import path from "path";
-import outdent from "outdent";
+import { outdent } from "outdent";
 
-import read from "./";
+import read from "./index.ts";
 import { silenceLogsInBlock, testdir } from "@changesets/test-utils";
 import fs from "node:fs/promises";
 

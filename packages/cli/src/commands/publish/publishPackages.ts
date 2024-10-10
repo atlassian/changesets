@@ -1,12 +1,12 @@
 import { join } from "path";
-import semverParse from "semver/functions/parse";
+import semverParse from "semver/functions/parse.js";
 import pc from "picocolors";
 import { AccessType } from "@changesets/types";
 import { Package } from "@manypkg/get-packages";
 import { info, warn } from "@changesets/logger";
 import { PreState } from "@changesets/types";
-import * as npmUtils from "./npm-utils";
-import { TwoFactorState } from "../../utils/types";
+import * as npmUtils from "./npm-utils.ts";
+import type { TwoFactorState } from "../../utils/types.ts";
 import { isCI } from "ci-info";
 
 type PublishedState = "never" | "published" | "only-pre";

@@ -4,16 +4,9 @@
   "description": "Some git helpers that changesets use to get information",
   "main": "dist/changesets-git.cjs.js",
   "module": "dist/changesets-git.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-git.cjs.mjs",
-        "default": "./dist/changesets-git.cjs.js"
-      },
-      "module": "./dist/changesets-git.esm.js",
-      "import": "./dist/changesets-git.cjs.mjs",
-      "default": "./dist/changesets-git.cjs.js"
-    },
+    ".": "./dist/changesets-git.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

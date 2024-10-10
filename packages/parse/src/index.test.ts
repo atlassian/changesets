@@ -1,6 +1,6 @@
-import outdent from "outdent";
+import { outdent } from "outdent";
 
-import parse from "./";
+import parse from "./index.ts";
 
 describe("parsing a changeset", () => {
   it("should parse a changeset", () => {

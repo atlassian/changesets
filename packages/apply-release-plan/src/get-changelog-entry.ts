@@ -2,8 +2,8 @@ import { ChangelogFunctions, NewChangesetWithCommit } from "@changesets/types";
 
 import { ModCompWithPackage } from "@changesets/types";
 import startCase from "lodash.startcase";
-import { shouldUpdateDependencyBasedOnConfig } from "./utils";
-import validRange from "semver/ranges/valid";
+import { shouldUpdateDependencyBasedOnConfig } from "./utils.ts";
+import validRange from "semver/ranges/valid.js";
 
 type ChangelogLines = {
   major: Array<Promise<string>>;

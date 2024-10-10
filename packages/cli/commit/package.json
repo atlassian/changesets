@@ -1,4 +1,0 @@
-{
-  "main": "dist/changesets-cli-commit.cjs.js",
-  "module": "dist/changesets-cli-commit.esm.js"
-}

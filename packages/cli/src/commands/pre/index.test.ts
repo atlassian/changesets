@@ -5,7 +5,7 @@ import * as logger from "@changesets/logger";
 import { ExitError } from "@changesets/errors";
 import { testdir } from "@changesets/test-utils";
 
-import pre from "./index";
+import pre from "./index.ts";
 
 jest.mock("@changesets/logger");
 

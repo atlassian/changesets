@@ -4,16 +4,9 @@
   "description": "Reads changesets and adds information on dependents that need bumping",
   "main": "dist/changesets-assemble-release-plan.cjs.js",
   "module": "dist/changesets-assemble-release-plan.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-assemble-release-plan.cjs.mjs",
-        "default": "./dist/changesets-assemble-release-plan.cjs.js"
-      },
-      "module": "./dist/changesets-assemble-release-plan.esm.js",
-      "import": "./dist/changesets-assemble-release-plan.cjs.mjs",
-      "default": "./dist/changesets-assemble-release-plan.cjs.js"
-    },
+    ".": "./dist/changesets-assemble-release-plan.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

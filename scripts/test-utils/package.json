@@ -2,19 +2,12 @@
   "name": "@changesets/test-utils",
   "version": "0.0.7",
   "private": true,
+  "type": "module",
   "description": "Utils for testing changesets packages",
   "main": "dist/changesets-test-utils.cjs.js",
   "module": "dist/changesets-test-utils.esm.js",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-test-utils.cjs.mjs",
-        "default": "./dist/changesets-test-utils.cjs.js"
-      },
-      "module": "./dist/changesets-test-utils.esm.js",
-      "import": "./dist/changesets-test-utils.cjs.mjs",
-      "default": "./dist/changesets-test-utils.cjs.js"
-    },
+    ".": "./dist/changesets-test-utils.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

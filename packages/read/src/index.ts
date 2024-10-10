@@ -3,7 +3,7 @@ import path from "path";
 import parse from "@changesets/parse";
 import { NewChangeset } from "@changesets/types";
 import * as git from "@changesets/git";
-import getOldChangesetsAndWarn from "./legacy";
+import getOldChangesetsAndWarn from "./legacy.ts";
 
 async function filterChangesetsSinceRef(
   changesets: Array<string>,

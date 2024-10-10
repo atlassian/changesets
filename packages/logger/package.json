@@ -4,16 +4,9 @@
   "description": "Console log alias",
   "main": "dist/changesets-logger.cjs.js",
   "module": "dist/changesets-logger.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-logger.cjs.mjs",
-        "default": "./dist/changesets-logger.cjs.js"
-      },
-      "module": "./dist/changesets-logger.esm.js",
-      "import": "./dist/changesets-logger.cjs.mjs",
-      "default": "./dist/changesets-logger.cjs.js"
-    },
+    ".": "./dist/changesets-logger.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

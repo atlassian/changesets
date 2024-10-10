@@ -4,7 +4,7 @@
 import { shouldSkipPackage } from "@changesets/should-skip-package";
 import { Config, NewChangeset } from "@changesets/types";
 import { Package } from "@manypkg/get-packages";
-import { InternalRelease } from "./types";
+import type { InternalRelease } from "./types.ts";
 
 export default function flattenReleases(
   changesets: NewChangeset[],

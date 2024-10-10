@@ -4,16 +4,9 @@
   "description": "Writes a changeset to a file",
   "main": "dist/changesets-write.cjs.js",
   "module": "dist/changesets-write.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-write.cjs.mjs",
-        "default": "./dist/changesets-write.cjs.js"
-      },
-      "module": "./dist/changesets-write.esm.js",
-      "import": "./dist/changesets-write.cjs.mjs",
-      "default": "./dist/changesets-write.cjs.js"
-    },
+    ".": "./dist/changesets-write.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

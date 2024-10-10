@@ -1,4 +1,4 @@
-import { GitError } from "./index";
+import { GitError } from "./index.ts";
 
 describe("Error classes", () => {
   describe("GitError class", () => {

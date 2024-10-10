@@ -11,8 +11,8 @@ import {
   askQuestionWithEditor,
   askQuestion,
   askList,
-} from "../../../utils/cli-utilities";
-import addChangeset from "..";
+} from "../../../utils/cli-utilities.ts";
+import addChangeset from "../index.ts";
 
 jest.mock("../../../utils/cli-utilities");
 jest.mock("@changesets/git");

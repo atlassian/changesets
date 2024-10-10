@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "path";
 import parse from "@changesets/parse";
-import writeChangeset from "./";
+import writeChangeset from "./index.ts";
 
 import humanId from "human-id";
 import { testdir } from "@changesets/test-utils";

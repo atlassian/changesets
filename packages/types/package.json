@@ -4,16 +4,9 @@
   "description": "Common types shared between changeset packages",
   "main": "dist/changesets-types.cjs.js",
   "module": "dist/changesets-types.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-types.cjs.mjs",
-        "default": "./dist/changesets-types.cjs.js"
-      },
-      "module": "./dist/changesets-types.esm.js",
-      "import": "./dist/changesets-types.cjs.mjs",
-      "default": "./dist/changesets-types.cjs.js"
-    },
+    ".": "./dist/changesets-types.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

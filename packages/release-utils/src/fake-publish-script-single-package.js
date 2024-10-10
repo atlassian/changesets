@@ -1,6 +1,5 @@
-/* eslint-disable import/no-commonjs */
 /* eslint-disable import/no-extraneous-dependencies */
-const git = require("@changesets/git");
+import git from "@changesets/git";
 
 console.log("🦋 New tag: v1.0.0");
 

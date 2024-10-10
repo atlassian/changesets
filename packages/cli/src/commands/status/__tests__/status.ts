@@ -7,7 +7,7 @@ import { getPackages } from "@manypkg/get-packages";
 import fs from "node:fs/promises";
 import path from "path";
 import spawn from "spawndamnit";
-import status from "..";
+import status from "../index.ts";
 
 async function readConfig(cwd: string) {
   return read(cwd, await getPackages(cwd));

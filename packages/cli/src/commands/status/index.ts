@@ -9,7 +9,7 @@ import {
   Release,
   VersionType,
 } from "@changesets/types";
-import { getVersionableChangedPackages } from "../../utils/versionablePackages";
+import { getVersionableChangedPackages } from "../../utils/versionablePackages.ts";
 
 export default async function status(
   cwd: string,

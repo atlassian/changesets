@@ -1,5 +1,5 @@
-import semverInc from "semver/functions/inc";
-import { InternalRelease, PreInfo } from "./types";
+import semverInc from "semver/functions/inc.js";
+import type { InternalRelease, PreInfo } from "./types.ts";
 import { InternalError } from "@changesets/errors";
 
 export function incrementVersion(

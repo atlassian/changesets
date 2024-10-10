@@ -4,16 +4,9 @@
   "description": "Checks if a package should be skipped for versioning or tagging purposes",
   "main": "dist/changesets-should-skip-package.cjs.js",
   "module": "dist/changesets-should-skip-package.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-should-skip-package.cjs.mjs",
-        "default": "./dist/changesets-should-skip-package.cjs.js"
-      },
-      "module": "./dist/changesets-should-skip-package.esm.js",
-      "import": "./dist/changesets-should-skip-package.cjs.mjs",
-      "default": "./dist/changesets-should-skip-package.cjs.js"
-    },
+    ".": "./dist/changesets-should-skip-package.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

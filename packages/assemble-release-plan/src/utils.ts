@@ -1,7 +1,7 @@
 import { PackageGroup, VersionType } from "@changesets/types";
 import { Package } from "@manypkg/get-packages";
-import semverGt from "semver/functions/gt";
-import { InternalRelease } from "./types";
+import semverGt from "semver/functions/gt.js";
+import type { InternalRelease } from "./types.ts";
 
 export function getHighestReleaseType(
   releases: InternalRelease[]

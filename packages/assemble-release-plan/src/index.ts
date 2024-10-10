@@ -9,13 +9,13 @@ import {
   ReleasePlan,
 } from "@changesets/types";
 import { Package, Packages } from "@manypkg/get-packages";
-import semverParse from "semver/functions/parse";
-import applyLinks from "./apply-links";
-import determineDependents from "./determine-dependents";
-import flattenReleases from "./flatten-releases";
-import { incrementVersion } from "./increment";
-import matchFixedConstraint from "./match-fixed-constraint";
-import { InternalRelease, PreInfo } from "./types";
+import semverParse from "semver/functions/parse.js";
+import applyLinks from "./apply-links.ts";
+import determineDependents from "./determine-dependents.ts";
+import flattenReleases from "./flatten-releases.ts";
+import { incrementVersion } from "./increment.ts";
+import matchFixedConstraint from "./match-fixed-constraint.ts";
+import type { InternalRelease, PreInfo } from "./types.ts";
 
 type SnapshotReleaseParameters = {
   tag?: string | undefined;

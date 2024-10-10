@@ -1,8 +1,8 @@
 import { shouldSkipPackage } from "@changesets/should-skip-package";
 import { Config } from "@changesets/types";
 import { Package } from "@manypkg/get-packages";
-import { InternalRelease } from "./types";
-import { getCurrentHighestVersion, getHighestReleaseType } from "./utils";
+import type { InternalRelease } from "./types.ts";
+import { getCurrentHighestVersion, getHighestReleaseType } from "./utils.ts";
 
 export default function matchFixedConstraint(
   releases: Map<string, InternalRelease>,

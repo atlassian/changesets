@@ -7,14 +7,14 @@ import { Config } from "@changesets/types";
 import { getPackages } from "@manypkg/get-packages";
 import fs from "node:fs/promises";
 import path from "path";
-import add from "./commands/add";
-import init from "./commands/init";
-import pre from "./commands/pre";
-import publish from "./commands/publish";
-import status from "./commands/status";
-import tagCommand from "./commands/tag";
-import version from "./commands/version";
-import { CliOptions } from "./types";
+import add from "./commands/add/index.ts";
+import init from "./commands/init/index.ts";
+import pre from "./commands/pre/index.ts";
+import publish from "./commands/publish/index.ts";
+import status from "./commands/status/index.ts";
+import tagCommand from "./commands/tag/index.ts";
+import version from "./commands/version/index.ts";
+import { CliOptions } from "./types.ts";
 
 export async function run(
   input: string[],

@@ -1,5 +1,5 @@
 // This is a modified version of the graph-getting in bolt
-import Range from "semver/classes/range";
+import Range from "semver/classes/range.js";
 import pc from "picocolors";
 import { Packages, Package } from "@manypkg/get-packages";
 import { PackageJSON } from "@changesets/types";

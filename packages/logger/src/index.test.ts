@@ -1,4 +1,4 @@
-import { log, error, info, warn, success } from "./index";
+import { log, error, info, warn, success } from "./index.ts";
 
 describe("@changesets/logger", () => {
   const logMessageOne = "Message 1";

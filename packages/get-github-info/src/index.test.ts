@@ -1,4 +1,4 @@
-import { getInfo, getInfoFromPullRequest } from ".";
+import { getInfo, getInfoFromPullRequest } from "./index.ts";
 import nock from "nock";
 import prettier from "prettier";
 

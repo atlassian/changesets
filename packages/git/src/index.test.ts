@@ -16,7 +16,7 @@ import {
   getAllTags,
   tagExists,
   getCurrentCommitId,
-} from "./";
+} from "./index.ts";
 
 async function getCommitCount(cwd: string) {
   const cmd = await spawn("git", ["rev-list", "--count", "HEAD"], { cwd });

@@ -1,10 +1,10 @@
-import { read, parse } from "./";
+import { read, parse } from "./index.ts";
 import jestInCase from "jest-in-case";
 import * as logger from "@changesets/logger";
 import { Config, WrittenConfig } from "@changesets/types";
 import { Packages, getPackages } from "@manypkg/get-packages";
 import { testdir } from "@changesets/test-utils";
-import outdent from "outdent";
+import { outdent } from "outdent";
 
 jest.mock("@changesets/logger");
 

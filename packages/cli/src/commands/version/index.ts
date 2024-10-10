@@ -8,10 +8,10 @@ import readChangesets from "@changesets/read";
 import assembleReleasePlan from "@changesets/assemble-release-plan";
 import { getPackages } from "@manypkg/get-packages";
 
-import { removeEmptyFolders } from "../../utils/v1-legacy/removeFolders";
+import { removeEmptyFolders } from "../../utils/v1-legacy/removeFolders.ts";
 import { readPreState } from "@changesets/pre";
 import { ExitError } from "@changesets/errors";
-import { getCommitFunctions } from "../../commit/getCommitFunctions";
+import { getCommitFunctions } from "../../commit/getCommitFunctions.ts";
 import { getCurrentCommitId } from "@changesets/git";
 
 let importantSeparator = pc.red(

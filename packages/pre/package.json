@@ -4,16 +4,9 @@
   "description": "Utils to make a Changesets repo enter and exit pre mode",
   "main": "dist/changesets-pre.cjs.js",
   "module": "dist/changesets-pre.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-pre.cjs.mjs",
-        "default": "./dist/changesets-pre.cjs.js"
-      },
-      "module": "./dist/changesets-pre.esm.js",
-      "import": "./dist/changesets-pre.cjs.mjs",
-      "default": "./dist/changesets-pre.cjs.js"
-    },
+    ".": "./dist/changesets-pre.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

@@ -1,13 +1,13 @@
 import { getPackages, Package } from "@manypkg/get-packages";
 import path from "path";
-import semverLt from "semver/functions/lt";
+import semverLt from "semver/functions/lt.js";
 import {
   execWithOutput,
   getVersionsByDirectory,
   getChangedPackages,
-} from "./utils";
-import * as gitUtils from "./gitUtils";
-import { readChangesetState } from "./readChangesetState";
+} from "./utils.ts";
+import * as gitUtils from "./gitUtils.ts";
+import { readChangesetState } from "./readChangesetState.ts";
 
 type PublishOptions = {
   script: string;

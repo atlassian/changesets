@@ -1,5 +1,5 @@
 import { log } from "@changesets/logger";
-import { silenceLogsInBlock } from "./";
+import { silenceLogsInBlock } from "./index.ts";
 
 describe("temporarilySilenceLogs", () => {
   silenceLogsInBlock();

@@ -1,4 +1,4 @@
-import getVersionRangeType from "./";
+import getVersionRangeType from "./index.ts";
 
 test.each([
   ["^1.0.0", "^"],

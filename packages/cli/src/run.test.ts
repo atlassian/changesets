@@ -1,7 +1,7 @@
 import { error } from "@changesets/logger";
 import { testdir } from "@changesets/test-utils";
 
-import { run } from "./run";
+import { run } from "./run.ts";
 
 jest.mock("@changesets/logger");
 jest.mock("./commands/version");

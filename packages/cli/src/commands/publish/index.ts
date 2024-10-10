@@ -1,4 +1,4 @@
-import publishPackages, { PublishedResult } from "./publishPackages";
+import publishPackages, { PublishedResult } from "./publishPackages.ts";
 import { ExitError } from "@changesets/errors";
 import { error, log, success, warn } from "@changesets/logger";
 import * as git from "@changesets/git";
@@ -6,7 +6,7 @@ import { readPreState } from "@changesets/pre";
 import { Config, PreState } from "@changesets/types";
 import { getPackages } from "@manypkg/get-packages";
 import pc from "picocolors";
-import { getUntaggedPackages } from "../../utils/getUntaggedPackages";
+import { getUntaggedPackages } from "../../utils/getUntaggedPackages.ts";
 
 function logReleases(pkgs: Array<{ name: string; newVersion: string }>) {
   const mappedPkgs = pkgs.map((p) => `${p.name}@${p.newVersion}`).join("\n");

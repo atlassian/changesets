@@ -7,7 +7,7 @@ import {
   testdir,
 } from "@changesets/test-utils";
 
-import initializeCommand from "..";
+import initializeCommand from "../index.ts";
 
 const getPaths = (cwd: string) => ({
   readmePath: path.join(cwd, ".changeset/README.md"),

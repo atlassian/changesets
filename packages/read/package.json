@@ -4,16 +4,9 @@
   "description": "Read changesets from disc, and return the information as JSON",
   "main": "dist/changesets-read.cjs.js",
   "module": "dist/changesets-read.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-read.cjs.mjs",
-        "default": "./dist/changesets-read.cjs.js"
-      },
-      "module": "./dist/changesets-read.esm.js",
-      "import": "./dist/changesets-read.cjs.mjs",
-      "default": "./dist/changesets-read.cjs.js"
-    },
+    ".": "./dist/changesets-read.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",
@@ -28,6 +21,6 @@
   },
   "devDependencies": {
     "@changesets/test-utils": "*",
-    "outdent": "^0.5.0"
+    "outdent": "^0.8.0"
   }
 }

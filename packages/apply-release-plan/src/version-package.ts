@@ -4,10 +4,10 @@ import {
   VersionType,
 } from "@changesets/types";
 import getVersionRangeType from "@changesets/get-version-range-type";
-import Range from "semver/classes/range";
-import semverPrerelease from "semver/functions/prerelease";
-import validRange from "semver/ranges/valid";
-import { shouldUpdateDependencyBasedOnConfig } from "./utils";
+import Range from "semver/classes/range.js";
+import semverPrerelease from "semver/functions/prerelease.js";
+import validRange from "semver/ranges/valid.js";
+import { shouldUpdateDependencyBasedOnConfig } from "./utils.ts";
 
 const DEPENDENCY_TYPES = [
   "dependencies",

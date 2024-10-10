@@ -1,3 +1,7 @@
-export { readChangesetState } from "./readChangesetState";
-export { runPublish as publish, runVersion as version } from "./run";
-export { getChangelogEntry, BumpLevels, sortChangelogEntries } from "./utils";
+export { readChangesetState } from "./readChangesetState.ts";
+export { runPublish as publish, runVersion as version } from "./run.ts";
+export {
+  getChangelogEntry,
+  BumpLevels,
+  sortChangelogEntries,
+} from "./utils.ts";

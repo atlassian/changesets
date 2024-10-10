@@ -4,16 +4,9 @@
   "description": "A changelog entry generator for git that writes hashes",
   "main": "dist/changesets-changelog-git.cjs.js",
   "module": "dist/changesets-changelog-git.esm.js",
+  "type": "module",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/changesets-changelog-git.cjs.mjs",
-        "default": "./dist/changesets-changelog-git.cjs.js"
-      },
-      "module": "./dist/changesets-changelog-git.esm.js",
-      "import": "./dist/changesets-changelog-git.cjs.mjs",
-      "default": "./dist/changesets-changelog-git.cjs.js"
-    },
+    ".": "./dist/changesets-changelog-git.js",
     "./package.json": "./package.json"
   },
   "license": "MIT",

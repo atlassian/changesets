@@ -1,7 +1,7 @@
 import fixturez from "fixturez";
 import spawn from "spawndamnit";
 import fs from "fs";
-import fsp from "fs/promises";
+import fsp from "node:fs/promises";
 import path from "path";
 
 /**

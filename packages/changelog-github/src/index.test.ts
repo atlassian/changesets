@@ -1,4 +1,4 @@
-import changelogFunctions from "./index";
+import changelogFunctions from "./index.ts";
 import parse from "@changesets/parse";
 
 const getReleaseLine = changelogFunctions.getReleaseLine;

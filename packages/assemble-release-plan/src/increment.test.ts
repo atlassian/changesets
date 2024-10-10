@@ -1,5 +1,5 @@
-import { incrementVersion } from "./increment";
-import { InternalRelease, PreInfo } from "./types";
+import { incrementVersion } from "./increment.ts";
+import type { InternalRelease, PreInfo } from "./types.ts";
 
 describe("incrementVersion", () => {
   describe("pre mode", () => {
