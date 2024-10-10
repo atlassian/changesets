@@ -16,21 +16,30 @@ import {
 import addChangeset from "..";
 
 jest.mock("../../../utils/cli-utilities");
-jest.mock("@changesets/git");
-jest.mock("@changesets/write");
-// @ts-ignore
-writeChangeset.mockImplementation(() => Promise.resolve("abcdefg"));
-// @ts-ignore
-git.commit.mockImplementation(() => Promise.resolve(true));
+const askCheckboxPlusMocked = jest.mocked(askCheckboxPlus);
+const askConfirmMocked = jest.mocked(askConfirm);
+const askQuestionWithEditorMocked = jest.mocked(askQuestionWithEditor);
+const askQuestionMocked = jest.mocked(askQuestion);
+const askListMockeded = jest.mocked(askList);
 
-// @ts-ignore
-git.getChangedPackagesSinceRef.mockImplementation(({ ref }) => {
+jest.mock("@changesets/write");
+const writeChangesetMocked = jest
+  .mocked(writeChangeset)
+  .mockImplementation(() => Promise.resolve("abcdefg"));
+
+jest.mock("@changesets/git");
+jest.spyOn(git, "commit").mockImplementation(() => Promise.resolve(true));
+jest.spyOn(git, "getChangedPackagesSinceRef").mockImplementation(({ ref }) => {
   expect(ref).toBe("master");
-  return [];
+  return Promise.resolve([]);
 });
 
-// @ts-ignore
-const mockUserResponses = (mockResponses) => {
+const mockUserResponses = (mockResponses: {
+  summary?: string;
+  releases: Record<string, string>;
+  consoleSummaries?: Array<string>;
+  editorSummaries?: Array<string>;
+}): void => {
   const summary = mockResponses.summary || "summary message mock";
   let majorReleases: Array<string> = [];
   let minorReleases: Array<string> = [];
@@ -47,39 +56,37 @@ const mockUserResponses = (mockResponses) => {
     majorReleases,
     minorReleases,
   ];
-  // @ts-ignore
-  askCheckboxPlus.mockImplementation(() => {
+
+  askCheckboxPlusMocked.mockImplementation(() => {
     if (callCount === returnValues.length) {
       throw new Error(`There was an unexpected call to askCheckboxPlus`);
     }
-    return returnValues[callCount++];
+    return Promise.resolve(returnValues[callCount++]);
   });
 
-  let confirmAnswers = {
+  let confirmAnswers: Record<string, boolean> = {
     "Is this your desired changeset?": true,
   };
 
   if (mockResponses.consoleSummaries && mockResponses.editorSummaries) {
     let i = 0;
     let j = 0;
-    // @ts-ignore
-    askQuestion.mockImplementation(() => mockResponses.consoleSummaries[i++]);
-    // @ts-ignore
-    askQuestionWithEditor.mockImplementation(
-      () => mockResponses.editorSummaries[j++]
+
+    askQuestionMocked.mockImplementation(() =>
+      Promise.resolve(mockResponses.consoleSummaries![i++])
+    );
+
+    askQuestionWithEditorMocked.mockReturnValue(
+      mockResponses.editorSummaries![j++]
     );
   } else {
-    // @ts-ignore
-    askQuestion.mockReturnValueOnce(summary);
+    askQuestionMocked.mockResolvedValueOnce(summary);
   }
 
-  // @ts-ignore
-  askConfirm.mockImplementation((question) => {
+  askConfirmMocked.mockImplementation((question) => {
     question = stripAnsi(question);
-    // @ts-ignore
     if (confirmAnswers[question]) {
-      // @ts-ignore
-      return confirmAnswers[question];
+      return Promise.resolve(confirmAnswers[question]);
     }
     throw new Error(`An answer could not be found for ${question}`);
   });
@@ -107,8 +114,7 @@ describe("Add command", () => {
     mockUserResponses({ releases: { "pkg-a": "patch" } });
     await addChangeset(cwd, { empty: false }, defaultConfig);
 
-    // @ts-ignore
-    const call = writeChangeset.mock.calls[0][0];
+    const call = writeChangesetMocked.mock.calls[0][0];
     expect(call).toEqual(
       expect.objectContaining({
         summary: "summary message mock",
@@ -125,7 +131,6 @@ describe("Add command", () => {
     ${["", "summary after error"]}            | ${1 /* mock implementation will throw */} | ${"summary after error"}
   `(
     "should read summary",
-    // @ts-ignore
     async ({ consoleSummaries, editorSummaries, expectedSummary }) => {
       const cwd = await testdir({
         "package.json": JSON.stringify({
@@ -149,8 +154,7 @@ describe("Add command", () => {
       });
       await addChangeset(cwd, { empty: false }, defaultConfig);
 
-      // @ts-ignore
-      const call = writeChangeset.mock.calls[0][0];
+      const call = writeChangesetMocked.mock.calls[0][0];
       expect(call).toEqual(
         expect.objectContaining({
           summary: expectedSummary,
@@ -171,31 +175,28 @@ describe("Add command", () => {
 
     const summary = "summary message mock";
 
-    // @ts-ignore
-    askList.mockReturnValueOnce(Promise.resolve("minor"));
+    askListMockeded.mockResolvedValue("minor");
 
-    let confirmAnswers = {
+    let confirmAnswers: Record<string, boolean> = {
       "Is this your desired changeset?": true,
     };
-    // @ts-ignore
-    askQuestion.mockReturnValueOnce("");
-    // @ts-ignore
-    askQuestionWithEditor.mockReturnValueOnce(summary);
-    // @ts-ignore
-    askConfirm.mockImplementation((question) => {
+
+    askQuestionMocked.mockResolvedValue("");
+
+    askQuestionWithEditorMocked.mockReturnValueOnce(summary);
+
+    askConfirmMocked.mockImplementation((question) => {
       question = stripAnsi(question);
-      // @ts-ignore
+
       if (confirmAnswers[question]) {
-        // @ts-ignore
-        return confirmAnswers[question];
+        return Promise.resolve(confirmAnswers[question]);
       }
       throw new Error(`An answer could not be found for ${question}`);
     });
 
     await addChangeset(cwd, { empty: false }, defaultConfig);
 
-    // @ts-ignore
-    const call = writeChangeset.mock.calls[0][0];
+    const call = writeChangesetMocked.mock.calls[0][0];
     expect(call).toEqual(
       expect.objectContaining({
         summary: "summary message mock",
@@ -250,8 +251,7 @@ describe("Add command", () => {
 
     await addChangeset(cwd, { empty: true }, defaultConfig);
 
-    // @ts-ignore
-    const call = writeChangeset.mock.calls[0][0];
+    const call = writeChangesetMocked.mock.calls[0][0];
     expect(call).toEqual(
       expect.objectContaining({
         releases: [],
@@ -297,8 +297,7 @@ describe("Add command", () => {
       { ...defaultConfig, ignore: ["pkg-b"] }
     );
 
-    // @ts-ignore
-    const { choices } = askCheckboxPlus.mock.calls[0][1][0];
+    const { choices } = askCheckboxPlusMocked.mock.calls[0][1][0];
     expect(choices).toEqual(["pkg-a", "pkg-c"]);
   });
 
@@ -325,8 +324,7 @@ describe("Add command", () => {
     mockUserResponses({ releases: { "pkg-a": "patch" } });
     await addChangeset(cwd, { empty: false }, defaultConfig);
 
-    // @ts-ignore
-    const { choices } = askCheckboxPlus.mock.calls[0][1][0];
+    const { choices } = askCheckboxPlusMocked.mock.calls[0][1][0];
     expect(choices).toEqual(["pkg-a", "pkg-c"]);
   });
 
@@ -364,8 +362,7 @@ describe("Add command", () => {
       }
     );
 
-    // @ts-ignore
-    const { choices } = askCheckboxPlus.mock.calls[0][1][0];
+    const { choices } = askCheckboxPlusMocked.mock.calls[0][1][0];
     expect(choices).toEqual(["pkg-a", "pkg-c"]);
   });
 

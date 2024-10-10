@@ -4,12 +4,11 @@ import { defaultConfig } from "@changesets/config";
 import { silenceLogsInBlock, testdir } from "@changesets/test-utils";
 import runRelease from "..";
 
-jest.mock("../../../utils/cli-utilities");
 jest.mock("@changesets/git");
-jest.mock("../publishPackages");
+jest.spyOn(git, "tag").mockResolvedValue(true);
 
-// @ts-ignore
-git.tag.mockImplementation(() => Promise.resolve(true));
+jest.mock("../publishPackages");
+const publishPackagesMocked = jest.mocked(publishPackages);
 
 describe("running release", () => {
   silenceLogsInBlock();
@@ -41,17 +40,14 @@ describe("running release", () => {
         }),
       });
 
-      // @ts-ignore
-      publishPackages.mockImplementation(() =>
-        Promise.resolve([
-          { name: "pkg-a", newVersion: "1.1.0", published: true },
-          { name: "pkg-b", newVersion: "1.0.1", published: true },
-        ])
-      );
+      publishPackagesMocked.mockResolvedValue([
+        { name: "pkg-a", newVersion: "1.1.0", published: true },
+        { name: "pkg-b", newVersion: "1.0.1", published: true },
+      ]);
 
       await runRelease(cwd, {}, defaultConfig);
 
-      expect(publishPackages).toHaveBeenCalled();
+      expect(publishPackagesMocked).toHaveBeenCalled();
     });
   });
 });

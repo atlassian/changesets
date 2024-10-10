@@ -2949,7 +2949,7 @@ describe("apply release plan", () => {
         setupFunc
       );
 
-      // @ts-ignore this is possibly bad
+      // @ts-expect-error `changesetPath` is initialized via setupFunc
       let pathExists = await fs.pathExists(changesetPath);
       expect(pathExists).toEqual(false);
     });
@@ -2985,7 +2985,7 @@ describe("apply release plan", () => {
         setupFunc
       );
 
-      // @ts-ignore this is possibly bad
+      // @ts-expect-error `changesetPath` is initialized via setupFunc
       let pathExists = await fs.pathExists(changesetPath);
       expect(pathExists).toEqual(true);
     });
@@ -3025,7 +3025,7 @@ describe("apply release plan", () => {
         setupFunc
       );
 
-      // @ts-ignore this is possibly bad
+      // @ts-expect-error `changesetPath` is initialized via setupFunc
       let pathExists = await fs.pathExists(changesetPath);
       expect(pathExists).toEqual(true);
     });
@@ -3077,9 +3077,9 @@ describe("apply release plan", () => {
         setupFunc
       );
 
-      // @ts-ignore this is possibly bad
+      // @ts-expect-error `changesetPath` is initialized via setupFunc
       let mdPathExists = await fs.pathExists(changesetMDPath);
-      // @ts-ignore this is possibly bad
+      // @ts-expect-error `changesetPath` is initialized via setupFunc
       let JSONPathExists = await fs.pathExists(changesetMDPath);
 
       expect(mdPathExists).toEqual(false);
@@ -3258,7 +3258,7 @@ describe("apply release plan", () => {
         setupFunc
       );
 
-      // @ts-ignore this is possibly bad
+      // @ts-expect-error `changesetPath` is initialized via setupFunc
       let pathExists = await fs.pathExists(changesetPath);
 
       expect(pathExists).toEqual(false);

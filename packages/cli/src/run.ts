@@ -65,7 +65,6 @@ export async function run(
 
   if (input.length < 1) {
     const { empty, open }: CliOptions = flags;
-    // @ts-ignore if this is undefined, we have already exited
     await add(cwd, { empty, open }, config);
   } else if (input[0] !== "pre" && input.length > 1) {
     error(
@@ -215,7 +214,7 @@ export async function run(
           error(`A tag must be passed when using prerelese enter`);
           throw new ExitError(1);
         }
-        // @ts-ignore
+
         await pre(cwd, { command, tag });
         return;
       }

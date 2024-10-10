@@ -57,24 +57,21 @@ let defaultOptions = {
 // This is from bolt's error log
 const consoleError = console.error;
 
-jest.mock("../../utils/cli-utilities");
-jest.mock("@changesets/git");
 jest.mock("human-id");
+const humanIdMocked = jest.mocked(humanId);
+
 jest.mock("@changesets/logger");
 
-// @ts-ignore
-git.add.mockImplementation(() => Promise.resolve(true));
-// @ts-ignore
-git.commit.mockImplementation(() => Promise.resolve(true));
-// @ts-ignore
-git.getCommitsThatAddFiles.mockImplementation((changesetIds) =>
-  Promise.resolve(changesetIds.map(() => "g1th4sh"))
-);
-// @ts-ignore
-git.getCurrentCommitId.mockImplementation(() => Promise.resolve("abcdef"));
-
-// @ts-ignore
-git.tag.mockImplementation(() => Promise.resolve(true));
+jest.mock("@changesets/git");
+jest.spyOn(git, "add").mockResolvedValue(true);
+jest.spyOn(git, "commit").mockResolvedValue(true);
+jest
+  .spyOn(git, "getCommitsThatAddFiles")
+  .mockImplementation((changesetIds) =>
+    Promise.resolve(changesetIds.map(() => "g1th4sh"))
+  );
+jest.spyOn(git, "getCurrentCommitId").mockResolvedValue("abcdef");
+jest.spyOn(git, "tag").mockResolvedValue(true);
 
 const writeChangesets = (changesets: Changeset[], cwd: string) => {
   return Promise.all(
@@ -104,9 +101,7 @@ const getChangelog = (pkgName: string, calls: any) => {
 
 beforeEach(() => {
   let i = 0;
-  (humanId as jest.Mock<string, []>).mockImplementation(() => {
-    return `some-id-${i++}`;
-  });
+  humanIdMocked.mockImplementation(() => `some-id-${i++}`);
 
   console.error = jest.fn();
 });
@@ -132,8 +127,7 @@ describe("running version in a simple project", () => {
         ".changeset/config.json": JSON.stringify({}),
       });
       await version(cwd, defaultOptions, modifiedDefaultConfig);
-      // @ts-ignore
-      const loggerWarnCalls = warn.mock.calls;
+      const loggerWarnCalls = jest.mocked(warn).mock.calls;
       expect(loggerWarnCalls.length).toEqual(1);
       expect(loggerWarnCalls[0][0]).toEqual(
         "No unreleased changesets found, exiting."

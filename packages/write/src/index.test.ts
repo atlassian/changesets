@@ -7,6 +7,7 @@ import humanId from "human-id";
 import { testdir } from "@changesets/test-utils";
 
 jest.mock("human-id");
+const humanIdMocked = jest.mocked(humanId);
 
 describe("simple project", () => {
   it("should write a changeset", async () => {
@@ -22,8 +23,7 @@ describe("simple project", () => {
     });
 
     const changesetID = "ascii";
-    // @ts-ignore
-    humanId.mockReturnValueOnce(changesetID);
+    humanIdMocked.mockReturnValueOnce(changesetID);
 
     await writeChangeset(
       {
@@ -54,8 +54,7 @@ describe("simple project", () => {
     });
 
     const changesetID = "ascii";
-    // @ts-ignore
-    humanId.mockReturnValueOnce(changesetID);
+    humanIdMocked.mockReturnValueOnce(changesetID);
 
     await writeChangeset(
       {

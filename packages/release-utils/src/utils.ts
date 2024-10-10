@@ -1,5 +1,5 @@
 import { getPackages, Package } from "@manypkg/get-packages";
-// @ts-ignore
+// @ts-expect-error missing declaration for this package
 import mdastToString from "mdast-util-to-string";
 import os from "os";
 import remarkParse from "remark-parse";

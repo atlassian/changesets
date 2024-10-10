@@ -1,9 +1,13 @@
 import publishPackages from "../publishPackages";
-import * as npmUtils from "../npm-utils";
+import { infoAllow404, getTokenIsRequired, publish } from "../npm-utils";
 import { getPackages } from "@manypkg/get-packages";
 import { silenceLogsInBlock, testdir } from "@changesets/test-utils";
 
 jest.mock("../npm-utils");
+const infoAllow404Mocked = jest.mocked(infoAllow404);
+const getTokenIsRequiredMocked = jest.mocked(getTokenIsRequired);
+const publishMocked = jest.mocked(publish);
+
 jest.mock("ci-info", () => ({
   isCI: true,
 }));
@@ -28,25 +32,23 @@ describe("publishPackages", () => {
         }),
       });
 
-      // @ts-ignore
-      npmUtils.infoAllow404.mockImplementation(() => ({
+      infoAllow404Mocked.mockResolvedValue({
         published: false,
         pkgInfo: {
           version: "1.0.0",
         },
-      }));
+      });
 
-      // @ts-ignore
-      npmUtils.publish.mockImplementation(() => ({
+      publishMocked.mockResolvedValue({
         published: true,
-      }));
+      });
 
       await publishPackages({
         packages: (await getPackages(cwd)).packages,
         access: "public",
         preState: undefined,
       });
-      expect(npmUtils.getTokenIsRequired).not.toHaveBeenCalled();
+      expect(getTokenIsRequiredMocked).not.toHaveBeenCalled();
     });
   });
 });

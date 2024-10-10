@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error missing declaration for this package
 import fetch from "node-fetch";
 import DataLoader from "dataloader";
 

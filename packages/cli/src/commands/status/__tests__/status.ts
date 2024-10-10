@@ -190,7 +190,7 @@ describe("status", () => {
       ".changeset/config.json": JSON.stringify({}),
     });
 
-    // @ts-ignore
+    // @ts-expect-error mocking a function returning never
     jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await spawn("git", ["checkout", "-b", "new-branch"], { cwd });
@@ -221,7 +221,7 @@ describe("status", () => {
       ".changeset/config.json": JSON.stringify({}),
     });
 
-    // @ts-ignore
+    // @ts-expect-error mocking a function returning never
     jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await spawn("git", ["checkout", "-b", "new-branch"], { cwd });
@@ -253,7 +253,7 @@ describe("status", () => {
       ".changeset/config.json": JSON.stringify({}),
     });
 
-    // @ts-ignore
+    // @ts-expect-error mocking a function returning never
     jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await spawn("git", ["checkout", "-b", "new-branch"], { cwd });
@@ -278,7 +278,7 @@ describe("status", () => {
     expect(process.exit).not.toHaveBeenCalled();
   });
 
-  it.skip("should respect the verbose flag", () => false);
+  it.skip("should respect the verbose flag", () => {});
 
   it("should respect the output flag", async () => {
     const cwd = await gitdir({
@@ -366,7 +366,7 @@ describe("status", () => {
       }),
     });
 
-    // @ts-ignore
+    // @ts-expect-error mocking a function returning never
     jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await spawn("git", ["checkout", "-b", "new-branch"], { cwd });
@@ -409,7 +409,7 @@ describe("status", () => {
       }),
     });
 
-    // @ts-ignore
+    // @ts-expect-error mocking a function returning never
     jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await spawn("git", ["checkout", "-b", "new-branch"], { cwd });
@@ -515,7 +515,7 @@ describe("status", () => {
       }),
     });
 
-    // @ts-ignore
+    // @ts-expect-error mocking a function returning never
     jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await spawn("git", ["checkout", "-b", "new-branch"], { cwd });
@@ -565,7 +565,7 @@ describe("status", () => {
       }),
     });
 
-    // @ts-ignore
+    // @ts-expect-error mocking a function returning never
     jest.spyOn(process, "exit").mockImplementation(() => {});
 
     await spawn("git", ["checkout", "-b", "new-branch"], { cwd });
