@@ -535,11 +535,29 @@ describe("assemble-release-plan", () => {
         undefined
       )
     ).toThrowErrorMatchingInlineSnapshot(`
-"Found mixed changeset big-cats-delight
-Found ignored packages: pkg-b
-Found not ignored packages: pkg-a
-Mixed changesets that contain both ignored and not ignored packages are not allowed"
-`);
+      "Found mixed changeset big-cats-delight
+      Found ignored packages: pkg-b
+      Found not ignored packages: pkg-a
+      Mixed changesets that contain both ignored and not ignored packages are not allowed"
+    `);
+  });
+
+  it("should throw for packages not present in the project", () => {
+    setup.addChangeset({
+      id: "big-cats-delight",
+      releases: [{ name: "impossible-package", type: "major" }],
+    });
+
+    expect(() =>
+      assembleReleasePlan(
+        setup.changesets,
+        setup.packages,
+        defaultConfig,
+        undefined
+      )
+    ).toThrowErrorMatchingInlineSnapshot(
+      `""big-cats-delight" changeset mentions a release for a package "impossible-package" but such a package could not be found."`
+    );
   });
 
   it("should not bump a dev dependent nor its dependent when a package gets bumped", () => {
@@ -612,7 +630,7 @@ Mixed changesets that contain both ignored and not ignored packages are not allo
       // Expected events:
       // - dependencies are checked, nothing leaves semver, nothing changes
       // - fixed are checked, pkg-a is aligned with pkg-b
-      // - depencencies are checked, in pkg-c the dependency range for pkg-a is not satisfied, so a patch bump is given to it
+      // - dependencies are checked, in pkg-c the dependency range for pkg-a is not satisfied, so a patch bump is given to it
       // - fixed are checked, pkg-c is aligned with pkg-d
       setup.addChangeset({
         id: "just-some-umbrellas",
