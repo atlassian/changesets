@@ -276,6 +276,9 @@ function getRelevantChangesets(
     const skippedPackages = [];
     const notSkippedPackages = [];
     for (const release of changeset.releases) {
+      if (!packagesByName.get(release.name)) {
+        throw new Error(`Could not get package JSON for ${release.name}`);
+      }
       if (
         shouldSkipPackage(packagesByName.get(release.name)!, {
           ignore: config.ignore,
