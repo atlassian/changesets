@@ -278,8 +278,6 @@ describe("status", () => {
     expect(process.exit).not.toHaveBeenCalled();
   });
 
-  it.skip("should respect the verbose flag", () => false);
-
   it("should respect the output flag", async () => {
     const cwd = await gitdir({
       "package.json": JSON.stringify({

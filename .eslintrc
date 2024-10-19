@@ -39,8 +39,16 @@
         "**/test.ts",
         "**/test-utils/**/*"
       ],
-      "env": {
-        "jest": true
+      "extends": ["plugin:jest/recommended"],
+      "plugins": ["jest"],
+      "rules": {
+        /** @see https://github.com/changesets/changesets/pull/1466#discussion_r1793679057 */
+        "jest/max-nested-describe": ["error", { "max": 1 }],
+        "jest/no-standalone-expect": [
+          "error",
+          { "additionalTestBlockFunctions": ["jestInCase"] }
+        ],
+        "jest/prefer-expect-resolves": "error"
       }
     },
     {

@@ -446,29 +446,30 @@ describe("parser errors", () => {
       The \`commit\` option is set as {} when the only valid values are undefined or a boolean or a module path (e.g. "@changesets/cli/commit" or "./some-module") or a tuple with a module path and config for the commit message generator (e.g. ["@changesets/cli/commit", { "skipCI": "version" }])"
     `);
   });
-  describe("fixed", () => {
-    test("non-array", () => {
-      expect(() => {
-        unsafeParse({ fixed: {} }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+
+  // #region fixed
+  test("fixed- non-array", () => {
+    expect(() => {
+      unsafeParse({ fixed: {} }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The \`fixed\` option is set as {} when the only valid values are undefined or an array of arrays of package names"
       `);
-    });
-    test("array of non array", () => {
-      expect(() => {
-        unsafeParse({ fixed: [{}] }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("fixed - array of non array", () => {
+    expect(() => {
+      unsafeParse({ fixed: [{}] }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The \`fixed\` option is set as [
           {}
         ] when the only valid values are undefined or an array of arrays of package names"
       `);
-    });
-    test("array of array of non-string", () => {
-      expect(() => {
-        unsafeParse({ fixed: [[{}]] }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("fixed - array of array of non-string", () => {
+    expect(() => {
+      unsafeParse({ fixed: [[{}]] }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The \`fixed\` option is set as [
           [
@@ -476,68 +477,68 @@ describe("parser errors", () => {
           ]
         ] when the only valid values are undefined or an array of arrays of package names"
       `);
-    });
-    test("package that does not exist", () => {
-      expect(() => {
-        parse({ fixed: [["not-existing"]] }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("fixed - package that does not exist", () => {
+    expect(() => {
+      parse({ fixed: [["not-existing"]] }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package or glob expression "not-existing" specified in the \`fixed\` option does not match any package in the project. You may have misspelled the package name or provided an invalid glob expression. Note that glob expressions must be defined according to https://www.npmjs.com/package/micromatch."
       `);
-    });
-    test("package that does not exist (using glob expressions)", () => {
-      expect(() => {
-        parse({ fixed: [["pkg-a", "foo/*"]] }, withPackages(["pkg-a"]));
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("fixed - package that does not exist (using glob expressions)", () => {
+    expect(() => {
+      parse({ fixed: [["pkg-a", "foo/*"]] }, withPackages(["pkg-a"]));
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package or glob expression "foo/*" specified in the \`fixed\` option does not match any package in the project. You may have misspelled the package name or provided an invalid glob expression. Note that glob expressions must be defined according to https://www.npmjs.com/package/micromatch."
       `);
-    });
-    test("package in two fixed groups", () => {
-      expect(() => {
-        parse({ fixed: [["pkg-a"], ["pkg-a"]] }, withPackages(["pkg-a"]));
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("fixed - package in two fixed groups", () => {
+    expect(() => {
+      parse({ fixed: [["pkg-a"], ["pkg-a"]] }, withPackages(["pkg-a"]));
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package "pkg-a" is defined in multiple sets of fixed packages. Packages can only be defined in a single set of fixed packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch."
       `);
-    });
-    test("package in two fixed groups (using glob expressions)", () => {
-      expect(() => {
-        parse(
-          { fixed: [["pkg-*"], ["pkg-*"]] },
-          withPackages(["pkg-a", "pkg-b"])
-        );
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("fixed - package in two fixed groups (using glob expressions)", () => {
+    expect(() => {
+      parse(
+        { fixed: [["pkg-*"], ["pkg-*"]] },
+        withPackages(["pkg-a", "pkg-b"])
+      );
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package "pkg-a" is defined in multiple sets of fixed packages. Packages can only be defined in a single set of fixed packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch.
         The package "pkg-b" is defined in multiple sets of fixed packages. Packages can only be defined in a single set of fixed packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch."
       `);
-    });
   });
+  // #endregion fixed
 
-  describe("linked", () => {
-    test("non-array", () => {
-      expect(() => {
-        unsafeParse({ linked: {} }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+  // #region linked
+  test("linked - non-array", () => {
+    expect(() => {
+      unsafeParse({ linked: {} }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The \`linked\` option is set as {} when the only valid values are undefined or an array of arrays of package names"
       `);
-    });
-    test("array of non array", () => {
-      expect(() => {
-        unsafeParse({ linked: [{}] }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("linked - array of non array", () => {
+    expect(() => {
+      unsafeParse({ linked: [{}] }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The \`linked\` option is set as [
           {}
         ] when the only valid values are undefined or an array of arrays of package names"
       `);
-    });
-    test("array of array of non-string", () => {
-      expect(() => {
-        unsafeParse({ linked: [[{}]] }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("linked - array of array of non-string", () => {
+    expect(() => {
+      unsafeParse({ linked: [[{}]] }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The \`linked\` option is set as [
           [
@@ -545,48 +546,50 @@ describe("parser errors", () => {
           ]
         ] when the only valid values are undefined or an array of arrays of package names"
       `);
-    });
-    test("package that does not exist", () => {
-      expect(() => {
-        parse({ linked: [["not-existing"]] }, defaultPackages);
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("linked - package that does not exist", () => {
+    expect(() => {
+      parse({ linked: [["not-existing"]] }, defaultPackages);
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package or glob expression "not-existing" specified in the \`linked\` option does not match any package in the project. You may have misspelled the package name or provided an invalid glob expression. Note that glob expressions must be defined according to https://www.npmjs.com/package/micromatch."
       `);
-    });
-    test("package that does not exist (using glob expressions)", () => {
-      expect(() => {
-        parse({ linked: [["pkg-a", "foo/*"]] }, withPackages(["pkg-a"]));
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("linked - package that does not exist (using glob expressions)", () => {
+    expect(() => {
+      parse({ linked: [["pkg-a", "foo/*"]] }, withPackages(["pkg-a"]));
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package or glob expression "foo/*" specified in the \`linked\` option does not match any package in the project. You may have misspelled the package name or provided an invalid glob expression. Note that glob expressions must be defined according to https://www.npmjs.com/package/micromatch."
       `);
-    });
-    test("package in two linked groups", () => {
-      expect(() => {
-        parse({ linked: [["pkg-a"], ["pkg-a"]] }, withPackages(["pkg-a"]));
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("linked - package in two linked groups", () => {
+    expect(() => {
+      parse({ linked: [["pkg-a"], ["pkg-a"]] }, withPackages(["pkg-a"]));
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package "pkg-a" is defined in multiple sets of linked packages. Packages can only be defined in a single set of linked packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch."
       `);
-    });
-    test("package in two linked groups (using glob expressions)", () => {
-      expect(() => {
-        parse(
-          { linked: [["pkg-*"], ["pkg-*"]] },
-          withPackages(["pkg-a", "pkg-b"])
-        );
-      }).toThrowErrorMatchingInlineSnapshot(`
+  });
+  test("linked - package in two linked groups (using glob expressions)", () => {
+    expect(() => {
+      parse(
+        { linked: [["pkg-*"], ["pkg-*"]] },
+        withPackages(["pkg-a", "pkg-b"])
+      );
+    }).toThrowErrorMatchingInlineSnapshot(`
         "Some errors occurred when validating the changesets config:
         The package "pkg-a" is defined in multiple sets of linked packages. Packages can only be defined in a single set of linked packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch.
         The package "pkg-b" is defined in multiple sets of linked packages. Packages can only be defined in a single set of linked packages. If you are using glob expressions, make sure that they are valid according to https://www.npmjs.com/package/micromatch."
       `);
-    });
   });
+
+  // #endregion linked
+
   test("access private warns and sets to restricted", () => {
     let config = unsafeParse({ access: "private" }, defaultPackages);
     expect(config).toEqual(defaults);
-    expect(logger.warn).toBeCalledWith(
+    expect(logger.warn).toHaveBeenCalledWith(
       'The `access` option is set as "private", but this is actually not a valid value - the correct form is "restricted".'
     );
   });

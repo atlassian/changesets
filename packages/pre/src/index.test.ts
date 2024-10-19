@@ -28,7 +28,7 @@ describe("enterPre", () => {
     });
     await enterPre(cwd, "next");
 
-    expect(await fs.readJson(path.join(cwd, ".changeset", "pre.json")))
+    await expect(fs.readJson(path.join(cwd, ".changeset", "pre.json"))).resolves
       .toMatchInlineSnapshot(`
       {
         "changesets": [],
@@ -100,7 +100,7 @@ describe("enterPre", () => {
       }),
     });
     await enterPre(cwd, "next");
-    expect(await fs.readJson(path.join(cwd, ".changeset", "pre.json")))
+    await expect(fs.readJson(path.join(cwd, ".changeset", "pre.json"))).resolves
       .toMatchInlineSnapshot(`
       {
         "changesets": [
@@ -147,7 +147,7 @@ describe("exitPre", () => {
     });
     await exitPre(cwd);
 
-    expect(await fs.readJson(path.join(cwd, ".changeset", "pre.json")))
+    await expect(fs.readJson(path.join(cwd, ".changeset", "pre.json"))).resolves
       .toMatchInlineSnapshot(`
       {
         "changesets": [],
@@ -212,7 +212,7 @@ test("readPreState reads the pre state", async () => {
       tag: "next",
     }),
   });
-  expect(await readPreState(cwd)).toMatchInlineSnapshot(`
+  await expect(readPreState(cwd)).resolves.toMatchInlineSnapshot(`
     {
       "changesets": [],
       "initialVersions": {

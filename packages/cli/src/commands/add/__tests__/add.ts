@@ -25,6 +25,7 @@ git.commit.mockImplementation(() => Promise.resolve(true));
 
 // @ts-ignore
 git.getChangedPackagesSinceRef.mockImplementation(({ ref }) => {
+  // eslint-disable-next-line jest/no-standalone-expect
   expect(ref).toBe("master");
   return [];
 });

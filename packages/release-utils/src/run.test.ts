@@ -100,12 +100,9 @@ describe("version", () => {
       cwd,
     });
 
-    expect(
-      await fs.readFile(
-        path.join(cwd, "packages", "pkg-a", "package.json"),
-        "utf-8"
-      )
-    ).toMatchInlineSnapshot(`
+    await expect(
+      fs.readFile(path.join(cwd, "packages", "pkg-a", "package.json"), "utf-8")
+    ).resolves.toMatchInlineSnapshot(`
       "{
         "name": "pkg-a",
         "version": "1.1.0",
@@ -115,23 +112,17 @@ describe("version", () => {
       }"
     `);
 
-    expect(
-      await fs.readFile(
-        path.join(cwd, "packages", "pkg-b", "package.json"),
-        "utf-8"
-      )
-    ).toMatchInlineSnapshot(`
+    await expect(
+      fs.readFile(path.join(cwd, "packages", "pkg-b", "package.json"), "utf-8")
+    ).resolves.toMatchInlineSnapshot(`
       "{
         "name": "pkg-b",
         "version": "1.1.0"
       }"
     `);
-    expect(
-      await fs.readFile(
-        path.join(cwd, "packages", "pkg-a", "CHANGELOG.md"),
-        "utf-8"
-      )
-    ).toEqual(
+    await expect(
+      fs.readFile(path.join(cwd, "packages", "pkg-a", "CHANGELOG.md"), "utf-8")
+    ).resolves.toEqual(
       expect.stringContaining(`# pkg-a
 
 ## 1.1.0
@@ -140,12 +131,9 @@ describe("version", () => {
 
 `)
     );
-    expect(
-      await fs.readFile(
-        path.join(cwd, "packages", "pkg-b", "CHANGELOG.md"),
-        "utf-8"
-      )
-    ).toEqual(
+    await expect(
+      fs.readFile(path.join(cwd, "packages", "pkg-b", "CHANGELOG.md"), "utf-8")
+    ).resolves.toEqual(
       expect.stringContaining(`# pkg-b
 
 ## 1.1.0
@@ -223,12 +211,9 @@ describe("version", () => {
       cwd,
     });
 
-    expect(
-      await fs.readFile(
-        path.join(cwd, "packages", "pkg-a", "package.json"),
-        "utf-8"
-      )
-    ).toMatchInlineSnapshot(`
+    await expect(
+      fs.readFile(path.join(cwd, "packages", "pkg-a", "package.json"), "utf-8")
+    ).resolves.toMatchInlineSnapshot(`
       "{
         "name": "pkg-a",
         "version": "1.1.0",
@@ -238,24 +223,18 @@ describe("version", () => {
       }"
     `);
 
-    expect(
-      await fs.readFile(
-        path.join(cwd, "packages", "pkg-b", "package.json"),
-        "utf-8"
-      )
-    ).toMatchInlineSnapshot(`
+    await expect(
+      fs.readFile(path.join(cwd, "packages", "pkg-b", "package.json"), "utf-8")
+    ).resolves.toMatchInlineSnapshot(`
       "{
         "name": "pkg-b",
         "version": "1.0.0"
       }"
     `);
 
-    expect(
-      await fs.readFile(
-        path.join(cwd, "packages", "pkg-a", "CHANGELOG.md"),
-        "utf-8"
-      )
-    ).toEqual(
+    await expect(
+      fs.readFile(path.join(cwd, "packages", "pkg-a", "CHANGELOG.md"), "utf-8")
+    ).resolves.toEqual(
       expect.stringContaining(`# pkg-a
 
 ## 1.1.0
