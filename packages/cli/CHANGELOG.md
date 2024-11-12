@@ -1,5 +1,31 @@
 # @changesets/cli
 
+## 3.0.0-next.0
+
+### Major Changes
+
+- [#1479](https://github.com/changesets/changesets/pull/1479) [`7f34a00`](https://github.com/changesets/changesets/commit/7f34a00aab779a941a406b17f5a85895144fc0a5) Thanks [@bluwy](https://github.com/bluwy)! - Add `"engines"` field for explicit node version support. The supported node versions are `>=18.0.0`.
+
+### Patch Changes
+
+- [#1476](https://github.com/changesets/changesets/pull/1476) [`e0e1748`](https://github.com/changesets/changesets/commit/e0e1748369b1f936c665b62590a76a0d57d1545e) Thanks [@ziebam](https://github.com/ziebam)! - Replace `fs-extra` usage with `node:fs`
+
+- Updated dependencies [[`e0e1748`](https://github.com/changesets/changesets/commit/e0e1748369b1f936c665b62590a76a0d57d1545e), [`6d1f384`](https://github.com/changesets/changesets/commit/6d1f384c8feab091f58443f6f7ee2ada64e0e7cc), [`7f34a00`](https://github.com/changesets/changesets/commit/7f34a00aab779a941a406b17f5a85895144fc0a5)]:
+  - @changesets/apply-release-plan@8.0.0-next.0
+  - @changesets/config@4.0.0-next.0
+  - @changesets/write@0.4.0-next.0
+  - @changesets/read@0.7.0-next.0
+  - @changesets/git@4.0.0-next.0
+  - @changesets/pre@3.0.0-next.0
+  - @changesets/assemble-release-plan@7.0.0-next.0
+  - @changesets/get-dependents-graph@3.0.0-next.0
+  - @changesets/should-skip-package@0.2.0-next.0
+  - @changesets/get-release-plan@5.0.0-next.0
+  - @changesets/changelog-git@0.3.0-next.0
+  - @changesets/errors@0.3.0-next.0
+  - @changesets/logger@0.2.0-next.0
+  - @changesets/types@7.0.0-next.0
+
 ## 2.27.9
 
 ### Patch Changes

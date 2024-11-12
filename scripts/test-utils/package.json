@@ -1,6 +1,6 @@
 {
   "name": "@changesets/test-utils",
-  "version": "0.0.7",
+  "version": "0.0.8-next.0",
   "private": true,
   "description": "Utils for testing changesets packages",
   "main": "dist/changesets-test-utils.cjs.js",
@@ -20,7 +20,7 @@
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/test-utils",
   "dependencies": {
-    "@changesets/logger": "^0.1.1",
+    "@changesets/logger": "^0.2.0-next.0",
     "fixturez": "^1.1.0",
     "spawndamnit": "^2.0.0"
   },

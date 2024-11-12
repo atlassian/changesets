@@ -1,6 +1,6 @@
 {
   "name": "@changesets/should-skip-package",
-  "version": "0.1.1",
+  "version": "0.2.0-next.0",
   "description": "Checks if a package should be skipped for versioning or tagging purposes",
   "main": "dist/changesets-should-skip-package.cjs.js",
   "module": "dist/changesets-should-skip-package.esm.js",
@@ -19,11 +19,11 @@
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/should-skip-package",
   "dependencies": {
-    "@changesets/types": "^6.0.0",
+    "@changesets/types": "^7.0.0-next.0",
     "@manypkg/get-packages": "^1.1.3"
   },
   "devDependencies": {
-    "@changesets/test-utils": "*"
+    "@changesets/test-utils": "0.0.8-next.0"
   },
   "engines": {
     "node": ">=18.0.0"

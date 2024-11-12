@@ -1,6 +1,6 @@
 {
   "name": "@changesets/apply-release-plan",
-  "version": "7.0.5",
+  "version": "8.0.0-next.0",
   "description": "Takes a release plan and applies it to packages",
   "main": "dist/changesets-apply-release-plan.cjs.js",
   "module": "dist/changesets-apply-release-plan.esm.js",
@@ -19,11 +19,11 @@
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/apply-release-plan",
   "dependencies": {
-    "@changesets/config": "^3.0.3",
-    "@changesets/get-version-range-type": "^0.4.0",
-    "@changesets/git": "^3.0.1",
-    "@changesets/should-skip-package": "^0.1.1",
-    "@changesets/types": "^6.0.0",
+    "@changesets/config": "^4.0.0-next.0",
+    "@changesets/get-version-range-type": "^0.5.0-next.0",
+    "@changesets/git": "^4.0.0-next.0",
+    "@changesets/should-skip-package": "^0.2.0-next.0",
+    "@changesets/types": "^7.0.0-next.0",
     "@manypkg/get-packages": "^1.1.3",
     "detect-indent": "^6.0.0",
     "lodash.startcase": "^4.4.0",
@@ -33,7 +33,7 @@
     "semver": "^7.5.3"
   },
   "devDependencies": {
-    "@changesets/test-utils": "*",
+    "@changesets/test-utils": "0.0.8-next.0",
     "spawndamnit": "^2.0.0"
   },
   "engines": {

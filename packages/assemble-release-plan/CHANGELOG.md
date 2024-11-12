@@ -1,5 +1,19 @@
 # @changesets/assemble-release-plan
 
+## 7.0.0-next.0
+
+### Major Changes
+
+- [#1479](https://github.com/changesets/changesets/pull/1479) [`7f34a00`](https://github.com/changesets/changesets/commit/7f34a00aab779a941a406b17f5a85895144fc0a5) Thanks [@bluwy](https://github.com/bluwy)! - Add `"engines"` field for explicit node version support. The supported node versions are `>=18.0.0`.
+
+### Patch Changes
+
+- Updated dependencies [[`7f34a00`](https://github.com/changesets/changesets/commit/7f34a00aab779a941a406b17f5a85895144fc0a5)]:
+  - @changesets/get-dependents-graph@3.0.0-next.0
+  - @changesets/should-skip-package@0.2.0-next.0
+  - @changesets/errors@0.3.0-next.0
+  - @changesets/types@7.0.0-next.0
+
 ## 6.0.4
 
 ### Patch Changes
