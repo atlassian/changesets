@@ -2739,10 +2739,10 @@ describe("apply release plan", () => {
   describe("should error and not write if", () => {
     // This is skipped as *for now* we are assuming we have been passed
     // valid releasePlans - this may get work done on it in the future
+    // eslint-disable-next-line jest/no-disabled-tests
     it.skip("a package appears twice", async () => {
-      let changedFiles;
-      try {
-        let testResults = await testSetup(
+      expect(async () => {
+        await testSetup(
           {
             "package.json": JSON.stringify({
               private: true,
@@ -2780,18 +2780,7 @@ describe("apply release plan", () => {
             preState: undefined,
           }
         );
-        changedFiles = testResults.changedFiles;
-      } catch (e) {
-        expect((e as Error).message).toEqual("some string probably");
-
-        return;
-      }
-
-      throw new Error(
-        `expected error but instead got changed files: \n${changedFiles.join(
-          "\n"
-        )}`
-      );
+      }).toThrow("some string probably");
     });
     it("a package cannot be found", async () => {
       let releasePlan = new FakeReleasePlan(
@@ -2830,26 +2819,21 @@ describe("apply release plan", () => {
       await git.add(".", tempDir);
       await git.commit("first commit", tempDir);
 
-      try {
-        await applyReleasePlan(
+      await expect(async () =>
+        applyReleasePlan(
           releasePlan.getReleasePlan(),
           await getPackages(tempDir),
           releasePlan.config
-        );
-      } catch (e) {
-        expect((e as Error).message).toEqual(
-          "Could not find matching package for release of: impossible-package"
-        );
+        )
+      ).rejects.toThrow(
+        "Could not find matching package for release of: impossible-package"
+      );
 
-        let gitCmd = await spawn("git", ["status"], { cwd: tempDir });
+      let gitCmd = await spawn("git", ["status"], { cwd: tempDir });
 
-        expect(gitCmd.stdout.toString().includes("nothing to commit")).toEqual(
-          true
-        );
-        return;
-      }
-
-      throw new Error("Expected test to exit before this point");
+      expect(gitCmd.stdout.toString().includes("nothing to commit")).toEqual(
+        true
+      );
     });
     it(
       "a provided changelog function fails",
@@ -2879,27 +2863,30 @@ describe("apply release plan", () => {
         await git.add(".", tempDir);
         await git.commit("first commit", tempDir);
 
-        try {
-          await applyReleasePlan(
-            releasePlan.getReleasePlan(),
-            await getPackages(tempDir),
-            {
-              ...releasePlan.config,
-              changelog: [
-                path.resolve(__dirname, "test-utils/failing-functions"),
-                null,
-              ],
-            }
-          );
-        } catch (e) {
-          expect((e as Error).message).toEqual("no chance");
+        await expect(
+          async () =>
+            await applyReleasePlan(
+              releasePlan.getReleasePlan(),
+              await getPackages(tempDir),
+              {
+                ...releasePlan.config,
+                changelog: [
+                  path.resolve(__dirname, "test-utils/failing-functions"),
+                  null,
+                ],
+              }
+            )
+        ).rejects.toThrow("no chance");
 
-          let gitCmd = await spawn("git", ["status"], { cwd: tempDir });
+        let gitCmd = await spawn("git", ["status"], { cwd: tempDir });
 
-          expect(
-            gitCmd.stdout.toString().includes("nothing to commit")
-          ).toEqual(true);
-          expect((console.error as any).mock.calls).toMatchInlineSnapshot(`
+        expect(gitCmd.stdout.toString().includes("nothing to commit")).toEqual(
+          true
+        );
+        const consoleErrorMock = console.error as jest.Mock<
+          typeof console.error
+        >;
+        expect(consoleErrorMock.mock.calls).toMatchInlineSnapshot(`
             [
               [
                 "The following error was encountered while generating changelog entries",
@@ -2909,10 +2896,6 @@ describe("apply release plan", () => {
               ],
             ]
           `);
-          return;
-        }
-
-        throw new Error("Expected test to exit before this point");
       })
     );
   });
@@ -3151,12 +3134,12 @@ describe("apply release plan", () => {
 
     let lastCommit = commits[commits.length - 1].substring(0, 7);
 
-    expect(
-      await fs.readFile(
+    await expect(
+      fs.readFile(
         path.join(tempDir, "packages", "pkg-a", "CHANGELOG.md"),
         "utf8"
       )
-    ).toBe(`# pkg-a
+    ).resolves.toBe(`# pkg-a
 
 ## 1.1.0
 

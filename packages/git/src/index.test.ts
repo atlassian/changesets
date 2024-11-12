@@ -234,7 +234,9 @@ describe("git", () => {
         "a.js": 'export default "a"',
       });
 
-      expect(await tagExists("tag_which_doesn't_exist", cwd)).toBe(false);
+      await expect(tagExists("tag_which_doesn't_exist", cwd)).resolves.toBe(
+        false
+      );
     });
 
     it("returns true when tag exists", async () => {
@@ -244,7 +246,7 @@ describe("git", () => {
 
       await tag("tag_message", cwd);
 
-      expect(await tagExists("tag_message", cwd)).toBe(true);
+      await expect(tagExists("tag_message", cwd)).resolves.toBe(true);
     });
   });
 
@@ -322,7 +324,7 @@ describe("git", () => {
         expect(commits).toEqual([originalCommit]);
 
         // We should not need to have deepened the clone for this
-        expect(await getCommitCount(clone)).toEqual(5);
+        await expect(getCommitCount(clone)).resolves.toEqual(5);
       });
 
       it("reads the SHA of a file-add even if not already included in the shallow clone", async () => {
@@ -347,8 +349,10 @@ describe("git", () => {
 
         // It should not have completely unshallowed the clone; just enough.
         const originalRepoDepth = await getCommitCount(cwd);
-        expect(await getCommitCount(clone)).toBeGreaterThan(5);
-        expect(await getCommitCount(clone)).toBeLessThan(originalRepoDepth);
+        await expect(getCommitCount(clone)).resolves.toBeGreaterThan(5);
+        await expect(getCommitCount(clone)).resolves.toBeLessThan(
+          originalRepoDepth
+        );
       });
 
       it("reads the SHA of a file-add even if the first commit of a repo", async () => {
@@ -370,7 +374,7 @@ describe("git", () => {
 
         // We should have fully deepened
         const originalRepoDepth = await getCommitCount(cwd);
-        expect(await getCommitCount(clone)).toEqual(originalRepoDepth);
+        await expect(getCommitCount(clone)).resolves.toEqual(originalRepoDepth);
       });
 
       it("can return SHAs for multiple files including return blanks for missing files", async () => {

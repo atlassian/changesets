@@ -31,9 +31,9 @@ describe("init", () => {
     });
 
     await initializeCommand(cwd);
-    expect(await fs.readJson(path.join(cwd, ".changeset/config.json"))).toEqual(
-      { ...defaultWrittenConfig, baseBranch: "main" }
-    );
+    await expect(
+      fs.readJson(path.join(cwd, ".changeset/config.json"))
+    ).resolves.toEqual({ ...defaultWrittenConfig, baseBranch: "main" });
   });
   it("should add newline at the end of config", async () => {
     const cwd = await testdir({
@@ -63,10 +63,10 @@ describe("init", () => {
     });
 
     await initializeCommand(cwd);
-    expect(await fs.readJson(path.join(cwd, ".changeset/config.json"))).toEqual(
-      {
-        changelog: false,
-      }
-    );
+    await expect(
+      fs.readJson(path.join(cwd, ".changeset/config.json"))
+    ).resolves.toEqual({
+      changelog: false,
+    });
   });
 });

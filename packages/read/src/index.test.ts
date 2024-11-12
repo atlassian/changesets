@@ -106,15 +106,9 @@ I'm amazed we needed to update the best package, because it was already the best
   it("should error when there is no changeset folder", async () => {
     const cwd = await testdir({});
 
-    try {
-      await read(cwd);
-    } catch (e) {
-      expect((e as Error).message).toBe(
-        "There is no .changeset directory in this project"
-      );
-      return;
-    }
-    expect("never run this because we returned above").toBe(true);
+    await expect(() => read(cwd)).rejects.toThrow(
+      "There is no .changeset directory in this project"
+    );
   });
   it("should error on broken changeset?", async () => {
     const cwd = await testdir({
@@ -127,7 +121,7 @@ I'm amazed we needed to update the best package, because it was already the best
 Everything is wrong`,
     });
 
-    expect(read(cwd)).rejects.toThrow(
+    await expect(read(cwd)).rejects.toThrow(
       outdent`could not parse changeset - invalid frontmatter: ---
 
       "cool-package": minor

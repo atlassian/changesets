@@ -586,7 +586,7 @@ describe("parser errors", () => {
   test("access private warns and sets to restricted", () => {
     let config = unsafeParse({ access: "private" }, defaultPackages);
     expect(config).toEqual(defaults);
-    expect(logger.warn).toBeCalledWith(
+    expect(logger.warn).toHaveBeenCalledWith(
       'The `access` option is set as "private", but this is actually not a valid value - the correct form is "restricted".'
     );
   });

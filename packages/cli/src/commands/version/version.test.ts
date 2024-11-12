@@ -185,7 +185,7 @@ describe("running version in a simple project", () => {
     });
   });
 
-  it("should not touch package.json of an ignored package when it is not a dependent of any releasedPackages ", async () => {
+  it("should not touch package.json of an ignored package when it is not a dependent of any releasedPackages", async () => {
     const cwd = await testdir({
       "package.json": JSON.stringify({
         private: true,
@@ -1431,7 +1431,7 @@ describe("snapshot release", () => {
       );
       jest.spyOn(fs, "writeFile");
 
-      expect(
+      await expect(
         version(
           cwd,
           { snapshot: true },
@@ -1481,7 +1481,7 @@ describe("snapshot release", () => {
       );
       jest.spyOn(fs, "writeFile");
 
-      expect(
+      await expect(
         version(
           cwd,
           { snapshot: "test" },
@@ -1878,7 +1878,7 @@ describe("updateInternalDependents: always", () => {
       })
     );
     // `pkg-c` should not be touched
-    expect(() => getPkgJSON("pkg-c", spy.mock.calls)).toThrowError();
+    expect(() => getPkgJSON("pkg-c", spy.mock.calls)).toThrow();
 
     expect(getChangelog("pkg-a", spy.mock.calls)).toMatchInlineSnapshot(`
       "# pkg-a
@@ -1893,8 +1893,8 @@ describe("updateInternalDependents: always", () => {
 
     // pkg-b and - pkg-c are not being released so changelogs should not be
     // generated for them
-    expect(() => getChangelog("pkg-b", spy.mock.calls)).toThrowError();
-    expect(() => getChangelog("pkg-c", spy.mock.calls)).toThrowError();
+    expect(() => getChangelog("pkg-b", spy.mock.calls)).toThrow();
+    expect(() => getChangelog("pkg-c", spy.mock.calls)).toThrow();
   });
 
   it("should not bump dependant when it depends on an npm tag of a bumped dependency", async () => {
@@ -2160,12 +2160,9 @@ describe("pre", () => {
         version: "1.0.1",
       },
     ]);
-    expect(
-      await fs.readFile(
-        path.join(packages.packages[0].dir, "CHANGELOG.md"),
-        "utf8"
-      )
-    ).toMatchInlineSnapshot(`
+    await expect(
+      fs.readFile(path.join(packages.packages[0].dir, "CHANGELOG.md"), "utf8")
+    ).resolves.toMatchInlineSnapshot(`
       "# pkg-a
 
       ## 1.1.0
@@ -2207,12 +2204,9 @@ describe("pre", () => {
         - pkg-b@1.0.1-next.0
       "
     `);
-    expect(
-      await fs.readFile(
-        path.join(packages.packages[1].dir, "CHANGELOG.md"),
-        "utf8"
-      )
-    ).toMatchInlineSnapshot(`
+    await expect(
+      fs.readFile(path.join(packages.packages[1].dir, "CHANGELOG.md"), "utf8")
+    ).resolves.toMatchInlineSnapshot(`
       "# pkg-b
 
       ## 1.0.1

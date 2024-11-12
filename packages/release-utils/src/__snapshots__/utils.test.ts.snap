@@ -20,7 +20,7 @@ exports[`it sorts the things right 1`] = `
 ]
 `;
 
-exports[`it works 1`] = `
+exports[`it works with major bump 1`] = `
 "### Major Changes
 
 -   [2164a779](https://github.com/keystonejs/keystone-5/commit/2164a779):
@@ -35,7 +35,7 @@ exports[`it works 1`] = `
 "
 `;
 
-exports[`it works 2`] = `
+exports[`it works with patch bump 1`] = `
 "### Patch Changes
 
 -   [19fe6c1b](https://github.com/keystonejs/keystone-5/commit/19fe6c1b):
