@@ -108,25 +108,12 @@ export const tempdir = f.temp;
 
 export async function gitdir(dir: Fixture) {
   const cwd = await testdir(dir);
-  await spawn("git", ["init"], { cwd });
-  // so that this works regardless of what the default branch of git init is and for git versions that don't support --initial-branch(like our CI)
-  {
-    const { stdout } = await spawn(
-      "git",
-      ["rev-parse", "--abbrev-ref", "HEAD"],
-      { cwd }
-    );
-    if (stdout.toString("utf8").trim() !== "main") {
-      await spawn("git", ["checkout", "-b", "main"], { cwd });
-    }
-  }
+  await spawn("git", ["init", "--initial-branch", "main"], { cwd });
   await spawn("git", ["config", "user.email", "x@y.z"], { cwd });
   await spawn("git", ["config", "user.name", "xyz"], { cwd });
   await spawn("git", ["config", "commit.gpgSign", "false"], { cwd });
   await spawn("git", ["config", "tag.gpgSign", "false"], { cwd });
-  await spawn("git", ["config", "tag.forceSignAnnotated", "false"], {
-    cwd,
-  });
+  await spawn("git", ["config", "tag.forceSignAnnotated", "false"], { cwd });
 
   await spawn("git", ["add", "."], { cwd });
   await spawn("git", ["commit", "-m", "initial commit", "--allow-empty"], {
@@ -151,4 +138,23 @@ export async function pathExists(p: string) {
     () => true,
     () => false
   );
+}
+
+export async function initPackageManager(
+  cwd: string,
+  packageManager: "npm" | "yarn" | "pnpm"
+) {
+  switch (packageManager) {
+    case "npm":
+      await spawn("npm", ["install"], { cwd });
+      break;
+    case "pnpm":
+      await spawn("pnpm", ["install"], { cwd });
+      break;
+    case "yarn":
+      await spawn("yarn", [], { cwd });
+      break;
+    default:
+      throw new Error(`Unsupported package manager ${packageManager}`);
+  }
 }

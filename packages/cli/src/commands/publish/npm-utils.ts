@@ -1,3 +1,4 @@
+import { SpawnOptions } from "child_process";
 import { ExitError } from "@changesets/errors";
 import { error, info, warn } from "@changesets/logger";
 import { AccessType, PackageJSON } from "@changesets/types";
@@ -11,7 +12,7 @@ import { isCI } from "ci-info";
 import { TwoFactorState } from "../../utils/types";
 import { getLastJsonObjectFromString } from "../../utils/getLastJsonObjectFromString";
 
-interface PublishOptions {
+export interface PublishOptions {
   cwd: string;
   publishDir: string;
   access: AccessType;
@@ -158,13 +159,14 @@ export let getOtpCode = async (twoFactorState: TwoFactorState) => {
   return askForOtpCode(twoFactorState);
 };
 
-// we have this so that we can do try a publish again after a publish without
-// the call being wrapped in the npm request limit and causing the publishes to potentially never run
-async function internalPublish(
-  pkgName: string,
+export async function getPublishCommand(
   opts: PublishOptions,
   twoFactorState: TwoFactorState
-): Promise<{ published: boolean }> {
+): Promise<{
+  cmd: string;
+  args: string[];
+  opts?: SpawnOptions;
+}> {
   let publishTool = await getPublishTool(opts.cwd);
   let publishFlags = opts.access ? ["--access", opts.access] : [];
   publishFlags.push("--tag", opts.tag);
@@ -182,19 +184,39 @@ async function internalPublish(
   const envOverride = {
     npm_config_registry: getCorrectRegistry(),
   };
-  let { code, stdout, stderr } =
-    publishTool.name === "pnpm"
-      ? await spawn("pnpm", ["publish", "--json", ...publishFlags], {
-          env: Object.assign({}, process.env, envOverride),
-          cwd: opts.cwd,
-        })
-      : await spawn(
-          publishTool.name,
-          ["publish", opts.publishDir, "--json", ...publishFlags],
-          {
-            env: Object.assign({}, process.env, envOverride),
-          }
-        );
+  if (publishTool.name === "pnpm") {
+    return {
+      cmd: "pnpm",
+      args: ["publish", "--json", ...publishFlags],
+      opts: {
+        env: Object.assign({}, process.env, envOverride),
+        cwd: opts.cwd,
+      },
+    };
+  } else {
+    return {
+      cmd: publishTool.name,
+      args: ["publish", opts.publishDir, "--json", ...publishFlags],
+      opts: {
+        env: Object.assign({}, process.env, envOverride),
+      },
+    };
+  }
+}
+
+// we have this so that we can do try a publish again after a publish without
+// the call being wrapped in the npm request limit and causing the publishes to potentially never run
+async function internalPublish(
+  pkgName: string,
+  opts: PublishOptions,
+  twoFactorState: TwoFactorState
+): Promise<{ published: boolean }> {
+  const {
+    cmd,
+    args,
+    opts: spawnOpts,
+  } = await getPublishCommand(opts, twoFactorState);
+  let { code, stdout, stderr } = await spawn(cmd, args, spawnOpts);
   if (code !== 0) {
     // NPM's --json output is included alongside the `prepublish` and `postpublish` output in terminal
     // We want to handle this as best we can but it has some struggles:
