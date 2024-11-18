@@ -287,8 +287,8 @@ async function updateChangelog(
 
   try {
     fileData = (await fs.readFile(changelogPath)).toString();
-  } catch (err: any) {
-    if (err?.code !== "ENOENT") {
+  } catch (err) {
+    if ((err as any)?.code !== "ENOENT") {
       throw err;
     }
     await writeFormattedMarkdownFile(
