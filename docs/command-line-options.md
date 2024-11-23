@@ -4,7 +4,7 @@ The command line for changesets is the main way of interacting with it. There ar
 
 - init
 - add [--empty][--open]
-- version [--ignore, --snapshot]
+- version [--ignore, --snapshot, --global-changelog]
 - publish [--otp=code, --tag]
 - status [--since=master --verbose --output=JSON_FILE.json]
 - pre [exit|enter {tag}]
@@ -76,7 +76,7 @@ This is one of two commands responsible for releasing packages. The version comm
 
 > We recommend making sure changes made from this command are merged back into the base branch before you run publish.
 
-Version has two options, `ignore` and `snapshot`:
+Version has three options, `ignore`, `snapshot`, and `global-changelog`:
 
 ```
 changeset version --ignore PACKAGE_NAME
@@ -94,6 +94,17 @@ changeset version --snapshot
 ```
 
 Snapshot is used for a special kind of publishing for testing - it creates temporary versions with a tag, instead of updating versions from the current semver ranges. You should not use this without [reading the documentation on snapshot releases](./snapshot-releases.md)
+
+```
+changeset version --global-changelog
+```
+
+This flag generates a consolidated changelog file at the root level of the repository. This global changelog complements the individual changelogs created for each package by the changesets cli. It's especially useful for repositories with multiple packages, allowing maintainers to track all changes across the monorepo in a single, centralized file.
+
+When to Use:
+
+- When managing a monorepo and needing a centralized changelog. 
+- For providing a top-level overview of changes for team members, stakeholders, or release notes.
 
 ## publish
 
