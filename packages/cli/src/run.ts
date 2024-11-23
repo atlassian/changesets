@@ -85,6 +85,7 @@ export async function run(
       tag,
       open,
       gitTag,
+      globalChangelog,
     }: CliOptions = flags;
     const deadFlags = ["updateChangelog", "isPublic", "skipCI", "commit"];
 
@@ -187,7 +188,7 @@ export async function run(
           config.snapshot.prereleaseTemplate = snapshotPrereleaseTemplate;
         }
 
-        await version(cwd, { snapshot }, config);
+        await version(cwd, { snapshot, globalChangelog }, config);
         return;
       }
       case "publish": {

@@ -24,6 +24,7 @@ const parsed = mri(args, {
     // Support kebab-case flags
     "since-master": "sinceMaster",
     "git-tag": "gitTag",
+    "global-changelog": "globalChangelog",
     "snapshot-prerelease-template": "snapshotPrereleaseTemplate",
     // Deprecated flags
     "update-changelog": "updateChangelog",
@@ -53,7 +54,7 @@ if (parsed.help && args.length === 1) {
   Commands
     init
     add [--empty] [--open]
-    version [--ignore] [--snapshot <?name>] [--snapshot-prerelease-template <template>]
+    version [--ignore] [--snapshot <?name>] [--snapshot-prerelease-template <template>] [--global-changelog]
     publish [--tag <name>] [--otp <code>] [--no-git-tag]
     status [--since <branch>] [--verbose] [--output JSON_FILE.json]
     pre <enter|exit> <tag>

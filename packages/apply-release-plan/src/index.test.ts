@@ -122,7 +122,7 @@ async function testSetup(
       releasePlan,
       await getPackages(tempDir),
       config,
-      snapshot
+      { snapshot }
     ),
     tempDir,
   };
