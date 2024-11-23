@@ -80,7 +80,10 @@ async function testSetup(
   fixture: Fixture,
   releasePlan: ReleasePlan,
   config?: Config,
-  snapshot?: string | undefined,
+  options?: {
+    snapshot?: string | undefined,
+    globalChangelog?: boolean
+  },
   setupFunc?: (tempDir: string) => Promise<any>
 ) {
   if (!config) {
@@ -122,7 +125,7 @@ async function testSetup(
       releasePlan,
       await getPackages(tempDir),
       config,
-      { snapshot }
+      options
     ),
     tempDir,
   };
@@ -917,7 +920,7 @@ describe("apply release plan", () => {
         },
         releasePlan.getReleasePlan(),
         releasePlan.config,
-        "canary"
+        { snapshot: "canary" }
       );
 
       let pkgPath = changedFiles.find((a) =>
@@ -2117,6 +2120,96 @@ describe("apply release plan", () => {
 
       ## 2.0.0`);
     });
+    it("should generate global changelog if flag is set", async () => {
+        const releasePlan = new FakeReleasePlan(
+          [],
+          [
+            {
+              name: "pkg-b",
+              type: "major",
+              oldVersion: "1.0.0",
+              newVersion: "2.0.0",
+              changesets: [],
+            },
+          ]
+        );
+  
+        let { changedFiles } = await testSetup(
+          {
+            "package.json": JSON.stringify({
+              private: true,
+              workspaces: ["packages/*"],
+            }),
+            "packages/pkg-a/package.json": JSON.stringify({
+              name: "pkg-a",
+              version: "1.0.0",
+              dependencies: {
+                "pkg-b": "1.0.0",
+              },
+            }),
+            "packages/pkg-b/package.json": JSON.stringify({
+              name: "pkg-b",
+              version: "1.0.0",
+            }),
+          },
+          releasePlan.getReleasePlan(),
+          {
+            ...releasePlan.config,
+            changelog: [
+              path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
+              null,
+            ],
+          },
+          { globalChangelog: true }
+        );
+  
+        let readmePath = changedFiles.find((a) =>
+          a.endsWith(`pkg-a${path.sep}CHANGELOG.md`)
+        );
+        let readmePathB = changedFiles.find((a) =>
+          a.endsWith(`pkg-b${path.sep}CHANGELOG.md`)
+        );
+        let globalPath = changedFiles.find((a) => 
+            a.endsWith('CHANGELOG.md') && !a.includes('/packages/')
+        )
+  
+        if (!readmePath || !readmePathB || !globalPath)
+          throw new Error(`could not find an updated changelog`);
+
+        let readme = await fs.readFile(readmePath, "utf-8");
+        let readmeB = await fs.readFile(readmePathB, "utf-8");
+        let globalChangelog = await fs.readFile(globalPath, "utf-8");
+  
+        expect(readme.trim()).toEqual(outdent`# pkg-a
+  
+        ## 1.1.0
+  
+        ### Minor Changes
+  
+        - Hey, let's have fun with testing!
+  
+        ### Patch Changes
+  
+        - pkg-b@2.0.0`);
+  
+        expect(readmeB.trim()).toEqual(outdent`# pkg-b
+  
+        ## 2.0.0`);
+
+        expect(globalChangelog.trim()).toEqual(outdent`# Changelog
+
+            ## pkg-a@1.1.0
+      
+            ### Minor Changes
+      
+            - Hey, let's have fun with testing!
+      
+            ### Patch Changes
+      
+            - pkg-b@2.0.0`);
+
+      });
+      
     it("should not update the changelog if only devDeps changed", async () => {
       let { changedFiles } = await testSetup(
         {
