@@ -103,7 +103,7 @@ This flag generates a consolidated changelog file at the root level of the repos
 
 When to Use:
 
-- When managing a monorepo and needing a centralized changelog. 
+- When managing a monorepo and needing a centralized changelog.
 - For providing a top-level overview of changes for team members, stakeholders, or release notes.
 
 ## publish
