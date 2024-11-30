@@ -52,6 +52,12 @@ export default async function getChangelogEntry(
   changesets.forEach((cs) => {
     const rls = cs.releases.find((r) => r.name === release.name);
     if (rls && rls.type !== "none") {
+      if (!(rls.type in changelogLines)) {
+        throw new Error(
+          `Invalid release type of "${rls.type}" for package "${rls.name}" in changeset "${cs.id}"`
+        );
+      }
+
       changelogLines[rls.type].push(
         changelogFuncs.getReleaseLine(cs, rls.type, changelogOpts)
       );
