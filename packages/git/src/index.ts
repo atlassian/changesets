@@ -63,7 +63,11 @@ export async function getDivergedCommit(cwd: string, ref: string) {
  */
 export async function getCommitsThatAddFiles(
   gitPaths: string[],
-  { cwd, short = false }: { cwd: string; short?: boolean }
+  {
+    cwd,
+    short = false,
+    useMergeCommits = false,
+  }: { cwd: string; short?: boolean; useMergeCommits?: boolean }
 ): Promise<(string | undefined)[]> {
   // Maps gitPath to commit SHA
   const map = new Map<string, string>();
@@ -83,8 +87,9 @@ export async function getCommitsThatAddFiles(
               "--diff-filter=A",
               "--max-count=1",
               short ? "--pretty=format:%h:%p" : "--pretty=format:%H:%p",
+              useMergeCommits ? "--first-parent" : "",
               gitPath,
-            ],
+            ].filter(Boolean),
             { cwd }
           )
         ).stdout

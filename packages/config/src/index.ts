@@ -432,6 +432,8 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
     commit: getNormalizedCommitOption(
       json.commit === undefined ? defaultWrittenConfig.commit : json.commit
     ),
+    useMergeCommits:
+      json.useMergeCommits === undefined ? false : json.useMergeCommits,
     fixed,
     linked,
     baseBranch:

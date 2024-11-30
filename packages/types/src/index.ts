@@ -69,6 +69,7 @@ export interface PrivatePackages {
 export type Config = {
   changelog: false | readonly [string, any];
   commit: false | readonly [string, any];
+  useMergeCommits: boolean;
   fixed: Fixed;
   linked: Linked;
   access: AccessType;
@@ -94,6 +95,7 @@ export type Config = {
 export type WrittenConfig = {
   changelog?: false | readonly [string, any] | string;
   commit?: boolean | readonly [string, any] | string;
+  useMergeCommits?: boolean;
   fixed?: Fixed;
   linked?: Linked;
   access?: AccessType;

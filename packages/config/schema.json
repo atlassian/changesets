@@ -75,6 +75,11 @@
       "description": "Determines whether Changesets should commit the results of the add and version command.",
       "default": false
     },
+    "useMergeCommits": {
+      "type": "boolean",
+      "description": "Determines whether changesets should be attributed to merge commits.",
+      "default": false
+    },
     "privatePackages": {
       "anyOf": [
         {

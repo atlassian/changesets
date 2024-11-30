@@ -33,7 +33,8 @@ function stringDefined(s: string | undefined): s is string {
 }
 async function getCommitsThatAddChangesets(
   changesetIds: string[],
-  cwd: string
+  cwd: string,
+  useMergeCommits: boolean
 ) {
   const paths = changesetIds.map((id) => `.changeset/${id}.md`);
   const commits = await git.getCommitsThatAddFiles(paths, { cwd });
@@ -51,6 +52,7 @@ async function getCommitsThatAddChangesets(
   const legacyPaths = missingIds.map((id) => `.changeset/${id}/changes.json`);
   const commitsForLegacyPaths = await git.getCommitsThatAddFiles(legacyPaths, {
     cwd,
+    useMergeCommits,
   });
 
   // Fill in the blanks in the array of commits
@@ -224,7 +226,8 @@ async function getNewChangelogEntry(
 
   let commits = await getCommitsThatAddChangesets(
     changesets.map((cs) => cs.id),
-    cwd
+    cwd,
+    config.useMergeCommits
   );
   let moddedChangesets = changesets.map((cs, i) => ({
     ...cs,
