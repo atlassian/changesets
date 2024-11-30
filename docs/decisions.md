@@ -6,7 +6,7 @@ This file is a discussion of some of the rules and design decisions that have go
 
 Changesets are designed to be as easy to accumulate as possible. As such, when changesets are consumed with `version`, we flatten the version bumps into one single bump at the highest semver range specified.
 
-For example: if you run `version`, and we have `packageA` at `1.1.1`, which has two `minor` changesets, and one `patch` changeset, we will bump `packageA` to `1.2.1`.
+For example: if you run `version`, and we have `packageA` at `1.1.1`, which has two `minor` changesets, and one `patch` changeset, we will bump `packageA` to `1.2.0`.
 
 This allows changesets to be added and accumulated safely, with the knowledge that packages will only be released once at an appropriate version for the combined set of changesets, while still ensuring each change is captured in the changelog, with an indication of what kind of change it is.
 
