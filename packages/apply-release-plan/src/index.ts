@@ -109,6 +109,7 @@ export default async function applyReleasePlan(
         JSON.stringify(releasePlan.preState, null, 2) + "\n"
       );
     }
+    touchedFiles.push(path.join(cwd, ".changeset", "pre.json"));
   }
 
   let versionsToUpdate = releases.map(({ name, newVersion, type }) => ({
