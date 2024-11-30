@@ -168,7 +168,7 @@ export async function isRepoShallow({ cwd }: { cwd: string }) {
 }
 
 export async function deepenCloneBy({ by, cwd }: { by: number; cwd: string }) {
-  await spawn("git", ["fetch", `--deepen=${by}`], { cwd });
+  await spawn("git", ["fetch", `--deepen=${by}`, `origin`, `HEAD`], { cwd });
 }
 async function getRepoRoot({ cwd }: { cwd: string }) {
   const { stdout, code, stderr } = await spawn(
