@@ -133,3 +133,18 @@ it("with multiple authors", async () => {
     "
   `);
 });
+
+it("with multiple authors without linking usernames", async () => {
+  const [changeset, type, options] = getChangeset(
+    ["author: @Andarist", "author: @mitchellhamilton"].join("\n"),
+    data.commit
+  );
+  expect(
+    await getReleaseLine(changeset, type, { ...options, linkUsernames: false })
+  ).toMatchInlineSnapshot(`
+    "
+
+    - [#1613](https://github.com/emotion-js/emotion/pull/1613) [\`a085003\`](https://github.com/emotion-js/emotion/commit/a085003) Thanks @Andarist, @mitchellhamilton! - something
+    "
+  `);
+});
