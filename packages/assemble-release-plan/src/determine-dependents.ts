@@ -237,7 +237,12 @@ function shouldBumpMajor({
     // 1. If onlyUpdatePeerDependentsWhenOutOfRange set to true, bump major if the version is leaving the range.
     // 2. If onlyUpdatePeerDependentsWhenOutOfRange set to false, bump major regardless whether or not the version is leaving the range.
     (!onlyUpdatePeerDependentsWhenOutOfRange ||
-      !semverSatisfies(incrementVersion(nextRelease, preInfo), versionRange)) &&
+      !semverSatisfies(
+        incrementVersion(nextRelease, preInfo),
+        versionRange,
+        // eslint-disable-next-line prettier/prettier
+        { includePrerelease: preInfo !== undefined }
+      )) &&
     // bump major only if the dependent doesn't already has a major release.
     (!releases.has(dependent) ||
       (releases.has(dependent) && releases.get(dependent)!.type !== "major"))
