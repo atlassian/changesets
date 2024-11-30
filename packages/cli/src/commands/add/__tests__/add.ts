@@ -260,6 +260,68 @@ describe("Add command", () => {
     );
   });
 
+  it("should sort changed packages alphabetically in the prompt", async () => {
+    // @ts-ignore
+    git.getChangedPackagesSinceRef.mockReturnValueOnce([
+      {
+        packageJson: {
+          name: "pkg-b",
+        },
+      },
+      {
+        packageJson: {
+          name: "pkg-a",
+        },
+      },
+    ]);
+
+    const cwd = await testdir({
+      "package.json": JSON.stringify({
+        private: true,
+        workspaces: ["packages-*/*"],
+      }),
+      "packages-2/pkg-b/package.json": JSON.stringify({
+        name: "pkg-b",
+        version: "1.2.0",
+      }),
+      "packages-1/pkg-a/package.json": JSON.stringify({
+        name: "pkg-a",
+        version: "2.0.0",
+      }),
+    });
+
+    mockUserResponses({ releases: { "pkg-a": "patch" } });
+    await addChangeset(cwd, { empty: false }, defaultConfig);
+
+    // @ts-ignore
+    const { choices } = askCheckboxPlus.mock.calls[0][1][0];
+    expect(choices).toEqual(["pkg-a", "pkg-b"]);
+  });
+
+  it("should sort unchanged packages alphabetically in the prompt", async () => {
+    const cwd = await testdir({
+      "package.json": JSON.stringify({
+        private: true,
+        workspaces: ["packages-*/*"],
+      }),
+      "packages-2/pkg-b/package.json": JSON.stringify({
+        name: "pkg-b",
+        version: "1.2.0",
+      }),
+      "packages-1/pkg-a/package.json": JSON.stringify({
+        name: "pkg-a",
+        version: "2.0.0",
+      }),
+    });
+
+    mockUserResponses({ releases: { "pkg-a": "patch" } });
+    await addChangeset(cwd, { empty: false }, defaultConfig);
+
+    // @ts-ignore
+    const { choices } = askCheckboxPlus.mock.calls[0][1][0];
+    expect(choices).toEqual(["pkg-a", "pkg-b"]);
+  });
+
   it("should not include ignored packages in the prompt", async () => {
     const cwd = await testdir({
       "package.json": JSON.stringify({

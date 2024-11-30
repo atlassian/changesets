@@ -68,11 +68,11 @@ async function getPackagesToRelease(
     const defaultChoiceList = [
       {
         name: "changed packages",
-        choices: changedPackages,
+        choices: changedPackages.sort(),
       },
       {
         name: "unchanged packages",
-        choices: unchangedPackagesNames,
+        choices: unchangedPackagesNames.sort(),
       },
     ].filter(({ choices }) => choices.length !== 0);
 
