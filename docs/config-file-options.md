@@ -141,7 +141,8 @@ This option is for setting how the changelog for packages should be generated. I
 ```
 {
   getReleaseLine,
-  getDependencyReleaseLine
+  getDependencyReleaseLine,
+  generateChangesForVersionTypeMarkdown
 }
 ```
 

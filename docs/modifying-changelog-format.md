@@ -33,9 +33,12 @@ async function getReleaseLine() {}
 
 async function getDependencyReleaseLine() {}
 
+async function generateChangesForVersionTypeMarkdown() {}
+
 module.exports = {
   getReleaseLine,
   getDependencyReleaseLine,
+  generateChangesForVersionTypeMarkdown
 };
 ```
 
@@ -50,9 +53,12 @@ async function getReleaseLine() {}
 
 async function getDependencyReleaseLine() {}
 
+async function generateChangesForVersionTypeMarkdown() {}
+
 const defaultChangelogFunctions: ChangelogFunctions = {
   getReleaseLine,
   getDependencyReleaseLine,
+  generateChangesForVersionTypeMarkdown
 };
 
 export default defaultChangelogFunctions;

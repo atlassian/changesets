@@ -100,12 +100,13 @@ export default async function getChangelogEntry(
       changelogOpts
     )
   );
+  const generateChangesForVersionTypeMarkdownFunc = changelogFuncs.generateChangesForVersionTypeMarkdown || generateChangesForVersionTypeMarkdown;
 
   return [
     `## ${release.newVersion}`,
-    await generateChangesForVersionTypeMarkdown(changelogLines, "major"),
-    await generateChangesForVersionTypeMarkdown(changelogLines, "minor"),
-    await generateChangesForVersionTypeMarkdown(changelogLines, "patch"),
+    await generateChangesForVersionTypeMarkdownFunc(changelogLines, "major"),
+    await generateChangesForVersionTypeMarkdownFunc(changelogLines, "minor"),
+    await generateChangesForVersionTypeMarkdownFunc(changelogLines, "patch"),
   ]
     .filter((line) => line)
     .join("\n");
