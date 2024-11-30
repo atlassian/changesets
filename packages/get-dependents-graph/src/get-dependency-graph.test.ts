@@ -1,5 +1,6 @@
 import { temporarilySilenceLogs } from "@changesets/test-utils";
 import getDependencyGraph from "./get-dependency-graph";
+import { getDependentsGraph } from "./index";
 
 const consoleError = console.error;
 
@@ -115,4 +116,47 @@ describe("getting the dependency graph", function () {
       `);
     })
   );
+
+  it("should abide the request to include only versions with the workspace protocol", function() {
+    const graph = getDependentsGraph({
+      root: {
+        dir: ".",
+        packageJson: { name: "root", version: "1.0.0" },
+      },
+      packages: [
+        {
+          dir: "foo",
+          packageJson: {
+            name: "foo",
+            version: "1.0.0",
+            dependencies: {
+              bar: "workspace:^1.0.0",
+              baz: "^1.0.0",
+            },
+          }
+        },
+        {
+          dir: "bar",
+          packageJson: {
+            name: "bar",
+            version: "1.0.0",
+          },
+        },
+        {
+          dir: "baz",
+          packageJson: {
+            name: "baz",
+            version: "1.0.0",
+          },
+        },
+      ],
+      tool: "pnpm",
+    }, {
+      bumpVersionsWithWorkspaceProtocolOnly: true,
+    });
+
+    expect(graph.get("bar")).toStrictEqual(["foo"]);
+    expect(graph.get("baz")).toStrictEqual([]);
+    expect((console.error as any).mock.calls).toMatchInlineSnapshot(`[]`);
+  });
 });
