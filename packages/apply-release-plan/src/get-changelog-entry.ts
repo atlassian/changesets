@@ -52,6 +52,9 @@ export default async function getChangelogEntry(
   changesets.forEach((cs) => {
     const rls = cs.releases.find((r) => r.name === release.name);
     if (rls && rls.type !== "none") {
+      if (!changelogLines[rls.type]) {
+        throw new Error(`The changeset for '${rls.name}' has unrecognized type '${rls.type}'`);
+      }
       changelogLines[rls.type].push(
         changelogFuncs.getReleaseLine(cs, rls.type, changelogOpts)
       );
