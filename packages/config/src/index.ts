@@ -3,7 +3,7 @@ import path from "path";
 import micromatch from "micromatch";
 import { ValidationError } from "@changesets/errors";
 import { warn } from "@changesets/logger";
-import { Packages } from "@manypkg/get-packages";
+import { Packages, getPackages } from "@manypkg/get-packages";
 import {
   Config,
   WrittenConfig,
@@ -91,7 +91,8 @@ function isArray<T>(
   return Array.isArray(arg);
 }
 
-export let read = async (cwd: string, packages: Packages) => {
+export let read = async (cwd: string, packages?: Packages) => {
+  packages ??= await getPackages(cwd);
   let json = await fs.readJSON(path.join(cwd, ".changeset", "config.json"));
   return parse(json, packages);
 };
