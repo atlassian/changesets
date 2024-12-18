@@ -2196,7 +2196,7 @@ describe("apply release plan", () => {
       expect(pkgAChangelogPath).toBeUndefined();
     });
 
-    test("should list multi-line same-type summaries correctly", async () => {
+    it("should list multi-line same-type summaries correctly", async () => {
       const releasePlan = new FakeReleasePlan([
         {
           id: "some-id-1",
@@ -2734,6 +2734,137 @@ describe("apply release plan", () => {
       ### Patch Changes
 
       - Hey, let's have fun with testing!`);
+    });
+
+    it("should add an updated dependencies line when peerDependencies have been updated and updateInternalDependents is `always`", async () => {
+      let { changedFiles } = await testSetup(
+        {
+          "package.json": JSON.stringify({
+            private: true,
+            workspaces: ["packages/*"],
+          }),
+          "packages/pkg-a/package.json": JSON.stringify({
+            name: "pkg-a",
+            version: "1.0.3",
+            devDependencies: {
+              "pkg-b": "*",
+            },
+            peerDependencies: {
+              "pkg-b": "*",
+            },
+          }),
+          "packages/pkg-b/package.json": JSON.stringify({
+            name: "pkg-b",
+            version: "1.2.0",
+          }),
+          "packages/pkg-c/package.json": JSON.stringify({
+            name: "pkg-c",
+            version: "2.0.0",
+            dependencies: {
+              "pkg-b": "*",
+            },
+          }),
+        },
+        {
+          changesets: [
+            {
+              id: "quick-lions-devour",
+              summary: "Hey, let's have fun with testing!",
+              releases: [{ name: "pkg-b", type: "patch" }],
+            },
+          ],
+          releases: [
+            {
+              name: "pkg-a",
+              type: "patch",
+              oldVersion: "1.0.3",
+              newVersion: "1.0.4",
+              changesets: [],
+            },
+            {
+              name: "pkg-b",
+              type: "patch",
+              oldVersion: "1.2.0",
+              newVersion: "1.2.1",
+              changesets: ["quick-lions-devour"],
+            },
+            {
+              name: "pkg-c",
+              type: "patch",
+              oldVersion: "2.0.0",
+              newVersion: "2.0.1",
+              changesets: [],
+            },
+          ],
+          preState: undefined,
+        },
+        {
+          changelog: [
+            path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
+            null,
+          ],
+          commit: false,
+          fixed: [],
+          linked: [],
+          access: "restricted",
+          changedFilePatterns: ["**"],
+          baseBranch: "main",
+          updateInternalDependencies: "patch",
+          ignore: [],
+          privatePackages: { version: true, tag: false },
+          ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+            onlyUpdatePeerDependentsWhenOutOfRange: true,
+            updateInternalDependents: "always",
+          },
+          snapshot: {
+            useCalculatedVersion: false,
+            prereleaseTemplate: null,
+          },
+        }
+      );
+
+      let readmePath = changedFiles.find((a) =>
+        a.endsWith(`pkg-a${path.sep}CHANGELOG.md`)
+      );
+      let readmePathB = changedFiles.find((a) =>
+        a.endsWith(`pkg-b${path.sep}CHANGELOG.md`)
+      );
+      let readmePathC = changedFiles.find((a) =>
+        a.endsWith(`pkg-c${path.sep}CHANGELOG.md`)
+      );
+
+      if (!readmePath || !readmePathB || !readmePathC)
+        throw new Error(`could not find an updated changelog`);
+
+      let readme = await fs.readFile(readmePath, "utf-8");
+      let readmeB = await fs.readFile(readmePathB, "utf-8");
+      let readmeC = await fs.readFile(readmePathC, "utf-8");
+
+      expect(readme.trim()).toEqual(outdent`# pkg-a
+
+      ## 1.0.4
+
+      ### Patch Changes
+
+      - Updated dependencies
+        - pkg-b@1.2.1`);
+
+      expect(readmeB.trim()).toEqual(outdent`# pkg-b
+
+      ## 1.2.1
+
+      ### Patch Changes
+
+      - Hey, let's have fun with testing!`);
+
+      expect(readmeC.trim()).toEqual(outdent`# pkg-c
+
+      ## 2.0.1
+
+      ### Patch Changes
+
+      - Updated dependencies
+        - pkg-b@1.2.1`);
     });
   });
   describe("should error and not write if", () => {

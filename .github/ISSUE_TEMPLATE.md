@@ -1,6 +1,6 @@
 ## Affected Packages
 
-<!-- Because monorepos, it's super helpful if you tell us which packages are affected, so it's easy to find the change points. Adding a tag pf `pkg:package-name` would be the best 🙏 -->
+<!-- Because monorepos, it's super helpful if you tell us which packages are affected, so it's easy to find the change points. Adding a tag of `pkg:package-name` would be the best 🙏 -->
 
 ## Problem
 

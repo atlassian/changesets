@@ -244,6 +244,9 @@ async function getNewChangelogEntry(
           onlyUpdatePeerDependentsWhenOutOfRange:
             config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
               .onlyUpdatePeerDependentsWhenOutOfRange,
+          updateInternalDependents:
+            config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
+              .updateInternalDependents,
         }
       );
 
