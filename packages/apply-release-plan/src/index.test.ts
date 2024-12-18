@@ -232,6 +232,62 @@ describe("apply release plan", () => {
       });
     });
 
+    it("should update a main package's version", async () => {
+      const releasePlan = new FakeReleasePlan();
+      let { changedFiles } = await testSetup(
+        {
+          "package.json": JSON.stringify({
+            private: true,
+            name: "pkg-a",
+            version: "1.0.0",
+          }),
+          "package-lock.json": JSON.stringify({
+            name: "pkg-a",
+            version: "1.0.0",
+            packages: {
+              "": {
+                name: "pkg-a",
+                version: "1.0.0",
+              },
+            },
+          }),
+        },
+        releasePlan.getReleasePlan(),
+        releasePlan.config
+      );
+      let pkgPath = changedFiles.find((a) =>
+        a.endsWith(`${path.sep}package.json`)
+      );
+
+      if (!pkgPath) throw new Error(`could not find an updated package json`);
+      let pkgJSON = await fs.readJson(pkgPath);
+
+      expect(pkgJSON).toMatchObject({
+        private: true,
+        name: "pkg-a",
+        version: "1.1.0",
+      });
+
+      let pkgLockPath = changedFiles.find((a) =>
+        a.endsWith(`${path.sep}package-lock.json`)
+      );
+
+      if (!pkgLockPath)
+        throw new Error(`could not find an updated package-lock.json`);
+      let pkgLockJSON = await fs.readJson(pkgLockPath);
+
+      expect(pkgLockJSON).toMatchObject({
+        name: "pkg-a",
+        version: "1.1.0",
+        packages: {
+          "": {
+            name: "pkg-a",
+            version: "1.1.0",
+          },
+        },
+      });
+    });
+
     it("should update a version for one package", async () => {
       const releasePlan = new FakeReleasePlan();
       let { changedFiles } = await testSetup(
@@ -239,6 +295,14 @@ describe("apply release plan", () => {
           "package.json": JSON.stringify({
             private: true,
             workspaces: ["packages/*"],
+          }),
+          "package-lock.json": JSON.stringify({
+            packages: {
+              "packages/pkg-a": {
+                name: "pkg-a",
+                version: "1.0.0",
+              },
+            },
           }),
           "packages/pkg-a/package.json": JSON.stringify({
             name: "pkg-a",
@@ -258,6 +322,23 @@ describe("apply release plan", () => {
       expect(pkgJSON).toMatchObject({
         name: "pkg-a",
         version: "1.1.0",
+      });
+
+      let pkgLockPath = changedFiles.find((a) =>
+        a.endsWith(`${path.sep}package-lock.json`)
+      );
+
+      if (!pkgLockPath)
+        throw new Error(`could not find an updated package-lock.json`);
+      let pkgLockJSON = await fs.readJSON(pkgLockPath);
+
+      expect(pkgLockJSON).toMatchObject({
+        packages: {
+          "packages/pkg-a": {
+            name: "pkg-a",
+            version: "1.1.0",
+          },
+        },
       });
     });
     it("should not update ranges set to *", async () => {

@@ -133,11 +133,13 @@ export default async function applyReleasePlan(
   let prettierInstance = getPrettierInstance(cwd);
 
   for (let release of finalisedRelease) {
-    let { changelog, packageJson, dir, name } = release;
+    let { changelog, packageJson, dir, name, newVersion } = release;
 
     const pkgJSONPath = path.resolve(dir, "package.json");
     await updatePackageJson(pkgJSONPath, packageJson);
     touchedFiles.push(pkgJSONPath);
+
+    await updatePackageLockJson(dir, name, newVersion, touchedFiles);
 
     if (changelog && changelog.length > 0) {
       const changelogPath = path.resolve(dir, "CHANGELOG.md");
@@ -296,6 +298,47 @@ async function updatePackageJson(
     JSON.stringify(pkgJson, null, indent) + (pkgRaw.endsWith("\n") ? "\n" : "");
 
   return fs.writeFile(pkgJsonPath, stringified);
+}
+
+async function updatePackageLockJson(
+  dir: string,
+  name: string,
+  newVersion: string,
+  touchedFiles: string[]
+): Promise<void> {
+  let pkglockJsonPath = path.resolve(dir, "package-lock.json");
+  if (fs.existsSync(pkglockJsonPath)) {
+    const pkgLockRaw = await fs.readFile(pkglockJsonPath, "utf-8");
+    try {
+      const pkgLock = JSON.parse(pkgLockRaw);
+      pkgLock.version = newVersion;
+      pkgLock.packages[""].version = newVersion;
+      const indent = detectIndent(pkgLockRaw).indent || "  ";
+      await fs.writeFile(
+        pkglockJsonPath,
+        JSON.stringify(pkgLock, null, indent)
+      );
+      touchedFiles.push(pkglockJsonPath);
+    } catch (e) {}
+  } else {
+    const parentDir = path.resolve(dir, "..");
+    if (path.basename(parentDir) === "packages") {
+      let pkgLockPath = path.resolve(parentDir, "..", "package-lock.json");
+      if (fs.existsSync(pkgLockPath)) {
+        const pkgLockRaw = await fs.readFile(pkgLockPath, "utf-8");
+        try {
+          const pkgLock = JSON.parse(pkgLockRaw);
+          pkgLock.packages[`packages/${name}`].version = newVersion;
+          const indent = detectIndent(pkgLockRaw).indent || "  ";
+          await fs.writeFile(
+            pkgLockPath,
+            JSON.stringify(pkgLock, null, indent)
+          );
+          touchedFiles.push(pkgLockPath);
+        } catch (e) {}
+      }
+    }
+  }
 }
 
 async function prependFile(
