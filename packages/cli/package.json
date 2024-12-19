@@ -1,6 +1,6 @@
 {
   "name": "@changesets/cli",
-  "version": "2.27.10",
+  "version": "2.27.11",
   "description": "Organise your package versioning and publishing to make both contributors and maintainers happy",
   "bin": {
     "changeset": "bin.js"
@@ -66,13 +66,13 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@changesets/apply-release-plan": "^7.0.6",
+    "@changesets/apply-release-plan": "^7.0.7",
     "@changesets/assemble-release-plan": "^6.0.5",
     "@changesets/changelog-git": "^0.2.0",
-    "@changesets/config": "^3.0.4",
+    "@changesets/config": "^3.0.5",
     "@changesets/errors": "^0.2.0",
     "@changesets/get-dependents-graph": "^2.1.2",
-    "@changesets/get-release-plan": "^4.0.5",
+    "@changesets/get-release-plan": "^4.0.6",
     "@changesets/git": "^3.0.2",
     "@changesets/logger": "^0.1.1",
     "@changesets/pre": "^2.0.1",

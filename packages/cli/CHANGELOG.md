@@ -1,5 +1,14 @@
 # @changesets/cli
 
+## 2.27.11
+
+### Patch Changes
+
+- Updated dependencies [[`f0270f6`](https://github.com/changesets/changesets/commit/f0270f69793ddb6865f2510d334864b093cb10e3)]:
+  - @changesets/config@3.0.5
+  - @changesets/apply-release-plan@7.0.7
+  - @changesets/get-release-plan@4.0.6
+
 ## 2.27.10
 
 ### Patch Changes

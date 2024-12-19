@@ -1,6 +1,6 @@
 {
   "name": "@changesets/apply-release-plan",
-  "version": "7.0.6",
+  "version": "7.0.7",
   "description": "Takes a release plan and applies it to packages",
   "main": "dist/changesets-apply-release-plan.cjs.js",
   "module": "dist/changesets-apply-release-plan.esm.js",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "repository": "https://github.com/changesets/changesets/tree/main/packages/apply-release-plan",
   "dependencies": {
-    "@changesets/config": "^3.0.4",
+    "@changesets/config": "^3.0.5",
     "@changesets/get-version-range-type": "^0.4.0",
     "@changesets/git": "^3.0.2",
     "@changesets/should-skip-package": "^0.1.1",

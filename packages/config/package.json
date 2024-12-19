@@ -1,6 +1,6 @@
 {
   "name": "@changesets/config",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "Utilities for reading and parsing Changeset's config",
   "main": "dist/changesets-config.cjs.js",
   "module": "dist/changesets-config.esm.js",
