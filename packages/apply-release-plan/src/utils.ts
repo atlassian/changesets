@@ -36,7 +36,9 @@ export function shouldUpdateDependencyBasedOnConfig(
     onlyUpdatePeerDependentsWhenOutOfRange: boolean;
   }
 ): boolean {
-  if (!semverSatisfies(release.version, depVersionRange)) {
+  const semverDepVersionRange = depVersionRange.replace(/^workspace:/, "");
+
+  if (!semverSatisfies(release.version, semverDepVersionRange)) {
     // Dependencies leaving semver range should always be updated
     return true;
   }
