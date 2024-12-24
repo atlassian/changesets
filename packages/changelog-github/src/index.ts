@@ -101,14 +101,22 @@ const changelogFunctions: ChangelogFunctions = {
       };
     })();
 
-    const users = usersFromSummary.length
-      ? usersFromSummary
+    const users = (() => {
+      if (options.disableThanks) {
+        return null;
+      }
+
+      if (usersFromSummary.length) {
+        return usersFromSummary
           .map(
             (userFromSummary) =>
               `[@${userFromSummary}](https://github.com/${userFromSummary})`
           )
-          .join(", ")
-      : links.user;
+          .join(", ");
+      }
+
+      return links.user;
+    })();
 
     const prefix = [
       links.pull === null ? "" : ` ${links.pull}`,
