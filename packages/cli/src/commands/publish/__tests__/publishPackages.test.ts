@@ -1,6 +1,6 @@
 import publishPackages from "../publishPackages";
 import * as npmUtils from "../npm-utils";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import { silenceLogsInBlock, testdir } from "@changesets/test-utils";
 
 jest.mock("../npm-utils");

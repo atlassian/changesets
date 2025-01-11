@@ -4,7 +4,7 @@ import { error, log, success, warn } from "@changesets/logger";
 import * as git from "@changesets/git";
 import { readPreState } from "@changesets/pre";
 import { Config, PreState } from "@changesets/types";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import pc from "picocolors";
 import { getUntaggedPackages } from "../../utils/getUntaggedPackages";
 

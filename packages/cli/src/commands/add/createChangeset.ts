@@ -5,7 +5,7 @@ import semverLt from "semver/functions/lt";
 import * as cli from "../../utils/cli-utilities";
 import { error, log } from "@changesets/logger";
 import { Release, PackageJSON } from "@changesets/types";
-import { Package } from "@manypkg/get-packages";
+import { Package } from "@changesets/get-packages";
 import { ExitError } from "@changesets/errors";
 
 const { green, yellow, red, bold, blue, cyan, gray } = pc;

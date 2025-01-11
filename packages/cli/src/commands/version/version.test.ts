@@ -6,7 +6,7 @@ import { silenceLogsInBlock, testdir } from "@changesets/test-utils";
 import writeChangeset from "@changesets/write";
 import { Config, Changeset } from "@changesets/types";
 import { defaultConfig } from "@changesets/config";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import pre from "../pre";
 import version from "./index";
 import humanId from "human-id";

@@ -1,7 +1,7 @@
 import spawn from "spawndamnit";
 import fs from "fs";
 import path from "path";
-import { getPackages, Package } from "@manypkg/get-packages";
+import { getPackages, Package } from "@changesets/get-packages";
 import { GitError } from "@changesets/errors";
 import isSubdir from "is-subdir";
 import micromatch from "micromatch";

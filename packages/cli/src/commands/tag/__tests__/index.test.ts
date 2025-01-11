@@ -1,7 +1,7 @@
 import { read } from "@changesets/config";
 import * as git from "@changesets/git";
 import { silenceLogsInBlock, testdir } from "@changesets/test-utils";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import tag from "../index";
 
 jest.mock("@changesets/git");

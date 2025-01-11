@@ -2,7 +2,7 @@ import { read, parse } from "./";
 import jestInCase from "jest-in-case";
 import * as logger from "@changesets/logger";
 import { Config, WrittenConfig } from "@changesets/types";
-import { Packages, getPackages } from "@manypkg/get-packages";
+import { Packages, getPackages } from "@changesets/get-packages";
 import { testdir } from "@changesets/test-utils";
 import outdent from "outdent";
 

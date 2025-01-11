@@ -12,7 +12,7 @@ import spawn from "spawndamnit";
 import { defaultConfig } from "@changesets/config";
 
 import applyReleasePlan from "./";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import {
   temporarilySilenceLogs,
   testdir,

@@ -1,4 +1,4 @@
-import { getPackages, Package } from "@manypkg/get-packages";
+import { getPackages, Package } from "@changesets/get-packages";
 import path from "path";
 import semverLt from "semver/functions/lt";
 import {

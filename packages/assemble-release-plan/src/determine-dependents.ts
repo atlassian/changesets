@@ -5,7 +5,7 @@ import {
   PackageJSON,
   VersionType,
 } from "@changesets/types";
-import { Package } from "@manypkg/get-packages";
+import { Package } from "@changesets/get-packages";
 import semverSatisfies from "semver/functions/satisfies";
 import { incrementVersion } from "./increment";
 import { InternalRelease, PreInfo } from "./types";

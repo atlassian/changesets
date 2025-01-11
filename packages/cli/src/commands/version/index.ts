@@ -6,7 +6,7 @@ import { Config } from "@changesets/types";
 import applyReleasePlan from "@changesets/apply-release-plan";
 import readChangesets from "@changesets/read";
 import assembleReleasePlan from "@changesets/assemble-release-plan";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 
 import { removeEmptyFolders } from "../../utils/v1-legacy/removeFolders";
 import { readPreState } from "@changesets/pre";

@@ -8,7 +8,7 @@ import {
   PreState,
   ReleasePlan,
 } from "@changesets/types";
-import { Package, Packages } from "@manypkg/get-packages";
+import { Package, Packages } from "@changesets/get-packages";
 import semverParse from "semver/functions/parse";
 import applyLinks from "./apply-links";
 import determineDependents from "./determine-dependents";

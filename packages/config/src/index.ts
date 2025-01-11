@@ -3,7 +3,7 @@ import path from "path";
 import micromatch from "micromatch";
 import { ValidationError } from "@changesets/errors";
 import { warn } from "@changesets/logger";
-import { Packages, getPackages } from "@manypkg/get-packages";
+import { Packages, getPackages } from "@changesets/get-packages";
 import {
   Config,
   WrittenConfig,
