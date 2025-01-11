@@ -73,5 +73,6 @@
       "importsConditions": true
     }
   },
-  "prettier": {}
+  "prettier": {},
+  "packageManager": "yarn@1.22.22+sha256.c17d3797fb9a9115bf375e31bfd30058cac6bc9c3b8807a3d8cb2094794b51ca"
 }

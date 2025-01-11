@@ -1,0 +1,28 @@
+{
+  "name": "@changesets/get-packages",
+  "version": "0.1.0",
+  "description": "A mimic of @manypkg/get-packages that adds extra manually passed packages or workspaces",
+  "main": "dist/changesets-get-packages.cjs.js",
+  "module": "dist/changesets-get-packages.esm.js",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/changesets-get-packages.cjs.mjs",
+        "default": "./dist/changesets-get-packages.cjs.js"
+      },
+      "module": "./dist/changesets-get-packages.esm.js",
+      "import": "./dist/changesets-get-packages.cjs.mjs",
+      "default": "./dist/changesets-get-packages.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/changesets/changesets/tree/main/packages/get-packages",
+  "dependencies": {
+    "@changesets/logger": "^0.1.1",
+    "@changesets/test-utils": "^0.0.8",
+    "@changesets/types": "^6.0.0",
+    "@manypkg/get-packages": "^1.1.3",
+    "fs-extra": "^7.0.1"
+  }
+}
