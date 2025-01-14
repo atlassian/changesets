@@ -2,6 +2,7 @@ import { ChangelogFunctions } from "@changesets/types";
 // @ts-ignore
 import { config } from "dotenv";
 import { getInfo, getInfoFromPullRequest } from "@changesets/get-github-info";
+import { execSync } from "child_process";
 
 config();
 
@@ -12,9 +13,13 @@ const changelogFunctions: ChangelogFunctions = {
     options
   ) => {
     if (!options.repo) {
-      throw new Error(
-        'Please provide a repo to this changelog generator like this:\n"changelog": ["@changesets/changelog-github", { "repo": "org/repo" }]'
-      );
+      const { repoOwner, repoName } = getGithubRepoInfo();
+      if (!repoOwner || !repoName) {
+        throw new Error(
+          'Please provide a repo to this changelog generator like this:\n"changelog": ["@changesets/changelog-github", { "repo": "org/repo" }]'
+        );
+      }
+      options.repo = `${repoOwner}/${repoName}`;
     }
     if (dependenciesUpdated.length === 0) return "";
 
@@ -121,5 +126,24 @@ const changelogFunctions: ChangelogFunctions = {
       .join("\n")}`;
   },
 };
+
+function getGithubRepoInfo() {
+  try {
+    const remoteUrl = execSync("git remote get-url origin").toString();
+
+    // Handle SSH format: git@github.com:owner/repo.git
+    // Handle HTTPS format: https://github.com/owner/repo.git
+    const match = remoteUrl.match(/(?:github\.com[:/])([^/]+)\/([^/]+)/);
+
+    if (!match) {
+      return { repoOwner: "", repoName: "" };
+    }
+
+    const [, repoOwner, repoName] = match;
+    return { repoOwner, repoName: repoName.replace(/\.git$/, "") };
+  } catch (err) {
+    return { repoOwner: "", repoName: "" };
+  }
+}
 
 export default changelogFunctions;
