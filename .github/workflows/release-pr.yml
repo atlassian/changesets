@@ -1,0 +1,81 @@
+name: pr-deployment
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  deploy-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: acknowledge deployment request to commenter
+        id: check
+        uses: khan/pull-request-comment-trigger@master
+        with:
+          trigger: '/release-pr'
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - name: validate user
+        id: validate_user
+        if: ${{ steps.check.outputs.triggered == 'true' }}
+        run: |
+          if [[ "${AUTHOR_ASSOCIATION}" != 'MEMBER' && "${AUTHOR_ASSOCIATION}" != 'OWNER' ]]
+          then
+            echo "User authorization failed"
+            exit 1
+          else
+            echo "User authorization successful"
+          fi
+        env:
+          AUTHOR_ASSOCIATION: ${{ github.event.comment.author_association }}
+      - name: check outputs
+        run: echo ${{ steps.check.outputs.triggered }}
+
+    outputs:
+      triggered: ${{ steps.check.outputs.triggered }}
+      comment_body: ${{ github.event.comment.body }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: deploy-check
+    if: needs.deploy-check.outputs.triggered == 'true'
+    steps:
+      - name: get pull request ref
+        id: get_pull_request_ref
+        uses: octokit/request-action@v2.1.0
+        with:
+          route: GET /repos/{owner}/{repository}/pulls/{issue_id}
+          owner: ${{ github.repository_owner }}
+          repository: ${{ github.event.repository.name }}
+          issue_id: ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: pull the repo.
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: true
+          repository: ${{ fromJson(steps.get_pull_request_ref.outputs.data).head.repo.full_name }}
+
+      - name: Setup Node.js 12.x
+        # https://github.com/actions/setup-node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Configure npm
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Deploy pre-release
+        run: |
+          yarn changeset version --snapshot pr${{ github.event.issue.number }}
+          yarn build && yarn changeset publish --tag pr${{ github.event.issue.number }} --no-git-tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
