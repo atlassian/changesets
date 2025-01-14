@@ -8,7 +8,7 @@ import {
   NewChangeset,
   ReleasePlan,
 } from "@changesets/types";
-import { Packages } from "@manypkg/get-packages";
+import { Packages } from "@changesets/get-packages";
 import detectIndent from "detect-indent";
 import fs from "fs-extra";
 import path from "path";

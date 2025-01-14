@@ -83,7 +83,7 @@ export type Config = {
   bumpVersionsWithWorkspaceProtocolOnly?: boolean;
   ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: Omit<
     Required<ExperimentalOptions>,
-    "useCalculatedVersionForSnapshots"
+    "useCalculatedVersionForSnapshots" | "additionalWorkspaces"
   >;
   snapshot: {
     useCalculatedVersion: boolean;
@@ -122,6 +122,8 @@ export type ExperimentalOptions = {
   updateInternalDependents?: "always" | "out-of-range";
   /** @deprecated Since snapshot feature is now stable, you should migrate to use "snapshot.useCalculatedVersion". */
   useCalculatedVersionForSnapshots?: boolean;
+  /** Additional workspace glob patterns to load into changesets */
+  additionalWorkspaces?: string[];
 };
 
 export type NewChangesetWithCommit = NewChangeset & { commit?: string };

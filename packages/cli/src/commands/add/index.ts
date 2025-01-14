@@ -8,7 +8,7 @@ import { shouldSkipPackage } from "@changesets/should-skip-package";
 import { Config } from "@changesets/types";
 import writeChangeset from "@changesets/write";
 import { ExitError } from "@changesets/errors";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import { ExternalEditor } from "external-editor";
 import { getCommitFunctions } from "../../commit/getCommitFunctions";
 import * as cli from "../../utils/cli-utilities";

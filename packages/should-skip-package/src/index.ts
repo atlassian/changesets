@@ -1,4 +1,4 @@
-import { Package } from "@manypkg/get-packages";
+import { Package } from "@changesets/get-packages";
 import { PackageGroup } from "@changesets/types";
 
 export function shouldSkipPackage(

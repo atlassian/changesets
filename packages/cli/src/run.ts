@@ -4,7 +4,7 @@ import { getDependentsGraph } from "@changesets/get-dependents-graph";
 import { error } from "@changesets/logger";
 import { shouldSkipPackage } from "@changesets/should-skip-package";
 import { Config } from "@changesets/types";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import fs from "fs-extra";
 import path from "path";
 import add from "./commands/add";

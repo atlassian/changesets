@@ -1,5 +1,5 @@
 import { PackageGroup, VersionType } from "@changesets/types";
-import { Package } from "@manypkg/get-packages";
+import { Package } from "@changesets/get-packages";
 import semverGt from "semver/functions/gt";
 import { InternalRelease } from "./types";
 

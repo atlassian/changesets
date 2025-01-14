@@ -2,7 +2,7 @@ import * as git from "@changesets/git";
 import { log } from "@changesets/logger";
 import { shouldSkipPackage } from "@changesets/should-skip-package";
 import { Config } from "@changesets/types";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import { getUntaggedPackages } from "../../utils/getUntaggedPackages";
 
 export default async function tag(cwd: string, config: Config) {

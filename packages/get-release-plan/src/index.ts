@@ -2,7 +2,7 @@ import assembleReleasePlan from "@changesets/assemble-release-plan";
 import readChangesets from "@changesets/read";
 import { read } from "@changesets/config";
 import { Config, ReleasePlan } from "@changesets/types";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import { readPreState } from "@changesets/pre";
 
 export default async function getReleasePlan(

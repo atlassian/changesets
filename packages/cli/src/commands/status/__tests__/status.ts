@@ -3,7 +3,7 @@ import * as git from "@changesets/git";
 import { gitdir, silenceLogsInBlock } from "@changesets/test-utils";
 import { ReleasePlan } from "@changesets/types";
 import writeChangeset from "@changesets/write";
-import { getPackages } from "@manypkg/get-packages";
+import { getPackages } from "@changesets/get-packages";
 import fs from "fs-extra";
 import path from "path";
 import spawn from "spawndamnit";

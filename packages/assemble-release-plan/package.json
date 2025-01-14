@@ -21,9 +21,9 @@
   "dependencies": {
     "@changesets/errors": "^0.2.0",
     "@changesets/get-dependents-graph": "^2.1.2",
+    "@changesets/get-packages": "^0.1.0",
     "@changesets/should-skip-package": "^0.1.1",
     "@changesets/types": "^6.0.0",
-    "@manypkg/get-packages": "^1.1.3",
     "semver": "^7.5.3"
   },
   "devDependencies": {

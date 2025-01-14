@@ -1,5 +1,5 @@
 import * as git from "@changesets/git";
-import { Package, Tool } from "@manypkg/get-packages";
+import { Package, Tool } from "@changesets/get-packages";
 import { PublishedResult } from "../commands/publish/publishPackages";
 
 export async function getUntaggedPackages(

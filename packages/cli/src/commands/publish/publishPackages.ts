@@ -2,7 +2,7 @@ import { join } from "path";
 import semverParse from "semver/functions/parse";
 import pc from "picocolors";
 import { AccessType } from "@changesets/types";
-import { Package } from "@manypkg/get-packages";
+import { Package } from "@changesets/get-packages";
 import { info, warn } from "@changesets/logger";
 import { PreState } from "@changesets/types";
 import * as npmUtils from "./npm-utils";
