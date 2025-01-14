@@ -43,9 +43,12 @@ function getCorrectRegistry(packageJson?: PackageJSON): string {
 
 async function getPublishTool(
   cwd: string
-): Promise<{ name: "npm" } | { name: "pnpm"; shouldAddNoGitChecks: boolean }> {
+): Promise<
+  { name: "npm" | "yarn" } | { name: "pnpm"; shouldAddNoGitChecks: boolean }
+> {
   const pm = await detect({ cwd });
-  if (!pm || pm.name !== "pnpm") return { name: "npm" };
+  if (!pm) return { name: "npm" };
+  if (pm.name === "yarn") return { name: "yarn" };
   try {
     let result = await spawn("pnpm", ["--version"], { cwd });
     let version = result.stdout.toString().trim();
@@ -185,6 +188,11 @@ async function internalPublish(
   let { code, stdout, stderr } =
     publishTool.name === "pnpm"
       ? await spawn("pnpm", ["publish", "--json", ...publishFlags], {
+          env: Object.assign({}, process.env, envOverride),
+          cwd: opts.cwd,
+        })
+      : publishTool.name === "yarn"
+      ? await spawn("yarn", ["npm", "publish", ...publishFlags], {
           env: Object.assign({}, process.env, envOverride),
           cwd: opts.cwd,
         })
