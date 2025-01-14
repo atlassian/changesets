@@ -18,6 +18,11 @@ interface PublishOptions {
   tag: string;
 }
 
+interface PreStateType{
+  mode: string;
+  tag:string;
+}
+
 const npmRequestLimit = pLimit(40);
 const npmPublishLimit = pLimit(10);
 
@@ -86,7 +91,7 @@ export async function getTokenIsRequired() {
   return json.tfa.mode === "auth-and-writes";
 }
 
-export function getPackageInfo(packageJson: PackageJSON) {
+export function getPackageInfo(packageJson: PackageJSON, preState?: PreStateType) {
   return npmRequestLimit(async () => {
     info(`npm info ${packageJson.name}`);
 
@@ -96,29 +101,44 @@ export function getPackageInfo(packageJson: PackageJSON) {
     // `publish` to behave incorrectly. It can also cause issues when publishing private packages
     // as they will always give a 404, which will tell `publish` to always try to publish.
     // See: https://github.com/yarnpkg/yarn/issues/2935#issuecomment-355292633
-    let result = await spawn("npm", [
-      "info",
-      packageJson.name,
-      "--registry",
-      getCorrectRegistry(packageJson),
-      "--json",
-    ]);
+    if (preState && preState.mode === "pre") {
+      let result = await spawn("npm", ["info", packageJson.name, "--registry", getCorrectRegistry(packageJson), "--json"]); // Github package registry returns empty string when calling npm info
+      let resultPre = await spawn("npm", ["info", packageJson.name + "@" + preState.tag, "--registry", getCorrectRegistry(packageJson), "--json"]); // Github package registry returns empty string when calling npm info
+      // for a non-existent package instead of a E404
 
-    // Github package registry returns empty string when calling npm info
-    // for a non-existent package instead of a E404
-    if (result.stdout.toString() === "") {
-      return {
-        error: {
-          code: "E404",
-        },
-      };
+      if (result.stdout.toString() === "" && resultPre.stdout.toString() === "") {
+        return {
+          error: {
+            code: "E404"
+          }
+        };
+      }
+      return result.stdout.toString() !== "" ? jsonParse(result.stdout.toString()) : jsonParse(resultPre.stdout.toString());
+    } else {
+      let result = await spawn("npm", [
+        "info",
+        packageJson.name,
+        "--registry",
+        getCorrectRegistry(packageJson),
+        "--json",
+      ]);
+
+      // Github package registry returns empty string when calling npm info
+      // for a non-existent package instead of a E404
+      if (result.stdout.toString() === "") {
+        return {
+          error: {
+            code: "E404",
+          },
+        };
+      }
+      return jsonParse(result.stdout.toString());
     }
-    return jsonParse(result.stdout.toString());
   });
 }
 
-export async function infoAllow404(packageJson: PackageJSON) {
-  let pkgInfo = await getPackageInfo(packageJson);
+export async function infoAllow404(packageJson: PackageJSON, preState?: PreStateType) {
+  let pkgInfo = await getPackageInfo(packageJson, preState);
   if (pkgInfo.error?.code === "E404") {
     warn(`Received 404 for npm info ${pc.cyan(`"${packageJson.name}"`)}`);
     return { published: false, pkgInfo: {} };
