@@ -15,7 +15,7 @@ Several of these have associated type definitions, which you can find in [our ty
   - (2) The act of updating a package version to a new version.
 - **single-package repo** - A repository which only contains a single package which is at the root of the repo
 - **multi-package repo/monorepo** - A repository which contains multiple packages, generally managed by [Bolt](https://github.com/boltpkg/bolt) or [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/).
-- **release line generators** - The `getReleaseLine` and `getDependencyReleaseLine` functions which are responsible for creating the lines inserted into changelog. A changelog entry for a particular release can be thought of as `releaseLineGenerators(changesets)`
+- **release line generators** - The `getReleaseLine` and `getDependencyReleaseLine` and (optionally) `getVersionLine` functions which are responsible for creating the lines inserted into changelog. A changelog entry for a particular release can be thought of as `releaseLineGenerators(changesets)`
 - **fixed packages** - Fixed packages share a semver categorisation, such that all fixed packages have the same semver version and are always published together. The logistics of this are best left to our [fixed-packages](./fixed-packages.md) documentation.
 - **linked packages** - Linked packages share a semver categorisation, such that all published linked packages have consistent new semver ranges. The logistics of this are best left to our [linked-packages](./linked-packages.md) documentation.
 - **release instruction** An object containing an intent to release a single package, consisting of the package name and a bump type

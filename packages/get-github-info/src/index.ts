@@ -100,6 +100,13 @@ const GHDataLoader = new DataLoader(async (requests: RequestData[]) => {
     body: JSON.stringify({ query: makeQuery(repos) }),
   }).then((x: any) => x.json());
 
+  if (!data) {
+    // this can happen while testing locally and the commit queried is not present on the main branch
+    throw new Error(
+      `An error occurred when fetching data from GitHub, no value found`
+    );
+  }
+
   if (data.errors) {
     throw new Error(
       `An error occurred when fetching data from GitHub\n${JSON.stringify(
