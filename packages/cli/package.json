@@ -101,6 +101,6 @@
     "@types/semver": "^7.5.0",
     "human-id": "^4.1.1",
     "outdent": "^0.5.0",
-    "strip-ansi": "^5.2.0"
+    "strip-ansi": "^6.0.1"
   }
 }
