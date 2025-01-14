@@ -56,9 +56,8 @@ const getTwoFactorState = ({
   if (
     isCI ||
     publicPackages.some((pkg) =>
-      isCustomRegistry(pkg.packageJson.publishConfig?.registry)
-    ) ||
-    isCustomRegistry(process.env.npm_config_registry)
+      isCustomRegistry(npmUtils.getCorrectRegistry(pkg.packageJson).registry)
+    )
   ) {
     return {
       token: null,
@@ -125,7 +124,7 @@ async function publishAPackage(
   info(`Publishing ${pc.cyan(`"${name}"`)} at ${pc.green(`"${version}"`)}`);
 
   const publishConfirmation = await npmUtils.publish(
-    name,
+    pkg.packageJson,
     {
       cwd: pkg.dir,
       publishDir: publishConfig?.directory
