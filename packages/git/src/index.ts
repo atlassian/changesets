@@ -21,6 +21,10 @@ export async function commit(message: string, cwd: string) {
     ["commit", "-m", message, "--allow-empty"],
     { cwd }
   );
+
+  if (gitCmd.code !== 0) {
+    console.log(gitCmd.stderr.toString());
+  }
   return gitCmd.code === 0;
 }
 
