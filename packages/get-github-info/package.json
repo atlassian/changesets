@@ -23,7 +23,7 @@
     "node-fetch": "^2.5.0"
   },
   "devDependencies": {
-    "nock": "^11.7.0",
+    "nock": "^13.5.6",
     "prettier": "^2.7.1"
   }
 }
