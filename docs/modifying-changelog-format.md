@@ -70,10 +70,32 @@ type getReleaseLine(
     },
     // the type of the change this changeset refers to, as "major", "minor", or "patch"
     type
-    // This needs to be explained - see @changesets/changelog-github's code for how this works
+    // An options object that contains the repository name e.g.: { repo: 'my-repo'}
     changelogOpts
 ) => string
 ```
+
+If you need to read the repo from the `changelogOpts`, make sure you add this information in the `config.json` file, for example:
+
+```json
+"changelog": [
+    "./changelog-config.js",
+    { "repo": "corradin/poc-packages-monorepo" }
+  ],
+```
+
+When using TypeScript, make sure you transpile it to JavaScript, because changesets is not able to parse typescript files that are referred to from the config file. You can do so, by:
+
+1. Adding a `tsconfig.json` file in the `.changeset` directory.
+2. Run `tsc` before running `changeset version`
+
+As an example, I wrote the following script in the root `package.json`:
+
+```json
+"version": "tsc --project .changeset && changeset version",
+```
+
+In this way, it is more convenient to run this command as part of your CICD with the changeset action.
 
 TODO - this guide is incomplete. Until it is completed, you may need to dig into the code for some of our existing
 
