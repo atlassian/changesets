@@ -212,7 +212,7 @@ export async function run(
         }
         let tag = input[2];
         if (command === "enter" && typeof tag !== "string") {
-          error(`A tag must be passed when using prerelese enter`);
+          error(`A tag must be passed when using prerelease enter`);
           throw new ExitError(1);
         }
         // @ts-ignore

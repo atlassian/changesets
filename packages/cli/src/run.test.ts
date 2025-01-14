@@ -169,4 +169,31 @@ describe("cli", () => {
       );
     });
   });
+
+  describe("pre", () => {
+    it("should throw an error if tag not passed in", async () => {
+      const cwd = await testdir({
+        "package.json": JSON.stringify({
+          private: true,
+          workspaces: ["packages/*"],
+        }),
+        "packages/pkg-a/package.json": JSON.stringify({
+          name: "pkg-a",
+          version: "1.0.0",
+        }),
+        ".changeset/config.json": JSON.stringify({}),
+      });
+      try {
+        await run(["pre", "enter"], {}, cwd);
+      } catch (e) {
+        // ignore the error. We just want to validate the error message
+      }
+
+      const loggerErrorCalls = (error as any).mock.calls;
+      expect(loggerErrorCalls.length).toEqual(1);
+      expect(loggerErrorCalls[0][0]).toEqual(
+        `A tag must be passed when using prerelease enter`
+      );
+    });
+  });
 });
