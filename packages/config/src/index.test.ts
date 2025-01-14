@@ -45,6 +45,9 @@ test("read reads the config", async () => {
     changelog: false,
     commit: ["@changesets/cli/commit", { skipCI: "version" }],
     access: "restricted",
+    autoBumpPeerDependentsStrategy: "major",
+    autoBumpPeerDependentsCondition: "always",
+    autoBumpPeerDependentsInSameChangeset: true,
     baseBranch: "master",
     changedFilePatterns: ["**"],
     updateInternalDependencies: "patch",
@@ -145,6 +148,7 @@ let defaults: Config = {
   baseBranch: "master",
   changedFilePatterns: ["**"],
   updateInternalDependencies: "patch",
+  autoBumpPeerDependentsStrategy: "major",
   ignore: [],
   privatePackages: { version: true, tag: false },
   ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
@@ -156,6 +160,8 @@ let defaults: Config = {
     prereleaseTemplate: null,
   },
   bumpVersionsWithWorkspaceProtocolOnly: false,
+  autoBumpPeerDependentsInSameChangeset: true,
+  autoBumpPeerDependentsCondition: "always",
 };
 
 let correctCases: Record<string, CorrectCase> = {
@@ -348,6 +354,88 @@ let correctCases: Record<string, CorrectCase> = {
       updateInternalDependencies: "patch",
     },
   },
+  "autoBumpPeerDependentsStrategy major": {
+    input: {
+      autoBumpPeerDependentsStrategy: "major",
+    },
+    output: {
+      ...defaults,
+      autoBumpPeerDependentsStrategy: "major",
+    },
+  },
+  "autoBumpPeerDependentsStrategy follow": {
+    input: {
+      autoBumpPeerDependentsStrategy: "follow",
+    },
+    output: {
+      ...defaults,
+      autoBumpPeerDependentsStrategy: "follow",
+    },
+  },
+  "autoBumpPeerDependentsInSameChangeset false": {
+    input: {
+      autoBumpPeerDependentsInSameChangeset: false,
+    },
+    output: {
+      ...defaults,
+      autoBumpPeerDependentsInSameChangeset: false,
+    },
+  },
+
+  "autoBumpPeerDependentsCondition always": {
+    input: {
+      autoBumpPeerDependentsCondition: "always",
+    },
+    output: {
+      ...defaults,
+      autoBumpPeerDependentsCondition: "always",
+    },
+  },
+
+  "autoBumpPeerDependentsCondition out-of-range": {
+    input: {
+      autoBumpPeerDependentsCondition: "out-of-range",
+    },
+    output: {
+      ...defaults,
+      autoBumpPeerDependentsCondition: "out-of-range",
+    },
+  },
+
+  "autoBumpPeerDependentsCondition fallback to always": {
+    input: {
+      autoBumpPeerDependentsCondition: undefined,
+      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+        onlyUpdatePeerDependentsWhenOutOfRange: false,
+      },
+    },
+    output: {
+      ...defaults,
+      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+        ...defaults.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH,
+        onlyUpdatePeerDependentsWhenOutOfRange: false,
+      },
+      autoBumpPeerDependentsCondition: "always",
+    },
+  },
+
+  "autoBumpPeerDependentsCondition fallback to out-of-range": {
+    input: {
+      autoBumpPeerDependentsCondition: undefined,
+      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+        onlyUpdatePeerDependentsWhenOutOfRange: true,
+      },
+    },
+    output: {
+      ...defaults,
+      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+        ...defaults.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH,
+        onlyUpdatePeerDependentsWhenOutOfRange: true,
+      },
+      autoBumpPeerDependentsCondition: "out-of-range",
+    },
+  },
+
   ignore: {
     input: {
       ignore: ["pkg-a", "pkg-b"],

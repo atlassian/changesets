@@ -73,20 +73,63 @@ export default function determineDependents({
           for (const { depType, versionRange } of dependencyVersionRanges) {
             if (nextRelease.type === "none") {
               continue;
-            } else if (
-              shouldBumpMajor({
-                dependent,
+            }
+            if (
+              depType === "peerDependencies" &&
+              !config.autoBumpPeerDependentsInSameChangeset
+            ) {
+              continue;
+            }
+            if (
+              shouldBumpsForPeerDeps({
                 depType,
                 versionRange,
-                releases,
                 nextRelease,
                 preInfo,
                 onlyUpdatePeerDependentsWhenOutOfRange:
-                  config.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
-                    .onlyUpdatePeerDependentsWhenOutOfRange,
+                  config.autoBumpPeerDependentsCondition === "out-of-range",
               })
             ) {
-              type = "major";
+              if (config.autoBumpPeerDependentsStrategy === "major") {
+                if (nextRelease.type === "patch") {
+                  if (
+                    !semverSatisfies(
+                      incrementVersion(nextRelease, preInfo),
+                      versionRange
+                    )
+                  ) {
+                    type = "patch";
+                  }
+                }
+                // bump major only if the dependent doesn't already have a major release.
+                else if (
+                  !releases.has(dependent) ||
+                  (releases.has(dependent) &&
+                    releases.get(dependent)!.type !== "major")
+                )
+                  type = "major";
+              } else {
+                // autoBumpPeerDependentsStrategy is "follow"
+                if (!releases.has(dependent)) {
+                  type = nextRelease.type;
+                } else {
+                  switch (releases.get(dependent)!.type) {
+                    case "none":
+                      type = nextRelease.type;
+                      break;
+                    case "patch":
+                      if (nextRelease.type !== "patch") {
+                        type = nextRelease.type;
+                      }
+                      break;
+                    case "minor":
+                      if (nextRelease.type === "major") {
+                        type = nextRelease.type;
+                      }
+                      break;
+                  }
+                }
+              }
             } else if (
               (!releases.has(dependent) ||
                 releases.get(dependent)!.type === "none") &&
@@ -212,19 +255,15 @@ function getDependencyVersionRanges(
   return dependencyVersionRanges;
 }
 
-function shouldBumpMajor({
-  dependent,
+function shouldBumpsForPeerDeps({
   depType,
   versionRange,
-  releases,
   nextRelease,
   preInfo,
   onlyUpdatePeerDependentsWhenOutOfRange,
 }: {
-  dependent: string;
   depType: DependencyType;
   versionRange: string;
-  releases: Map<string, InternalRelease>;
   nextRelease: InternalRelease;
   preInfo: PreInfo | undefined;
   onlyUpdatePeerDependentsWhenOutOfRange: boolean;
@@ -233,13 +272,9 @@ function shouldBumpMajor({
   return (
     depType === "peerDependencies" &&
     nextRelease.type !== "none" &&
-    nextRelease.type !== "patch" &&
     // 1. If onlyUpdatePeerDependentsWhenOutOfRange set to true, bump major if the version is leaving the range.
     // 2. If onlyUpdatePeerDependentsWhenOutOfRange set to false, bump major regardless whether or not the version is leaving the range.
     (!onlyUpdatePeerDependentsWhenOutOfRange ||
-      !semverSatisfies(incrementVersion(nextRelease, preInfo), versionRange)) &&
-    // bump major only if the dependent doesn't already has a major release.
-    (!releases.has(dependent) ||
-      (releases.has(dependent) && releases.get(dependent)!.type !== "major"))
+      !semverSatisfies(incrementVersion(nextRelease, preInfo), versionRange))
   );
 }

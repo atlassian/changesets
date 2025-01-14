@@ -23,6 +23,9 @@ export let defaultWrittenConfig = {
   access: "restricted",
   baseBranch: "master",
   updateInternalDependencies: "patch",
+  autoBumpPeerDependentsStrategy: "major",
+  autoBumpPeerDependentsInSameChangeset: true,
+  autoBumpPeerDependentsCondition: "always",
   ignore: [] as ReadonlyArray<string>,
 } as const;
 
@@ -294,6 +297,46 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
       )} but can only be 'patch' or 'minor'`
     );
   }
+
+  if (
+    json.autoBumpPeerDependentsInSameChangeset !== undefined &&
+    typeof json.autoBumpPeerDependentsInSameChangeset !== "boolean"
+  ) {
+    messages.push(
+      `The \`autoBumpPeerDependentsInSameChangeset\` option is set as ${JSON.stringify(
+        json.autoBumpPeerDependentsInSameChangeset,
+        null,
+        2
+      )} but can only be a boolean`
+    );
+  }
+
+  if (
+    json.autoBumpPeerDependentsCondition !== undefined &&
+    !["always", "out-of-range"].includes(json.autoBumpPeerDependentsCondition)
+  ) {
+    messages.push(
+      `The \`autoBumpPeerDependentsCondition\` option is set as ${JSON.stringify(
+        json.autoBumpPeerDependentsCondition,
+        null,
+        2
+      )} but can only be 'always' or 'out-of-range'`
+    );
+  }
+
+  if (
+    json.autoBumpPeerDependentsStrategy !== undefined &&
+    !["major", "follow"].includes(json.autoBumpPeerDependentsStrategy)
+  ) {
+    messages.push(
+      `The \`autoBUmpPeerDependentsStrategy\` option is set as ${JSON.stringify(
+        json.autoBumpPeerDependentsStrategy,
+        null,
+        2
+      )} but can only be 'major' or 'follow'`
+    );
+  }
+
   if (json.ignore) {
     if (
       !(
@@ -445,6 +488,27 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
       json.updateInternalDependencies === undefined
         ? defaultWrittenConfig.updateInternalDependencies
         : json.updateInternalDependencies,
+
+    autoBumpPeerDependentsInSameChangeset:
+      json.autoBumpPeerDependentsInSameChangeset === undefined
+        ? defaultWrittenConfig.autoBumpPeerDependentsInSameChangeset
+        : json.autoBumpPeerDependentsInSameChangeset,
+
+    autoBumpPeerDependentsCondition:
+      json.autoBumpPeerDependentsCondition === undefined
+        ? json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
+            ?.onlyUpdatePeerDependentsWhenOutOfRange === undefined
+          ? defaultWrittenConfig.autoBumpPeerDependentsCondition
+          : json.___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
+              ?.onlyUpdatePeerDependentsWhenOutOfRange
+          ? "out-of-range"
+          : "always"
+        : json.autoBumpPeerDependentsCondition,
+
+    autoBumpPeerDependentsStrategy:
+      json.autoBumpPeerDependentsStrategy === undefined
+        ? defaultWrittenConfig.autoBumpPeerDependentsStrategy
+        : json.autoBumpPeerDependentsStrategy,
 
     ignore:
       json.ignore === undefined

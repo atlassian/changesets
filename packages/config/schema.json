@@ -127,6 +127,22 @@
       "default": false,
       "description": "Determines whether Changesets should only bump dependency ranges that use workspace protocol of packages that are part of the workspace."
     },
+    "autoBumpPeerDependentsInSameChangeset": {
+      "type": "boolean",
+      "default": true,
+      "description": "Determines whether Changesets should automatically bump peer dependencies that are part of the same changeset."
+    },
+    "autoBumpPeerDependentsCondition": {
+      "enum": ["always", "out-of-range"],
+      "type": "string",
+      "default": "always",
+      "description": "Determines the condition to automatically bump peer dependencies"
+    },
+    "autoBumpPeerDependentsStrategy": {
+      "enum": ["major", "follow"],
+      "type": "string",
+      "description": "The strategy used to trigger automatic update of peer dependencies that are part of the same release, \"follow\" means if peer dependencies has a major/minor/patch bumps, this package will have a major/minor/patch bump too, respectively"
+    },
     "snapshot": {
       "type": "object",
       "properties": {
