@@ -3,8 +3,11 @@ import { testdir } from "@changesets/test-utils";
 
 import { run } from "./run";
 
+import * as npmUtils from "./commands/publish/npm-utils";
+
 jest.mock("@changesets/logger");
 jest.mock("./commands/version");
+jest.mock("./commands/publish/npm-utils");
 
 describe("cli", () => {
   describe("version", () => {
@@ -166,6 +169,190 @@ describe("cli", () => {
       expect(loggerErrorCalls.length).toEqual(1);
       expect(loggerErrorCalls[0][0]).toEqual(
         `It looks like you are trying to use the \`--ignore\` option while ignore is defined in the config file. This is currently not allowed, you can only use one of them at a time.`
+      );
+    });
+  });
+
+  describe("publish", () => {
+    it("should publish only one specified package", async () => {
+      const cwd = await testdir({
+        "package.json": JSON.stringify({
+          private: true,
+          workspaces: ["packages/*"],
+        }),
+        "packages/pkg-a/package.json": JSON.stringify({
+          name: "pkg-a",
+          version: "1.0.0",
+        }),
+        "packages/pkg-b/package.json": JSON.stringify({
+          name: "pkg-b",
+          version: "1.0.0",
+        }),
+        "packages/pkg-c/package.json": JSON.stringify({
+          name: "pkg-c",
+          version: "1.0.0",
+        }),
+        ".changeset/config.json": JSON.stringify({}),
+      });
+
+      // @ts-ignore
+      npmUtils.infoAllow404.mockImplementation(() => ({
+        published: false,
+        pkgInfo: {
+          version: "1.0.0",
+        },
+      }));
+
+      // @ts-ignore
+      npmUtils.publish.mockImplementation(() => ({
+        published: true,
+      }));
+
+      try {
+        await run(
+          ["publish"],
+          {
+            filter: "pkg-a",
+          },
+          cwd
+        );
+      } catch (e) {
+        // ignore errors. We just want to validate the error message
+      }
+
+      expect(npmUtils.publish).toHaveBeenCalledWith(
+        "pkg-a",
+        expect.any(Object),
+        expect.any(Object)
+      );
+    });
+
+    it("should publish only public specified package", async () => {
+      const cwd = await testdir({
+        "package.json": JSON.stringify({
+          private: true,
+          workspaces: ["packages/*"],
+        }),
+        "packages/pkg-a/package.json": JSON.stringify({
+          private: true,
+          name: "pkg-a",
+          version: "1.0.0",
+        }),
+        "packages/pkg-b/package.json": JSON.stringify({
+          name: "pkg-b",
+          version: "1.0.0",
+        }),
+        "packages/pkg-c/package.json": JSON.stringify({
+          name: "pkg-c",
+          version: "1.0.0",
+        }),
+        ".changeset/config.json": JSON.stringify({}),
+      });
+
+      // @ts-ignore
+      npmUtils.infoAllow404.mockImplementation(() => ({
+        published: false,
+        pkgInfo: {
+          version: "1.0.0",
+        },
+      }));
+
+      // @ts-ignore
+      npmUtils.publish.mockImplementation(() => ({
+        published: true,
+      }));
+
+      try {
+        await run(
+          ["publish"],
+          {
+            filter: ["pkg-a", "pkg-b"],
+          },
+          cwd
+        );
+      } catch (e) {
+        // ignore errors. We just want to validate the error message
+      }
+
+      expect(npmUtils.publish).toHaveBeenCalledWith(
+        "pkg-b",
+        expect.any(Object),
+        expect.any(Object)
+      );
+    });
+
+    it("should publish all packages when filter is undefined", async () => {
+      const cwd = await testdir({
+        "package.json": JSON.stringify({
+          private: true,
+          workspaces: ["packages/*"],
+        }),
+        "packages/pkg-a/package.json": JSON.stringify({
+          name: "pkg-a",
+          version: "1.0.0",
+        }),
+        "packages/pkg-b/package.json": JSON.stringify({
+          name: "pkg-b",
+          version: "1.0.0",
+        }),
+        ".changeset/config.json": JSON.stringify({}),
+      });
+
+      // @ts-ignore
+      npmUtils.publish.mockImplementation(() => ({
+        published: true,
+      }));
+
+      try {
+        await run(["publish"], {}, cwd);
+      } catch (e) {
+        // Ignore errors; validate only the behavior
+      }
+
+      expect(npmUtils.publish).toHaveBeenCalledWith(
+        "pkg-a",
+        expect.any(Object),
+        expect.any(Object)
+      );
+      expect(npmUtils.publish).toHaveBeenCalledWith(
+        "pkg-b",
+        expect.any(Object),
+        expect.any(Object)
+      );
+    });
+
+    it("should publish only the package specified as a string filter", async () => {
+      const cwd = await testdir({
+        "package.json": JSON.stringify({
+          private: true,
+          workspaces: ["packages/*"],
+        }),
+        "packages/pkg-a/package.json": JSON.stringify({
+          name: "pkg-a",
+          version: "1.0.0",
+        }),
+        "packages/pkg-b/package.json": JSON.stringify({
+          name: "pkg-b",
+          version: "1.0.0",
+        }),
+        ".changeset/config.json": JSON.stringify({}),
+      });
+
+      // @ts-ignore
+      npmUtils.publish.mockImplementation(() => ({
+        published: true,
+      }));
+
+      try {
+        await run(["publish"], { filter: "pkg-a" }, cwd);
+      } catch (e) {
+        // Ignore errors; validate only the behavior
+      }
+
+      expect(npmUtils.publish).toHaveBeenCalledWith(
+        "pkg-a",
+        expect.any(Object),
+        expect.any(Object)
       );
     });
   });

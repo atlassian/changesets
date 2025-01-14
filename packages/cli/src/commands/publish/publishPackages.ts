@@ -79,15 +79,21 @@ export default async function publishPackages({
   otp,
   preState,
   tag,
+  filter,
 }: {
   packages: Package[];
   access: AccessType;
   otp?: string;
   preState: PreState | undefined;
   tag?: string;
+  filter?: string[];
 }) {
   const packagesByName = new Map(packages.map((x) => [x.packageJson.name, x]));
-  const publicPackages = packages.filter((pkg) => !pkg.packageJson.private);
+  const publicPackages = packages.filter(
+    (pkg) =>
+      !pkg.packageJson.private &&
+      (filter ? filter.includes(pkg.packageJson.name) : true)
+  );
   const unpublishedPackagesInfo = await getUnpublishedPackages(
     publicPackages,
     preState

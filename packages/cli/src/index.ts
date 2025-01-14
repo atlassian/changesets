@@ -1,6 +1,6 @@
-import mri from "mri";
 import { ExitError, InternalError } from "@changesets/errors";
 import { error } from "@changesets/logger";
+import mri from "mri";
 import { format } from "util";
 import { run } from "./run";
 
@@ -16,6 +16,7 @@ const parsed = mri(args, {
     "tag",
     "snapshot",
     "snapshotPrereleaseTemplate",
+    "filter",
   ],
   alias: {
     // Short flags
@@ -54,11 +55,10 @@ if (parsed.help && args.length === 1) {
     init
     add [--empty] [--open]
     version [--ignore] [--snapshot <?name>] [--snapshot-prerelease-template <template>]
-    publish [--tag <name>] [--otp <code>] [--no-git-tag]
+    publish [--tag <name>] [--otp <code>] [--no-git-tag] [--filter <name>]
     status [--since <branch>] [--verbose] [--output JSON_FILE.json]
     pre <enter|exit> <tag>
     tag
-
     `
   );
   process.exit(0);

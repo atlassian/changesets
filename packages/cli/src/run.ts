@@ -85,6 +85,7 @@ export async function run(
       tag,
       open,
       gitTag,
+      filter,
     }: CliOptions = flags;
     const deadFlags = ["updateChangelog", "isPublic", "skipCI", "commit"];
 
@@ -191,7 +192,20 @@ export async function run(
         return;
       }
       case "publish": {
-        await publish(cwd, { otp, tag, gitTag }, config);
+        await publish(
+          cwd,
+          {
+            otp,
+            tag,
+            gitTag,
+            filter: filter
+              ? Array.isArray(filter)
+                ? filter
+                : [filter]
+              : undefined,
+          },
+          config
+        );
         return;
       }
       case "status": {
