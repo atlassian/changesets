@@ -140,7 +140,13 @@ export default async function applyReleasePlan(
     touchedFiles.push(pkgJSONPath);
 
     if (changelog && changelog.length > 0) {
-      const changelogPath = path.resolve(dir, "CHANGELOG.md");
+      const changelogPathUppercase = path.resolve(dir, "CHANGELOG.md");
+      const changelogPathLowercase = path.resolve(dir, "changelog.md");
+      let changelogPath = changelogPathUppercase;
+      if (fs.existsSync(changelogPathLowercase)) {
+        changelogPath = changelogPathLowercase;
+      }
+
       await updateChangelog(changelogPath, changelog, name, prettierInstance);
       touchedFiles.push(changelogPath);
     }
