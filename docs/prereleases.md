@@ -46,7 +46,7 @@ The repo would now look like this:
 
 ```
 packages/
-  pkg-a@1.0.1-next.0 has dep on pkg-b@^2.0.1
+  pkg-a@1.0.1-next.0 has dep on pkg-b@^2.1.0-next.0
   pkg-b@2.1.0-next.0 has no deps
   pkg-c@3.0.0 has no deps
 .changeset/
@@ -72,7 +72,7 @@ Let's say we add some changesets and a new package so our repo looks like this
 
 ```
 packages/
-  pkg-a@1.0.1-next.0 has dep on pkg-b@^2.0.1
+  pkg-a@1.0.1-next.0 has dep on pkg-b@^2.1.0-next.0
   pkg-b@2.1.0-next.0 has no deps
   pkg-c@3.0.0 has no deps
   pkg-d@0.0.0 has no deps
@@ -91,7 +91,7 @@ The version command will behave just like it does for the first versioning of a 
 
 ```
 packages/
-  pkg-a@1.1.0-next.1 has dep on pkg-b@^2.0.1
+  pkg-a@1.1.0-next.1 has dep on pkg-b@^2.1.0-next.0
   pkg-b@2.1.0-next.0 has no deps
   pkg-c@3.0.1-next.0 has no deps
   pkg-d@1.0.0-next.0 has no deps
@@ -128,7 +128,7 @@ The version command will apply any changesets currently in the repo and then rem
 
 ```
 packages/
-  pkg-a@1.1.0 has dep on pkg-b@^2.0.1
+  pkg-a@1.1.0 has dep on pkg-b@^2.1.0
   pkg-b@2.1.0 has no deps
   pkg-c@3.0.1 has no deps
   pkg-d@1.0.0 has no deps
