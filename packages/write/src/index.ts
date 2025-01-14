@@ -1,4 +1,4 @@
-import { Changeset } from "@changesets/types";
+import { Changeset, Config } from "@changesets/types";
 import fs from "fs-extra";
 import humanId from "human-id";
 import path from "path";
@@ -17,7 +17,8 @@ function getPrettierInstance(cwd: string): typeof prettier {
 
 async function writeChangeset(
   changeset: Changeset,
-  cwd: string
+  cwd: string,
+  config?: Partial<Config>
 ): Promise<string> {
   const { summary, releases } = changeset;
 
@@ -33,6 +34,9 @@ async function writeChangeset(
   const prettierInstance = getPrettierInstance(cwd);
   const newChangesetPath = path.resolve(changesetBase, `${changesetID}.md`);
 
+  const formatChangesetsWithPrettier =
+    config?.formatChangesetsWithPrettier ?? true;
+
   // NOTE: The quotation marks in here are really important even though they are
   // not spec for yaml. This is because package names can contain special
   // characters that will otherwise break the parsing step
@@ -45,11 +49,13 @@ ${summary}
 
   await fs.outputFile(
     newChangesetPath,
-    // Prettier v3 returns a promise
-    await prettierInstance.format(changesetContents, {
-      ...(await prettierInstance.resolveConfig(newChangesetPath)),
-      parser: "markdown",
-    })
+    !formatChangesetsWithPrettier
+      ? changesetContents
+      : // Prettier v3 returns a promise
+        await prettierInstance.format(changesetContents, {
+          ...(await prettierInstance.resolveConfig(newChangesetPath)),
+          parser: "markdown",
+        })
   );
 
   return changesetID;

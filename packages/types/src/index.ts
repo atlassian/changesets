@@ -74,6 +74,8 @@ export type Config = {
   access: AccessType;
   baseBranch: string;
   changedFilePatterns: readonly string[];
+  /** When true, changesets will be formatted using Prettier for markdown */
+  formatChangesetsWithPrettier?: boolean;
   /** Features enabled for Private packages */
   privatePackages: PrivatePackages;
   /** The minimum bump type to trigger automatic update of internal dependencies that are part of the same release */
