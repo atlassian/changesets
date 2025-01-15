@@ -122,7 +122,11 @@ export default async function createChangeset(
 
     let pkgsThatShouldBeMajorBumped = (
       await cli.askCheckboxPlus(
-        bold(`Which packages should have a ${red("major")} bump?`),
+        bold(
+          `Which packages should have a ${red(
+            "major"
+          )} bump? If none, please leave empty (it will ask for minor changes afterwards).`
+        ),
         [
           {
             name: "all packages",
@@ -168,7 +172,11 @@ export default async function createChangeset(
     if (pkgsLeftToGetBumpTypeFor.size !== 0) {
       let pkgsThatShouldBeMinorBumped = (
         await cli.askCheckboxPlus(
-          bold(`Which packages should have a ${green("minor")} bump?`),
+          bold(
+            `Which packages should have a ${green(
+              "minor"
+            )} bump? If none, please leave empty (it will ask for patch changes afterwards).`
+          ),
           [
             {
               name: "all packages",
