@@ -73,6 +73,7 @@ export type Config = {
   linked: Linked;
   access: AccessType;
   baseBranch: string;
+  githubRelease?: boolean;
   changedFilePatterns: readonly string[];
   /** Features enabled for Private packages */
   privatePackages: PrivatePackages;
@@ -99,6 +100,7 @@ export type WrittenConfig = {
   access?: AccessType;
   baseBranch?: string;
   changedFilePatterns?: readonly string[];
+  githubRelease?: boolean;
   /** Opt in to tracking non-npm / private packages */
   privatePackages?:
     | false

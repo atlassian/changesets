@@ -20,6 +20,7 @@
   "repository": "https://github.com/changesets/changesets/tree/main/packages/config",
   "files": [
     "dist",
+    "src",
     "schema.json"
   ],
   "dependencies": {

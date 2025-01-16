@@ -127,6 +127,11 @@
       "default": false,
       "description": "Determines whether Changesets should only bump dependency ranges that use workspace protocol of packages that are part of the workspace."
     },
+    "githubRelease": {
+      "type": "boolean",
+      "default": false,
+      "description": "Add GitHub release for published packages."
+    },
     "snapshot": {
       "type": "object",
       "properties": {

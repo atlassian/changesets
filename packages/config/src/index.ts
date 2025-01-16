@@ -420,6 +420,7 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
   }
 
   let config: Config = {
+    githubRelease: json.githubRelease,
     changelog: getNormalizedChangelogOption(
       json.changelog === undefined
         ? defaultWrittenConfig.changelog
