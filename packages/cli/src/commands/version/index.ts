@@ -26,6 +26,7 @@ export default async function version(
   cwd: string,
   options: {
     snapshot?: string | boolean;
+    since?: string;
   },
   config: Config
 ) {
@@ -35,7 +36,7 @@ export default async function version(
     commit: options.snapshot ? false : config.commit,
   };
   const [changesets, preState] = await Promise.all([
-    readChangesets(cwd),
+    readChangesets(cwd, options.since),
     readPreState(cwd),
     removeEmptyFolders(path.resolve(cwd, ".changeset")),
   ]);
