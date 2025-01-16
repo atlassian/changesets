@@ -10,6 +10,7 @@ import { askQuestion } from "../../utils/cli-utilities";
 import { isCI } from "ci-info";
 import { TwoFactorState } from "../../utils/types";
 import { getLastJsonObjectFromString } from "../../utils/getLastJsonObjectFromString";
+import type { SemVer } from "semver";
 
 interface PublishOptions {
   cwd: string;
@@ -43,24 +44,49 @@ function getCorrectRegistry(packageJson?: PackageJSON): string {
 
 async function getPublishTool(
   cwd: string
-): Promise<{ name: "npm" } | { name: "pnpm"; shouldAddNoGitChecks: boolean }> {
+): Promise<
+  { name: "npm" } | { name: "pnpm" | "yarn"; version: SemVer | null }
+> {
   const pm = await detect({ cwd });
-  if (!pm || pm.name !== "pnpm") return { name: "npm" };
-  try {
-    let result = await spawn("pnpm", ["--version"], { cwd });
-    let version = result.stdout.toString().trim();
-    let parsed = semverParse(version);
-    return {
-      name: "pnpm",
-      shouldAddNoGitChecks:
-        parsed?.major === undefined ? false : parsed.major >= 5,
-    };
-  } catch (e) {
-    return {
-      name: "pnpm",
-      shouldAddNoGitChecks: false,
-    };
+  if (!pm) return { name: "npm" };
+  if (pm.name === "pnpm") {
+    try {
+      let result = await spawn("pnpm", ["--version"], { cwd });
+      let version = result.stdout.toString().trim();
+      let parsed = semverParse(version);
+      return {
+        name: "pnpm",
+        version: parsed,
+      };
+    } catch (e) {
+      return {
+        name: "pnpm",
+        version: null,
+      };
+    }
   }
+
+  if (pm.name === "yarn") {
+    try {
+      let result = await spawn("yarn", ["--version"], { cwd });
+      let version = result.stdout.toString().trim();
+      let parsed = semverParse(version);
+
+      // Yarn v2 introduced `yarn npm publish` which should be used
+      // to ensure packages are packed correctly prior to publishing
+      if (parsed != null && parsed.major >= 2) {
+        return {
+          name: "yarn",
+          version: parsed,
+        };
+      }
+      return { name: "npm" };
+    } catch (e) {
+      return { name: "npm" };
+    }
+  }
+
+  return { name: "npm" };
 }
 
 export async function getTokenIsRequired() {
@@ -173,8 +199,12 @@ async function internalPublish(
     let otpCode = await getOtpCode(twoFactorState);
     publishFlags.push("--otp", otpCode);
   }
-  if (publishTool.name === "pnpm" && publishTool.shouldAddNoGitChecks) {
-    publishFlags.push("--no-git-checks");
+  if (publishTool.name === "pnpm") {
+    let { major } = publishTool.version ?? {};
+    let shouldAddNoGitChecks = major === undefined ? false : major >= 5;
+    if (shouldAddNoGitChecks) {
+      publishFlags.push("--no-git-checks");
+    }
   }
 
   // Due to a super annoying issue in yarn, we have to manually override this env variable
@@ -182,19 +212,24 @@ async function internalPublish(
   const envOverride = {
     npm_config_registry: getCorrectRegistry(),
   };
-  let { code, stdout, stderr } =
-    publishTool.name === "pnpm"
-      ? await spawn("pnpm", ["publish", "--json", ...publishFlags], {
-          env: Object.assign({}, process.env, envOverride),
-          cwd: opts.cwd,
-        })
-      : await spawn(
-          publishTool.name,
-          ["publish", opts.publishDir, "--json", ...publishFlags],
-          {
-            env: Object.assign({}, process.env, envOverride),
-          }
-        );
+  let results: Awaited<ReturnType<typeof spawn>>;
+  if (publishTool.name === "pnpm") {
+    results = await spawn("pnpm", ["publish", "--json", ...publishFlags], {
+      env: Object.assign({}, process.env, envOverride),
+      cwd: opts.cwd,
+    });
+  } else if (publishTool.name === "yarn") {
+    results = await spawn("yarn", ["npm", "publish", ...publishFlags], {
+      env: Object.assign({}, process.env, envOverride),
+    });
+  } else {
+    results = await spawn(
+      publishTool.name,
+      ["publish", opts.publishDir, "--json", ...publishFlags],
+      { env: Object.assign({}, process.env, envOverride) }
+    );
+  }
+  let { code, stdout, stderr } = results;
   if (code !== 0) {
     // NPM's --json output is included alongside the `prepublish` and `postpublish` output in terminal
     // We want to handle this as best we can but it has some struggles:
