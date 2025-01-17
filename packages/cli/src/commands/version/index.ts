@@ -26,6 +26,7 @@ export default async function version(
   cwd: string,
   options: {
     snapshot?: string | boolean;
+    globalChangelog?: boolean;
   },
   config: Config
 ) {
@@ -85,7 +86,7 @@ export default async function version(
     releasePlan,
     packages,
     releaseConfig,
-    options.snapshot
+    options
   );
 
   const [{ getVersionMessage }, commitOpts] = getCommitFunctions(

@@ -4,6 +4,7 @@ import { ModCompWithPackage } from "@changesets/types";
 import startCase from "lodash.startcase";
 import { shouldUpdateDependencyBasedOnConfig } from "./utils";
 import validRange from "semver/ranges/valid";
+import { ChangelogEntry } from "./types";
 
 type ChangelogLines = {
   major: Array<Promise<string>>;
@@ -36,7 +37,7 @@ export default async function getChangelogEntry(
     updateInternalDependencies: "patch" | "minor";
     onlyUpdatePeerDependentsWhenOutOfRange: boolean;
   }
-) {
+): Promise<ChangelogEntry | null> {
   if (release.type === "none") return null;
 
   const changelogLines: ChangelogLines = {
@@ -101,12 +102,22 @@ export default async function getChangelogEntry(
     )
   );
 
-  return [
-    `## ${release.newVersion}`,
-    await generateChangesForVersionTypeMarkdown(changelogLines, "major"),
-    await generateChangesForVersionTypeMarkdown(changelogLines, "minor"),
-    await generateChangesForVersionTypeMarkdown(changelogLines, "patch"),
-  ]
-    .filter((line) => line)
-    .join("\n");
+  const title = `## ${release.newVersion}`;
+  const major = await generateChangesForVersionTypeMarkdown(
+    changelogLines,
+    "major"
+  );
+  const minor = await generateChangesForVersionTypeMarkdown(
+    changelogLines,
+    "minor"
+  );
+  const patch = await generateChangesForVersionTypeMarkdown(
+    changelogLines,
+    "patch"
+  );
+
+  return {
+    title,
+    body: [major, minor, patch].filter((line) => line).join("\n"),
+  };
 }

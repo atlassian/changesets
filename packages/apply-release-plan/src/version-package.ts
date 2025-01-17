@@ -8,6 +8,7 @@ import Range from "semver/classes/range";
 import semverPrerelease from "semver/functions/prerelease";
 import validRange from "semver/ranges/valid";
 import { shouldUpdateDependencyBasedOnConfig } from "./utils";
+import { ChangelogEntry } from "./types";
 
 const DEPENDENCY_TYPES = [
   "dependencies",
@@ -18,7 +19,7 @@ const DEPENDENCY_TYPES = [
 
 export default function versionPackage(
   release: ComprehensiveRelease & {
-    changelog: string | null;
+    changelog: ChangelogEntry;
     packageJson: PackageJSON;
     dir: string;
   },

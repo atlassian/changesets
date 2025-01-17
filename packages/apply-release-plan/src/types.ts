@@ -5,3 +5,8 @@ export type RelevantChangesets = {
   minor: NewChangeset[];
   patch: NewChangeset[];
 };
+
+export type ChangelogEntry = {
+  title: string;
+  body: string;
+} | null;
