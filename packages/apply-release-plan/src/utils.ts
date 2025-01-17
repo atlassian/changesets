@@ -32,7 +32,7 @@ export function shouldUpdateDependencyBasedOnConfig(
     minReleaseType,
     onlyUpdatePeerDependentsWhenOutOfRange,
   }: {
-    minReleaseType: "patch" | "minor";
+    minReleaseType: "patch" | "minor" | "major";
     onlyUpdatePeerDependentsWhenOutOfRange: boolean;
   }
 ): boolean {
@@ -47,5 +47,6 @@ export function shouldUpdateDependencyBasedOnConfig(
   if (depType === "peerDependencies") {
     shouldUpdate = !onlyUpdatePeerDependentsWhenOutOfRange;
   }
+
   return shouldUpdate;
 }

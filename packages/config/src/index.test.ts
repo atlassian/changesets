@@ -330,6 +330,15 @@ let correctCases: Record<string, CorrectCase> = {
       linked: [["pkg-a", "@pkg/a", "@pkg/b"], ["@pkg-other/a"]],
     },
   },
+  "update internal dependencies major": {
+    input: {
+      updateInternalDependencies: "major",
+    },
+    output: {
+      ...defaults,
+      updateInternalDependencies: "major",
+    },
+  },
   "update internal dependencies minor": {
     input: {
       updateInternalDependencies: "minor",
@@ -629,12 +638,12 @@ describe("parser errors", () => {
       'The `access` option is set as "private", but this is actually not a valid value - the correct form is "restricted".'
     );
   });
-  test("updateInternalDependencies not patch or minor", () => {
+  test("updateInternalDependencies not patch, minor or major", () => {
     expect(() => {
-      unsafeParse({ updateInternalDependencies: "major" }, defaultPackages);
+      unsafeParse({ updateInternalDependencies: "none" }, defaultPackages);
     }).toThrowErrorMatchingInlineSnapshot(`
       "Some errors occurred when validating the changesets config:
-      The \`updateInternalDependencies\` option is set as "major" but can only be 'patch' or 'minor'"
+      The \`updateInternalDependencies\` option is set as "none" but can only be 'patch', 'minor' or 'major'"
     `);
   });
   test("ignore non-array", () => {

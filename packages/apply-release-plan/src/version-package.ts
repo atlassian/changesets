@@ -29,7 +29,7 @@ export default function versionPackage(
     bumpVersionsWithWorkspaceProtocolOnly,
     snapshot,
   }: {
-    updateInternalDependencies: "patch" | "minor";
+    updateInternalDependencies: "patch" | "minor" | "major";
     onlyUpdatePeerDependentsWhenOutOfRange: boolean;
     bumpVersionsWithWorkspaceProtocolOnly?: boolean;
     snapshot?: string | boolean | undefined;

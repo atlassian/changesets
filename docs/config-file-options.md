@@ -129,7 +129,9 @@ pkg-b @ version 1.0.1
   depends on pkg-a at range `^1.0.0
 ```
 
-Using `minor` allows consumers to more actively control their own deduplication of packages, and will allow them to install fewer versions if you have many interconnected packages. Using `patch` will mean consumers will more often be using more updated code, but may cause problems with deduplication.
+Similarly, if the option is set to `major`, it will only update the dependency when there is a major change.
+
+Using `minor` or `major` allows consumers to more actively control their own deduplication of packages, and will allow them to install fewer versions if you have many interconnected packages. Using `patch` will mean consumers will more often be using more updated code, but may cause problems with deduplication.
 
 Changesets will always update the dependency if it would leave the old semver range.
 

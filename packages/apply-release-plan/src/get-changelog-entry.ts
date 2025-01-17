@@ -33,7 +33,7 @@ export default async function getChangelogEntry(
     updateInternalDependencies,
     onlyUpdatePeerDependentsWhenOutOfRange,
   }: {
-    updateInternalDependencies: "patch" | "minor";
+    updateInternalDependencies: "patch" | "minor" | "major";
     onlyUpdatePeerDependentsWhenOutOfRange: boolean;
   }
 ) {

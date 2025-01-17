@@ -284,14 +284,14 @@ export let parse = (json: WrittenConfig, packages: Packages): Config => {
 
   if (
     json.updateInternalDependencies !== undefined &&
-    !["patch", "minor"].includes(json.updateInternalDependencies)
+    !["patch", "minor", "major"].includes(json.updateInternalDependencies)
   ) {
     messages.push(
       `The \`updateInternalDependencies\` option is set as ${JSON.stringify(
         json.updateInternalDependencies,
         null,
         2
-      )} but can only be 'patch' or 'minor'`
+      )} but can only be 'patch', 'minor' or 'major'`
     );
   }
   if (json.ignore) {

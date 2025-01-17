@@ -117,7 +117,7 @@
       "default": []
     },
     "updateInternalDependencies": {
-      "enum": ["patch", "minor"],
+      "enum": ["patch", "minor", "major"],
       "type": "string",
       "description": "The minimum bump type to trigger automatic update of internal dependencies that are part of the same release.",
       "default": "patch"
