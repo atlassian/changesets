@@ -17,25 +17,25 @@ The second two steps can be made part of a CI process.
 ## Add the changeset tool
 
 ```shell
-npm install @changesets/cli && npx changeset init
+yarn add @changesets/cli && yarn changeset init
 ```
 
 or
 
 ```shell
-yarn add @changesets/cli && yarn changeset init
+npx @changesets/cli init
 ```
 
 ## Adding changesets
 
 ```shell
-npx changeset
+yarn changeset
 ```
 
 or
 
 ```shell
-yarn changeset
+npx @changesets/cli
 ```
 
 > Note: You can run `changeset add` to add a changeset if you want to, but running Changesets without any command works as well.
@@ -45,13 +45,13 @@ yarn changeset
 Once you decide you want to do a release, you can run
 
 ```shell
-npx changeset version
+yarn changeset version
 ```
 
 or
 
 ```shell
-yarn changeset version
+npx @changesets/cli version
 ```
 
 This consumes all changesets, and updates to the most appropriate semver version based on those changesets. It also writes changelog entries for each consumed changeset.
@@ -59,13 +59,13 @@ This consumes all changesets, and updates to the most appropriate semver version
 We recommend at this step reviewing both the changelog entries and the version changes for packages. Once you are confident that these are correct, and have made any necessary tweaks to changelogs, you can publish your packages:
 
 ```shell
-npx changeset publish
+yarn changeset publish
 ```
 
 or
 
 ```shell
-yarn changeset publish
+npx @changesets/cli publish
 ```
 
 This will run npm publish in each package that is of a later version than the one currently listed on npm.

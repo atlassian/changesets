@@ -15,21 +15,21 @@ in single-package repositories.
 
 If you are installing this in a monorepo run
 
-```
+```shell
 yarn add @changesets/cli
 yarn changeset init
 ```
 
 otherwise run
 
-```
+```shell
 yarn add --dev @changesets/cli
 yarn changeset init
 ```
 
 From here you are set up to use changesets. Add your first changeset by running
 
-```
+```shell
 yarn changeset
 ```
 
@@ -47,40 +47,40 @@ A single `changeset` is an intent to release stored as data, with the informatio
 
 Contributor runs:
 
-```
+```shell
 yarn changeset
 ```
 
 or
 
-```
-npx changeset
+```shell
+npx @changesets/cli
 ```
 
 and answers the provided questions.
 
 When the maintainer wants to release packages, they should run
 
-```
+```shell
 yarn changeset version
 ```
 
 or
 
-```
-npx changeset version
+```shell
+npx @changesets/cli version
 ```
 
 and then
 
-```
+```shell
 yarn changeset publish
 ```
 
 or
 
-```
-npx changeset publish
+```shell
+npx @changesets/cli publish
 ```
 
 The commands are explained further below.
@@ -89,7 +89,7 @@ The commands are explained further below.
 
 ### init
 
-```
+```shell
 changeset init
 ```
 
@@ -99,13 +99,13 @@ To publish public packages to NPM, you'll need to edit `.changeset/config.json` 
 
 ### add
 
-```
+```shell
 changeset [--empty] [--open]
 ```
 
 or
 
-```
+```shell
 changeset add [--empty] [--open]
 ```
 
@@ -140,7 +140,7 @@ If you set the `commit` option in the config, the command will add the updated c
 
 ### version
 
-```
+```shell
 changeset version
 ```
 
@@ -154,7 +154,7 @@ This command will read then delete changesets on disk, ensuring that they are on
 
 ### publish
 
-```
+```shell
 changeset publish [--otp={token}]
 ```
 
@@ -164,13 +164,13 @@ Publishes to NPM repo, and creates git tags. Because this command assumes that l
 
 **NOTE:** You will still need to push your changes back to the base branch after this
 
-```
+```shell
 git push --follow-tags
 ```
 
 ### status
 
-```
+```shell
 status [--verbose] [--output={filePath}] [--since={gitTag}]
 ```
 
@@ -186,7 +186,7 @@ The status command provides information about the changesets that currently exis
 
 ### pre
 
-```
+```shell
 pre [exit|enter {tag}]
 ```
 
